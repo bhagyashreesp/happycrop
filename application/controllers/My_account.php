@@ -3491,10 +3491,6 @@ class My_account extends CI_Controller
 
                 }
             }
-            // echo'<pre>';
-            // print_r($order);
-            // echo'</pre>';
-            // die;
             
             
             

@@ -1777,7 +1777,7 @@
     </div>
     </div>
 </section>
-<div class="modal fade edit-modal-lg" id="purchase-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade" id="purchase-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -1794,81 +1794,81 @@
                             <h2 class="text-center">Purchase Order</h2>
                         </div>
                         <div class="col-lg-12 pb-2">
-                            <div class="bg-grey">
+                            <div class="bg-gray-light">
                                 <p class="font-weight-bold p-2 m-0">Manufacturer / Service provider Name</p>
                                 <table class="table border-none">
                                     <tbody>
                                         <tr class="p-2">
-                                            <td class="border-top-0 w-50 font-weight-bold">Address : -</td>
-                                            <td class="border-top-0 w-50 pl-2"> <?= $manufacture['plot_no'] . ' ' . $manufacture['street_locality'] . ' ' . $manufacture['landmark'] . ' ' . $manufacture['city'] . ' ' . $manufacture['state'] . ' ' . $manufacture['pin'] ?></td>
+                                            <td class="border-top-0 py-1 w-50 font-weight-bold">Address : -</td>
+                                            <td class="border-top-0 py-1 w-50 pl-2"> <?= $manufacture['plot_no'] . ' ' . $manufacture['street_locality'] . ' ' . $manufacture['landmark'] . ' ' . $manufacture['city'] . ' ' . $manufacture['state'] . ' ' . $manufacture['pin'] ?></td>
                                         </tr>
                                         <tr class="p-2">
-                                            <td class="border-top-0 w-50 font-weight-bold">Contact : -</td>
-                                            <td class="border-top-0 w-50 pl-2"><?= $manufacture['mobile'] ?></td>
+                                            <td class="border-top-0 py-1 w-50 font-weight-bold">Contact : -</td>
+                                            <td class="border-top-0 py-1 w-50 pl-2"><?= $manufacture['mobile'] ?></td>
                                         </tr>
                                         <tr class="p-2">
-                                            <td class="border-top-0 w-50 font-weight-bold">Email : -</td>
-                                            <td class="border-top-0 w-50 pl-2"><?= $manufacture['email'] ?></td>
+                                            <td class="border-top-0 py-1 w-50 font-weight-bold">Email : -</td>
+                                            <td class="border-top-0 py-1 w-50 pl-2"><?= $manufacture['email'] ?></td>
                                         </tr>
                                         <tr class="p-2">
-                                            <td class="border-top-0 w-50 font-weight-bold">GSTIN : -</td>
-                                            <td class="border-top-0 w-50 pl-2"><?= $manufacture['gst_no'] ?></td>
+                                            <td class="border-top-0 py-1 w-50 font-weight-bold">GSTIN : -</td>
+                                            <td class="border-top-0 py-1 w-50 pl-2"><?= $manufacture['gst_no'] ?></td>
                                         </tr>
                                         <tr class="p-2">
-                                            <td class="border-top-0 w-50 font-weight-bold">State : -</td>
-                                            <td class="border-top-0 w-50 pl-2"><?= $manufacture['state'] ?></td>
+                                            <td class="border-top-0 py-1 w-50 font-weight-bold">State : -</td>
+                                            <td class="border-top-0 py-1 w-50 pl-2"><?= $manufacture['state'] ?></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="bg-grey">
+                            <div class="bg-gray-light">
                                 <table class="table border-none">
                                     <tbody>
                                         <tr class="p-2">
-                                            <td class="border-top-0 w-50 font-weight-bold">Seller Name : -</td>
-                                            <td class="border-top-0 w-50 pl-2"><?= $order['retailer_company_name'] ?></td>
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">Seller Name : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?= $order['retailer_company_name'] ?></td>
                                         </tr>
                                         <tr class="p-2">
-                                            <td class="border-top-0 w-50 font-weight-bold">Address : -</td>
-                                            <td class="border-top-0 w-50 pl-2"><?= $order['billing_address'] ?></td>
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">Address : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?= $order['billing_address'] ?></td>
                                         </tr>
                                         <tr class="p-2">
-                                            <td class="border-top-0 w-50 font-weight-bold">Phone Number : -</td>
-                                            <td class="border-top-0 w-50 pl-2"><?= $order['mobile'] ?></td>
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">Phone Number : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?= $order['mobile'] ?></td>
                                         </tr>
                                         <tr class="p-2">
-                                            <td class="border-top-0 w-50 font-weight-bold">Email : -</td>
-                                            <td class="border-top-0 w-50 pl-2"><?= $order['email'] ?></td>
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">Email : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?= $order['email'] ?></td>
                                         </tr>
                                         <tr class="p-2">
-                                            <td class="border-top-0 w-50 font-weight-bold">State of Supply : -</td>
-                                            <td class="border-top-0 w-50 pl-2"><?= $order['state'] ?></td>
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">State of Supply : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?= $order['state'] ?></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="bg-grey">
+                            <div class="bg-gray-light">
                                 <table class="table h-100 border-none">
                                     <tbody>
                                         <tr class="p-2 ">
-                                            <td class="border-top-0 w-50 font-weight-bold">Order Number : -</td>
-                                            <td class="border-top-0 w-50 pl-2"><?php echo 'HC-A' . $order['id']; ?></td>
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">Order Number : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?php echo 'HC-A' . $order['id']; ?></td>
                                         </tr>
                                         <tr class="p-2 ">
-                                            <td class="border-top-0 w-50 font-weight-bold">Order Date : -</td>
-                                            <td class="border-top-0 w-50 pl-2"><?= date('d M Y H:i', strtotime($order['date_added'])); ?></td>
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">Order Date : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?= date('d M Y H:i', strtotime($order['date_added'])); ?></td>
                                         </tr>
                                         <tr class="p-2 ">
-                                            <td class="border-top-0 w-50 font-weight-bold">Due Date : -</td>
-                                            <td class="border-top-0 w-50 pl-2"><?= date('d M Y H:i', strtotime($order['schedule_delivery_date'])) ?></td>
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">Due Date : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?= date('d M Y H:i', strtotime($order['schedule_delivery_date'])) ?></td>
                                         </tr>
                                         <tr class="p-2 ">
-                                            <td class="border-top-0 w-50 font-weight-bold">GSTIN : -</td>
-                                            <td class="border-top-0 w-50 pl-2"><?= $order['retailer_gst_no']; ?></td>
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">GSTIN : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?= $order['retailer_gst_no']; ?></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1913,6 +1913,7 @@
                                                 </tr>
                                         <?php
                                             }
+                                            $i++;
                                         }
                                         ?>
                                         <tr>
@@ -1929,11 +1930,11 @@
                                 <div class="col-lg-6 py-2">
                                     <div class="form-group ">
                                         <label for="receipt"> <strong>Invoice Amount in Words</strong> </label>
-                                        <div class="bg-grey p-2 w-100"><?php echo convertNumberToWords($total_amt) ?></div>
+                                        <div class="bg-gray-light p-2 w-100"><?php echo convertNumberToWords($total_amt) ?></div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 pt-6">
-                                    <div class="bg-grey">
+                                    <div class="bg-gray-light">
                                         <table class="table h-100 border-none">
                                             <tbody>
                                                 <tr class="p-2 ">
@@ -1944,6 +1945,8 @@
                                         </table>
                                     </div>
                                 </div>
+                                <?php include(APPPATH . 'views/front-end/happycrop/exportfooter.php'); ?>
+
 
                             </div>
                         </div>
@@ -1952,7 +1955,7 @@
                 </div>
                 <div class="row justify-content-center py-3 ">
 
-                    <div class="col-lg-4 align-center ">
+                    <div class="col-lg-4 align-center text-center">
                         <button class="btn btn-primary btn-sm" onclick="generatePDF('generatepdf')">Download</button>
                     </div>
                 </div>
