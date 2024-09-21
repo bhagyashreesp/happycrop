@@ -863,7 +863,11 @@
                                                                     if ($order_item_stage['active_status'] == 'payment_demand' && $order_item_stage['order_item_id'] != 0 && count($order_item_stages) == $s_count) {
                                                                     ?>
                                                                         <p>Make payment to Happycrop and upload the payment receipt.</p>
-                                                                        <div class="row">
+                                                                        <div class="col-md-5">
+                                                                            <a href="#" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3' data-toggle="modal" data-target="#send-payment-request">Send Transaction Receipt</a>
+
+                                                                        </div>
+                                                                        <div class="row d-none">
                                                                             <form class="form-horizontal " id="send_bank_receipt_form" action="<?= base_url('my-account/send-payment-receipt'); ?>" method="POST" enctype="multipart/form-data">
                                                                                 <div class="row">
                                                                                     <div class="form-group col-md-6">
@@ -886,13 +890,13 @@
                                                                     } else if ($order['order_status'] == 'payment_demand' && count($order_item_stages) == $s_count) {
                                                                     ?>
                                                                         <p>Make payment to Happycrop and upload the payment receipt.</p>
-                                                                        <div class="row">
+                                                                        <!-- <div class="row">
                                                                             <form class="form-horizontal " id="send_bank_receipt_form" action="<?= base_url('my-account/send-payment-receipt'); ?>" method="POST" enctype="multipart/form-data">
                                                                                 <div class="row">
                                                                                     <div class="form-group col-md-3">
                                                                                         <label class="btn btn-primary btn-sm btn-block " for="receipt">Select the transaction receipt</label>
-                                                                                        <div class="custom-file-input mb-2"><!--  style="margin-top: -30px;" -->
-                                                                                            <input type="file" class="form-control" name="attachments[]" id="receipt" style="padding:0px;min-height: 28px;" required="" onchange="$('#f1_text').html(this.value.replace('C:\\fakepath\\', ''));" /><!-- multiple-->
+                                                                                        <div class="custom-file-input mb-2">
+                                                                                            <input type="file" class="form-control" name="attachments[]" id="receipt" style="padding:0px;min-height: 28px;" required="" onchange="$('#f1_text').html(this.value.replace('C:\\fakepath\\', ''));" />
                                                                                         </div>
                                                                                         <p class=""><span id="f1_text"></span></p>
                                                                                     </div>
@@ -914,7 +918,24 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </form>
+                                                                        </div> -->
+                                                                        <div class="row">
+                                                                            <div class="col-md-5">
+                                                                                <a href="#" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3' data-toggle="modal" data-target="#send-payment-request">Send Transaction Receipt</a>
+
+                                                                            </div>
+                                                                            <div class="form-group col-md-5">
+                                                                                <div class="btn-group mb-0 pb-0 float-right">
+                                                                                    <div class="btn-wrap mb-0 pb-0 show-code-action">
+                                                                                        <a class="btn btn-sm  btn-secondary" href="javascript:void(0);" title="If you are not OK with manufacture response." onclick="rejectBulkQty(<?php echo $order_item_stage['id'] ?>,<?php echo $order_item_stage['order_id'] ?>);">Reject the order</a>
+                                                                                        <p><small>If not OK with manufacture response.</small></p>
+                                                                                    </div>
+
+                                                                                </div>
+
+                                                                            </div>
                                                                         </div>
+
                                                                         <div class="orange_msg">Note – This order will be auto-canceled, if action not taken within 5 days from the date of payment request form manufacturer.</div>
                                                                     <?php
                                                                     }
@@ -1964,6 +1985,125 @@
         </div>
     </div>
 </div>
+</div>
+<div class="modal fade" id="send-payment-request" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Payment Out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row p-3">
+                    <form class="form-horizontal " id="send_bank_receipt_form" action="<?= base_url('my-account/send-payment-receipt'); ?>" method="POST" enctype="multipart/form-data">
+                        <div class="row">
+                            <p>Pay To</p>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label>Party Name</label>
+                                    <input type="text" class="form-control" readonly disabled value="<?= $this->config->item('happycrop_name'); ?>" placeholder="Party Name" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label>Receipt Number</label>
+                                    <input type="text" class="form-control" readonly name="receipt_no" value="<?= $receipt_no ?>" placeholder="Receipt Number" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label>Address</label>
+                                    <input type="text" class="form-control" readonly disabled value="<?= $this->config->item('address'); ?>" placeholder="Address" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label>Order Number</label>
+                                    <input type="text" class="form-control" readonly disabled placeholder="Order Number" value="<?= $order['id'] ?>" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label>Phone Number</label>
+                                    <input type="text" class="form-control" readonly disabled value="<?= $this->config->item('mobile'); ?>" placeholder="Phone Number" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label>Date</label>
+                                    <input type="date" class="form-control" name="paid_date" value="<?= date('Y-m-d'); ?>" placeholder="Date" />
+
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control" readonly disabled value="<?= $this->config->item('support'); ?>" placeholder="Email" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label>GSTIN</label>
+                                    <input type="text" class="form-control" readonly disabled value="<?= $this->config->item('gstin'); ?>" placeholder="GSTIN" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label class="form-label" for="transaction_no">Transaction Number</label>
+                                    <input type="text" class="form-control" name="transaction_no" id="transaction_no" placeholder="Transaction Number" required />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label class="form-label" for="received">Received</label>
+                                    <input type="text" class="form-control" id="received" readonly disabled placeholder="Received" value="<?= number_format($total_amt, 2); ?>" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="">
+                                    <label class="form-label" for="received">In Words</label>
+                                    <input type="text" class="form-control" readonly disabled value="<?= convertNumberToWords($total_amt) ?>" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="">
+                                    <label class="form-label" for="description">Description</label>
+                                    <textarea class="form-control w-100" name="description" rows="4" maxlength="255">
+
+                                    </textarea>
+
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="btn btn-primary btn-sm btn-block " for="receipt">Upload Transaction Receipt</label>
+                                <div class="custom-file-input mb-2"><!--  style="margin-top: -30px;" -->
+                                    <input type="file" class="form-control" name="attachments[]" id="receipt" style="padding:0px;min-height: 28px;"  onchange="$('#f1_text').html(this.value.replace('C:\\fakepath\\', ''));" /><!-- multiple-->
+                                </div>
+                                <p class=""><span id="f1_text"></span></p>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <?php if ($order_item_stage['active_status'] == 'payment_demand' && $order_item_stage['order_item_id'] != 0 && count($order_item_stages) == $s_count) { ?>
+                                <?php } else { ?>
+                                    <input type="hidden" name="order_item_id" value="<?= $order_item_stage['order_item_id'] ?>">
+
+                                    <?php } ?>
+                                    <input type="hidden" name="order_id" value="<?= $order_item_stage['order_id'] ?>">
+                                    <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit_btn">Send</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnSendPayment">Send</button>
+            </div> -->
+
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
     <?php /* ?>

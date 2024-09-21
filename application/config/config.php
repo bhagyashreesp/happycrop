@@ -602,3 +602,12 @@ $config['type'] = array(
     'spreadsheet' => ['xls','xsls'],
     'archive' => ['zip','7z','bz2','gz','gzip','rar','tar'],
 );
+
+// custom configuration
+
+$config['happycrop_name'] = "Happycrop Agri & Biotech LLP";
+$config['address'] = "At/Po - Pushpanagar, Bhudargad, Dist - Kolhapur";
+$config['gstin'] = "27AAOFH2637L1ZX";
+$config['mobile'] = "9975548343";
+$config['support'] = "support@happycrop.in";
+$config['sales'] = "sales@happycrop.in";

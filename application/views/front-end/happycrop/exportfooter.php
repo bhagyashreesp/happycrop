@@ -9,17 +9,17 @@
         <div class="col-lg-6 py-3">
             <ul class="list-none pl-1">
                 <li class="font-weight-bold">Issued By :</li>
-                <li>Happycrop Agri & Biotech LLP</li>
-                <li>Address: At/Po - Pushpanagar, Bhudargad, Dist - Kolhapur</li>
-                <li>GSTN : 27AAOFH2637L1ZX</li>
+                <li><?= $this->config->item('happycrop_name'); ?></li>
+                <li>Address: <?= $this->config->item('address'); ?></li>
+                <li>GSTN : <?= $this->config->item('gstin'); ?></li>
             </ul>
         </div>
         <div class="col-lg-6 py-3">
             <ul class="list-none pl-1">
                 <li class="font-weight-bold">Contact :</li>
-                <li>Mobile : 9975548343</li>
-                <li>Support : support@happycrop.in</li>
-                <li>Sales : sales@happycrop.in</li>
+                <li>Mobile : <?= $this->config->item('mobile'); ?></li>
+                <li>Support : <?= $this->config->item('support'); ?></li>
+                <li>Sales : <?= $this->config->item('sales'); ?></li>
             </ul>
         </div>
     </div>
