@@ -1,15 +1,15 @@
 <style>
     .signatureimg{
-        width: 100%;
-        height: 50px;
+        width: 300px;
+        height: 200px;
     }
 </style>
 <div class="col-lg-12  mt-5">
     <div class="row justify-content-end">
         <div class="col-lg-4 ">
-        <p class="pb-2 text-right"><?= $this->config->item('happycrop_name'); ?></p>
-        <img src="<?= base_url('assets/front_end/happycrop/images/user.png') ?>" class="signatureimg">
-        <p class="py-2 text-right">Authorized Signatory</p>
+        <p class="pb-2 text-right pr-5"><?= $this->config->item('happycrop_name'); ?></p>
+        <img src="<?= base_url('assets/signature-img.jpeg') ?>" class="signatureimg">
+        <p class="py-2 text-right pr-5">Authorized Signatory</p>
         </div>
         
     </div>
