@@ -1038,6 +1038,7 @@
                                                                 <div class="tmln-card">
                                                                     <div class="tmln-info">-->
                                                                         <p>Please send confirmation of payment.</p>
+                                                                        <a href="<?= base_url('my-account/payment-receipt/').$order_detls[0]['id']."/view" ?>" target="_blank" class="btn btn-primary btn-sm btn-block w-25">View Payment Receipt</a>
                                                                         <form class="form-horizontal " id="send_payment_confirmation_form" action="<?= base_url('admin/orders/send_payment_confirmation/'); ?>" method="POST" enctype="multipart/form-data">
                                                                             <div class="row">
                                                                                 <div class="form-group mb-0 col-md-2">

@@ -12,24 +12,64 @@
 </head>
 
 <body>
-    <div class="container mt-5" >
+    <div class="container mt-5">
         <div class="row justify-content-center border border-black p-2" id="generatePDf">
             <div class="col-lg-12 py-4">
                 <h2 class="text-center font-weight-bold">Payment Receipt</h2>
             </div>
-            <div class="col-lg-12 pb-2">
+            <div class="col-lg-6 pb-2">
                 <div class="bg-gray-light">
                     <table class="table border-none">
                         <tbody>
                             <tr>
                                 <td colspan="2">
-                                    <p class="font-weight-bold p-2 m-0"><?php echo ($seller) ? "Retail Shop Name" : "Happycrop Name" ?></p>
+                                    <p class="font-weight-bold p-2 m-0">Retail Shop Name</p>
 
                                 </td>
                             </tr>
                             <tr class="p-2">
                                 <td class="border-top-0 py-1 text-left font-weight-bold">Address : -</td>
-                                <td class="border-top-0 py-1 text-left pl-2"> <?= $manufacture['plot_no'] . ' ' . $manufacture['street_locality'] . ' ' . $manufacture['landmark'] . ' ' . $manufacture['city'] . ' ' . $manufacture['state'] . ' ' . $manufacture['pin'] ?></td>
+                                <td class="border-top-0 py-1 text-left pl-2"><?= $order[0]['billing_address'] ?></td>
+                            </tr>
+                            <tr class="p-2">
+                                <td class="border-top-0 py-1 text-left font-weight-bold">Contact : -</td>
+                                <td class="border-top-0 py-1 text-left pl-2"><?= $order[0]['mobile'] ?></td>
+                            </tr>
+                            <tr class="p-2">
+                                <td class="border-top-0 py-1 text-left font-weight-bold">Email : -</td>
+                                <td class="border-top-0 py-1 text-left pl-2"><?= $order[0]['email'] ?></td>
+                            </tr>
+                            <tr class="p-2">
+                                <td class="border-top-0 py-1 text-left font-weight-bold">GSTIN : -</td>
+                                <td class="border-top-0 py-1 text-left pl-2"><?= $order[0]['retailer_gst_no'] ?></td>
+                            </tr>
+                            <tr class="p-2">
+                                <td class="border-top-0 py-1 text-left font-weight-bold">State : -</td>
+                                <td class="border-top-0 py-1 text-left pl-2"><?= $order[0]['state'] ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-6 pb-2">
+                <div class="bg-gray-light">
+                    <table class="table border-none">
+                        <tbody>
+                            <tr>
+                                <td colspan="2">
+                                    <p class="font-weight-bold p-2 m-0">Manufacturer/ Service Provider Name</p>
+
+                                </td>
+                            </tr>
+                            <tr class="p-2">
+                                <td class="border-top-0 py-1 text-left font-weight-bold">Address : -</td>
+                                <td class="border-top-0 py-1 text-left pl-2"> <?php
+                                                                                if (isset($manufacture['address'])) {
+                                                                                    echo $manufacture['addresss'];
+                                                                                } else {
+                                                                                    echo $manufacture['plot_no'] . ' ' . $manufacture['street_locality'] . ' ' . $manufacture['landmark'] . ' ' . $manufacture['city'] . ' ' . $manufacture['state'] . ' ' . $manufacture['pin'];
+                                                                                }
+                                                                                ?></td>
                             </tr>
                             <tr class="p-2">
                                 <td class="border-top-0 py-1 text-left font-weight-bold">Contact : -</td>
@@ -51,24 +91,27 @@
                     </table>
                 </div>
             </div>
+            <div class="col-lg-12">
+                <p class="font-weight-bold p-2 m-0">Paid To</p>
 
+            </div>
             <div class="col-lg-6">
                 <div class="bg-gray-light">
                     <table class="table border-none">
-                        <p class="font-weight-bold p-2 m-0"><?php echo ($seller) ? "Happycrop Name" : "Manufacturer/ Service Provider Name" ?></p>
+                        <p class="font-weight-bold p-2 m-0">Happycrop Name</p>
 
                         <tbody>
                             <tr class="p-2">
                                 <td class="border-top-0 py-2 w-50 font-weight-bold">Address : -</td>
-                                <td class="border-top-0 py-2 w-50 pl-2"><?= $order[0]['billing_address'] ?></td>
+                                <td class="border-top-0 py-2 w-50 pl-2"><?= $this->config->item('address'); ?></td>
                             </tr>
                             <tr class="p-2">
                                 <td class="border-top-0 py-2 w-50 font-weight-bold">Contact : -</td>
-                                <td class="border-top-0 py-2 w-50 pl-2"><?= $order[0]['mobile'] ?></td>
+                                <td class="border-top-0 py-2 w-50 pl-2"><?= $this->config->item('mobile'); ?></td>
                             </tr>
                             <tr class="p-2">
                                 <td class="border-top-0 py-2 w-50 font-weight-bold">Email : -</td>
-                                <td class="border-top-0 py-2 w-50 pl-2"><?= $order[0]['email'] ?></td>
+                                <td class="border-top-0 py-2 w-50 pl-2"><?= $this->config->item('support'); ?></td>
                             </tr>
                             <!-- <tr class="p-2">
                                 <td class="border-top-0 py-2 w-50 font-weight-bold">GSTIN : -</td>
@@ -121,16 +164,27 @@
                         </div>
                     </div>
                     <?php include(APPPATH . 'views/front-end/happycrop/authsignature.php'); ?>
+                    <div class="col-lg-12 pt-5">
 
+                        <?php include(APPPATH . 'views/front-end/happycrop/exportfooter.php'); ?>
+                    </div>
 
                 </div>
             </div>
         </div>
+        <?php if ($view == "view") { ?>
+
+            <div class="row justify-content-center">
+                <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
+            </div>
+        <?php } ?>
     </div>
     <?php $this->load->view('admin/include-script.php'); ?>
     <script>
         $(document).ready(function() {
-            generatePDF();
+            <?php if ($view != "view") { ?>
+                generatePDF();
+            <?php } ?>
         });
 
         function generatePDF() {
@@ -139,7 +193,7 @@
                 margin: [5, 5],
                 filename: 'Invoice.pdf',
                 html2canvas: {
-                    scale: 4
+                    scale: 2
                 },
                 jsPDF: {
                     unit: 'mm',
@@ -148,7 +202,7 @@
                 }
             }).save().then(function() {
                 history.back();
-                
+
             });
 
         }

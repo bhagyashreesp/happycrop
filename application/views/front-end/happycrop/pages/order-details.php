@@ -1074,6 +1074,7 @@
                                                                 <?php } else if ($order_item_stage['status'] == 'shipped') { ?>
                                                                     <p>Your order shipped by manufacturer.</p>
                                                                 <?php } else if ($order_item_stage['status'] == 'send_invoice') { ?>
+                                                                    
                                                                     <h3 class="tmln-title">Order is in transit, E-way bill and invoices received from manufacturer. <small class="float-right font-weight-normal"><?php echo date('d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
                                                                     <div class="btn-group">
                                                                         <?php
@@ -1126,6 +1127,9 @@
                                                                             }
                                                                         }
                                                                         ?>
+                                                                         <div class="form-group mb-0 col-md-2">
+                                                                        <a href="<?php echo base_url('my-account/tax-invoice/').$order_item_stage['order_id']."/view" ?>" target="_blank" type="button" class="btn btn-primary btn-sm btn-block" >View Invoice</a>
+                                                                    </div>
                                                                     </div>
                                                                     <p class="">Note - Please make sure timely unloading of material.</p>
 

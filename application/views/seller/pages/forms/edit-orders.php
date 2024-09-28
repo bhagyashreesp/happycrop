@@ -1131,27 +1131,32 @@
                                                         ?>
                                                     <?php } else if ($order_item_stage['status'] == 'send_payment_confirmation') { ?>
                                                         <h3 class="tmln-title">Payment confirmation sent to retailer by Happycrop. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                        <a href="<?= base_url('my-account/payment-receipt/') . $order_detls[0]['id'] . "/view" ?>" target="_blank" class="btn btn-primary btn-sm btn-block w-25">View Payment Receipt</a>
+
                                                         <?php
-                                                                $ids = explode(',', $order_item_stage['ids']);
-                                                                if ($ids) {
-                                                                    $this->db->select('*');
-                                                                    $this->db->from('order_item_payment_confirmation');
-                                                                    $this->db->where_in('id', $ids);
-                                                                    $query = $this->db->get();
-                                                                    $order_item_payment_confirmations = $query->result_array();
+                                                                //         $ids = explode(',', $order_item_stage['ids']);
+                                                                //         if ($ids) {
+                                                                //             $this->db->select('*');
+                                                                //             $this->db->from('order_item_payment_confirmation');
+                                                                //             $this->db->where_in('id', $ids);
+                                                                //             $query = $this->db->get();
+                                                                //             $order_item_payment_confirmations = $query->result_array();
 
 
-                                                                    if ($order_item_payment_confirmations) {
-                                                                        $i_count = 1;
-                                                                        foreach ($order_item_payment_confirmations as $order_item_payment_confirmation) {
-                                                                            if (file_exists($order_item_payment_confirmation['attachments']) && $order_item_payment_confirmation['attachments']) {
-                                                        ?><a class="btn btn-sm col-md-3 btn-primary mb-1" href="<?php echo base_url() . $order_item_payment_confirmation['attachments']; ?>" target="_blank">Download transaction details</a><?php
-                                                                                                                                                                                                                                                $i_count++;
-                                                                                                                                                                                                                                            }
-                                                                                                                                                                                                                                        }
-                                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                                }
-                                                                                                                                                                                                                                                ?>
+                                                                //             if ($order_item_payment_confirmations) {
+                                                                //                 $i_count = 1;
+                                                                //                 foreach ($order_item_payment_confirmations as $order_item_payment_confirmation) {
+                                                                //                     if (file_exists($order_item_payment_confirmation['attachments']) && $order_item_payment_confirmation['attachments']) {
+                                                                // 
+                                                        ?>
+                                                        <!-- <a class="btn btn-sm col-md-3 btn-primary mb-1" href="<?php echo base_url() . $order_item_payment_confirmation['attachments']; ?>" target="_blank">Download transaction details</a> -->
+                                                        <?php
+                                                                //                                                                                                                                                                                         $i_count++;
+                                                                //                                                                                                                                                                                     }
+                                                                //                                                                                                                                                                                 }
+                                                                //                                                                                                                                                                             }
+                                                                //                                                                                                                                                                         }
+                                                        ?>
                                                         <?php /* ?>
                                                                 <table class="table table-bordered">
                                                                     <tr class="bg-primary text-white">
@@ -1248,6 +1253,9 @@
                                                                         <input type="hidden" name="order_item_id" value="">
                                                                         <input type="hidden" name="order_id" value="<?= $order_detls[0]['id'] ?>">
                                                                         <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit_invoice_btn">Send</button>
+                                                                    </div>
+                                                                    <div class="form-group mb-0 col-md-2">
+                                                                        <a href="<?php echo base_url('my-account/tax-invoice/').$order_detls[0]['id']."/view" ?>" target="_blank" type="button" class="btn btn-primary btn-sm btn-block" >View Invoice</a>
                                                                     </div>
                                                                 </div>
                                                             </form>
@@ -2001,9 +2009,13 @@
                                     <div class="border border-dark p-2">
                                         <h5 class="font-weight-bold">Terms and conditions</h5>
                                         <ul class="list-none">
-                                            <li>1. Goods once sold cannot be taken back</li>
-                                            <li>2. 18% PA interest will charged on delayed payment</li>
-                                            <li>3. All disputes are under kolhapur jurisdiction only</li>
+                                            <?php
+                                            foreach ($getterms as $key => $value) { ?>
+                                                <li><?php echo ($key + 1) . ". " . $value['terms_conditions']; ?></li>
+
+                                            <?php
+                                            }
+                                            ?>
                                             <li>Thanks for doing business with us!</li>
                                         </ul>
 

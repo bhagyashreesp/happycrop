@@ -199,10 +199,14 @@ class Orders extends CI_Controller
                     $query = $this->db->get();
 
                     $manufactures = $query->result_array();
-                    if(!empty($manufactures)){
+                    if (!empty($manufactures)) {
                         $this->data['manufacture'] = $manufactures[0];
                     }
                 }
+
+                $getterms = $this->common_model->getRecords('terms_conditions', '*', array("user_id" => $order["order_data"][0]["seller_id"]));
+
+                $this->data['getterms'] = $getterms;
                 $this->data['order_detls'] = $res;
                 $this->data['bank_transfer'] = $bank_transfer;
                 $this->data['items'] = $items;

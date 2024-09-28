@@ -4723,22 +4723,22 @@ class My_account extends CI_Controller
             return false;
         }
     }
-    public function payment_receipt($order_id){
-        $order = fetch_orders($order_id, $this->data['user']->id, false, false, 1, NULL, NULL, NULL, NULL);
-      
-        
+    public function payment_receipt($order_id, $view = "")
+    {
+        $order = fetch_orders($order_id, NULL, false, false, 1, NULL, NULL, NULL, NULL);        
         $this->db->distinct();
-        $this->db->select('a.seller_id, b.username, b.mobile, b.email, b.mfg_no, c.company_name, c.gst_no, c.fertilizer_license_no, c.pesticide_license_no, c.seeds_license_no, c.account_name, c.account_number, c.bank_name, c.bank_code, c.bank_city, c.bank_branch, c.bank_state, c.plot_no, c.street_locality, c.landmark, cc.name, city, s.name as state, c.pin');
-        $this->db->from('order_items as a');
-        $this->db->join('users as b', 'a.seller_id = b.id', 'left');
-        $this->db->join('seller_data as c', 'a.seller_id = c.user_id', 'left');
-        $this->db->join('states as s', 'c.state_id = s.id', 'left');
-        $this->db->join('cities as cc', 'c.city_id = cc.id', 'left');
-        $this->db->where('a.order_id', $order_id);
-        $query = $this->db->get();
+            $this->db->select('a.seller_id, b.username, b.mobile, b.email, b.mfg_no, c.company_name, c.gst_no, c.fertilizer_license_no, c.pesticide_license_no, c.seeds_license_no, c.account_name, c.account_number, c.bank_name, c.bank_code, c.bank_city, c.bank_branch, c.bank_state, c.plot_no, c.street_locality, c.landmark, cc.name, city, s.name as state, c.pin');
+            $this->db->from('order_items as a');
+            $this->db->join('users as b', 'a.seller_id = b.id', 'left');
+            $this->db->join('seller_data as c', 'a.seller_id = c.user_id', 'left');
+            $this->db->join('states as s', 'c.state_id = s.id', 'left');
+            $this->db->join('cities as cc', 'c.city_id = cc.id', 'left');
+            $this->db->where('a.order_id', $order_id);
+            $query = $this->db->get();
 
-        $manufactures = $query->result_array();
+            $manufactures = $query->result_array();
        
+        
         if (!empty($order)) {
             $orderState = fetch_details(["id" => $order["order_data"][0]["address_id"]], "addresses");
             $userdetails = fetch_details(["id" => $order["order_data"][0]["user_id"]], "users");
@@ -4749,14 +4749,52 @@ class My_account extends CI_Controller
                 $order["order_data"][0]["email"] = $userdetails[0]["email"];
             }
         }
-       
-        $pdfdata['seller'] = true;
+
         $pdfdata['manufacture'] = $manufactures[0];
         $pdfdata['order'] = $order['order_data'];
+        $pdfdata['view'] = $view;
+
+
+        return $this->load->view('front-end/happycrop/pages/payment_receipt.php', $pdfdata);
+    }
+    public function tax_invoice($order_id, $view = "")
+    {
+        $order = fetch_orders($order_id, NULL, false, false, 1, NULL, NULL, NULL, NULL);        
+        $this->db->distinct();
+            $this->db->select('a.seller_id, b.username, b.mobile, b.email, b.mfg_no, c.company_name, c.gst_no, c.fertilizer_license_no, c.pesticide_license_no, c.seeds_license_no, c.account_name, c.account_number, c.bank_name, c.bank_code, c.bank_city, c.bank_branch, c.bank_state, c.plot_no, c.street_locality, c.landmark, cc.name, city, s.name as state, c.pin');
+            $this->db->from('order_items as a');
+            $this->db->join('users as b', 'a.seller_id = b.id', 'left');
+            $this->db->join('seller_data as c', 'a.seller_id = c.user_id', 'left');
+            $this->db->join('states as s', 'c.state_id = s.id', 'left');
+            $this->db->join('cities as cc', 'c.city_id = cc.id', 'left');
+            $this->db->where('a.order_id', $order_id);
+            $query = $this->db->get();
+
+            $manufactures = $query->result_array();
        
         
-        return $this->load->view('front-end/happycrop/pages/payment_receipt.php', $pdfdata);
-        
+        if (!empty($order)) {
+            $orderState = fetch_details(["id" => $order["order_data"][0]["address_id"]], "addresses");
+            $userdetails = fetch_details(["id" => $order["order_data"][0]["user_id"]], "users");
+            if (!empty($orderState)) {
+                $order["order_data"][0]["state"] = $orderState[0]["state"];
+            }
+            if (!empty($userdetails)) {
+                $order["order_data"][0]["email"] = $userdetails[0]["email"];
+            }
+        }
+        $getterms = $this->common_model->getRecords('terms_conditions','*',array("user_id" => $order["order_data"][0]["seller_id"]));
+        $order_item_stages = $this->common_model->getRecords('order_item_stages','*',array("order_id" => $order_id),"id desc",1);
+
+       
+        $pdfdata['manufacture'] = $manufactures[0];
+        $pdfdata['order'] = $order['order_data'];
+        $pdfdata['getterms'] = $getterms;
+        $pdfdata['view'] = $view;
+        $pdfdata['order_item_stages'] = $order_item_stages;
+
+
+        return $this->load->view('front-end/happycrop/pages/tax-invoice.php', $pdfdata);
     }
 
     public function send_payment_receipt()
@@ -4976,7 +5014,7 @@ class My_account extends CI_Controller
                 $this->response['csrfName'] = $this->security->get_csrf_token_name();
                 $this->response['csrfHash'] = $this->security->get_csrf_hash();
                 $this->response['data'] = (!empty($data)) ? $data : [];
-                $redirect_url = base_url().'my-account/payment-receipt/'.$order_id;
+                $redirect_url = base_url() . 'my-account/payment-receipt/' . $order_id;
                 redirect($redirect_url);
                 // print_r(json_encode($this->response));
             } else {
