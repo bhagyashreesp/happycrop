@@ -28,9 +28,9 @@ class Orders extends CI_Controller
             $this->data['meta_description'] = ' Order Management  | ' . $settings['app_name'];
             $this->data['about_us'] = get_settings('about_us');
             $this->data['curreny'] = get_settings('currency');
-            
+
             $this->data['page_title'] = 'Orders';
-            
+
             /*$orders_count['awaiting'] = orders_count("awaiting");
             $orders_count['received'] = orders_count("received");
             $orders_count['processed'] = orders_count("processed");
@@ -41,19 +41,19 @@ class Orders extends CI_Controller
             $this->data['status_counts'] = $orders_count;*/
             $orders_count['total_orders'] = admin_orders_count("");
             $orders_count['new_orders'] = admin_orders_count(array('received',));
-            $orders_count['in_process_orders'] = admin_orders_count(array('payment_demand','payment_ack','schedule_delivery','send_payment_confirmation',));
+            $orders_count['in_process_orders'] = admin_orders_count(array('payment_demand', 'payment_ack', 'schedule_delivery', 'send_payment_confirmation',));
             $orders_count['shipped_orders'] = admin_orders_count("send_invoice");
-            $orders_count['issue_raised_orders'] = admin_orders_count("complaint","complaint_msg");
+            $orders_count['issue_raised_orders'] = admin_orders_count("complaint", "complaint_msg");
             $orders_count['cancelled_orders'] = admin_orders_count("cancelled");
             $orders_count['delivered_orders'] = admin_orders_count("delivered");
-            
+
             $this->data['status_counts'] = $orders_count;
             $this->load->view('admin/template', $this->data);
         } else {
             redirect('admin/login', 'refresh');
         }
     }
-    
+
     public function show_orders($condition = 0)
     {
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
@@ -63,43 +63,30 @@ class Orders extends CI_Controller
             $this->data['meta_description'] = ' Order Management  | ' . $settings['app_name'];
             $this->data['about_us'] = get_settings('about_us');
             $this->data['curreny'] = get_settings('currency');
-            
+
             $this->data['page_title'] = 'Orders';
-             
-            if($condition == 1)
-            {
+
+            if ($condition == 1) {
                 $this->data['page_title'] = 'In Process Orders';
-            }
-            else if($condition == 2)
-            {
+            } else if ($condition == 2) {
                 $this->data['page_title'] = 'Shipped Orders';
-            }
-            else if($condition == 3)
-            {
+            } else if ($condition == 3) {
                 $this->data['page_title'] = 'Issue Raised Orders';
-            }
-            else if($condition == 4)
-            {
+            } else if ($condition == 4) {
                 $this->data['page_title'] = 'Cancelled Orders';
-            }
-            else if($condition == 5)
-            {
+            } else if ($condition == 5) {
                 $this->data['page_title'] = 'Delivered Orders';
-            }
-            else if($condition == 6)
-            {
+            } else if ($condition == 6) {
                 $this->data['page_title'] = 'New Orders';
-            }
-            else if($condition == 7)
-            {
+            } else if ($condition == 7) {
                 $this->data['page_title'] = 'Action Advised Orders';
             }
-            
+
             $orders_count['total_orders'] = admin_orders_count("");
             $orders_count['new_orders'] = admin_orders_count(array('received',));
-            $orders_count['in_process_orders'] = admin_orders_count(array('payment_demand','payment_ack','schedule_delivery','send_payment_confirmation',));
+            $orders_count['in_process_orders'] = admin_orders_count(array('payment_demand', 'payment_ack', 'schedule_delivery', 'send_payment_confirmation',));
             $orders_count['shipped_orders'] = admin_orders_count("send_invoice");
-            $orders_count['issue_raised_orders'] = admin_orders_count("complaint","complaint_msg");
+            $orders_count['issue_raised_orders'] = admin_orders_count("complaint", "complaint_msg");
             $orders_count['cancelled_orders'] = admin_orders_count("cancelled");
             $orders_count['delivered_orders'] = admin_orders_count("delivered");
             $this->data['condition'] = $condition;
@@ -322,7 +309,7 @@ class Orders extends CI_Controller
                         $set = [
                             $_POST['field'] => $_POST['val'] // status => 'proceesed'
                         ];
-                        
+
                         // Update Active Status of Order Table										
                         if ($this->Order_model->update_order($set, $where_id, $_POST['json'])) {
                             if ($this->Order_model->update_order(['active_status' => $_POST['val']], $where_id)) {
@@ -404,9 +391,8 @@ class Orders extends CI_Controller
                     $zipcode_id = fetch_details(['id' => $area_id[0]['area_id']], 'areas', 'zipcode_id');
                     $this->data['delivery_res'] = $this->db->where(['ug.group_id' => '3', 'u.active' => 1])->where('find_in_set(' . $zipcode_id[0]['zipcode_id'] . ', u.serviceable_zipcodes)!=', 0)->join('users_groups ug', 'ug.user_id = u.id')->get('users u')->result_array();
                 }*/
-            }else{
+            } else {
                 $this->data['delivery_res'] = $this->db->where(['ug.group_id' => '3', 'u.active' => 1])->join('users_groups ug', 'ug.user_id = u.id')->get('users u')->result_array();
-
             }
             if ($res[0]['payment_method'] == "bank_transfer") {
                 $bank_transfer = fetch_details(['order_id' => $res[0]['order_id']], 'order_bank_transfer');
@@ -422,7 +408,7 @@ class Orders extends CI_Controller
                     $temp['product_id'] = $row['product_id'];
                     $temp['product_variant_id'] = $row['product_variant_id'];
                     $temp['product_type'] = $row['type'];
-                    $temp['pname'] = ($row['product_name']!='') ? $row['product_name'] : $row['pname'];
+                    $temp['pname'] = ($row['product_name'] != '') ? $row['product_name'] : $row['pname'];
                     $temp['quantity'] = $row['quantity'];
                     $temp['is_cancelable'] = $row['is_cancelable'];
                     $temp['is_returnable'] = $row['is_returnable'];
@@ -445,13 +431,14 @@ class Orders extends CI_Controller
                     $temp['pv_carton_qty'] = $row['pv_carton_qty'];
                     $temp['minimum_order_quantity'] = $row['minimum_order_quantity'];
                     $temp['tax_percentage'] = $row['tax_percentage'];
-                    
+
                     $temp['mfg_date'] = $row['mfg_date'];
                     $temp['exp_date'] = $row['exp_date'];
                     $temp['batch_no'] = $row['batch_no'];
-                    
+
                     array_push($items, $temp);
                 }
+
                 $this->data['order_detls'] = $res;
                 $this->data['bank_transfer'] = $bank_transfer;
                 $this->data['items'] = $items;
@@ -854,7 +841,7 @@ class Orders extends CI_Controller
             redirect('admin/login', 'refresh');
         }
     }
-    
+
     public function send_payment_confirmation()
     {
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
@@ -866,15 +853,13 @@ class Orders extends CI_Controller
                 $this->response['csrfHash'] = $this->security->get_csrf_hash();
                 $this->response['message'] = validation_errors();
                 print_r(json_encode($this->response));
-            } 
-            else 
-            {
+            } else {
                 $order_id = $this->input->post('order_id', true);
                 $order_item_id = $this->input->post('order_item_id', true);
-    
+
                 $order = fetch_details(['id' => $order_id], 'orders', 'id');
                 $order_item = fetch_details(['id' => $order_item_id], 'order_items', 'id');
-                
+
                 if (empty($order)) {
                     $this->response['error'] = true;
                     $this->response['message'] = "Order not found!";
@@ -882,7 +867,7 @@ class Orders extends CI_Controller
                     print_r(json_encode($this->response));
                     return false;
                 }
-                
+
                 /*if (empty($order_item)) {
                     $this->response['error'] = true;
                     $this->response['message'] = "Order Item not found!";
@@ -890,11 +875,11 @@ class Orders extends CI_Controller
                     print_r(json_encode($this->response));
                     return false;
                 }*/
-                
+
                 if (!file_exists(FCPATH . PAYMENT_CONFIRMATION_IMG_PATH)) {
                     mkdir(FCPATH . PAYMENT_CONFIRMATION_IMG_PATH, 0777);
                 }
-    
+
                 $temp_array = array();
                 $files = $_FILES;
                 $images_new_name_arr = array();
@@ -905,17 +890,17 @@ class Orders extends CI_Controller
                     'allowed_types' => $allowed_media_types,
                     'max_size' => 8000,
                 ];
-    
-    
+
+
                 if (!empty($_FILES['attachments']['name'][0]) && isset($_FILES['attachments']['name'])) {
                     $other_image_cnt = count($_FILES['attachments']['name']);
                     $other_img = $this->upload;
                     $other_img->initialize($config);
-    
+
                     for ($i = 0; $i < $other_image_cnt; $i++) {
-    
+
                         if (!empty($_FILES['attachments']['name'][$i])) {
-    
+
                             $_FILES['temp_image']['name'] = $files['attachments']['name'][$i];
                             $_FILES['temp_image']['type'] = $files['attachments']['type'][$i];
                             $_FILES['temp_image']['tmp_name'] = $files['attachments']['tmp_name'][$i];
@@ -959,88 +944,86 @@ class Orders extends CI_Controller
                     'order_item_id' => $order_item_id,
                     'attachments'   => $images_new_name_arr,
                 );
-                
-                if($this->Order_model->add_payment_confirmation($data)) {
-                    
+
+                if ($this->Order_model->add_payment_confirmation($data)) {
+
                     //$order_item_info = $this->db->get_where('order_items', array('id' => $order_item_id))->row_array();
-                    
+
                     //$status = json_decode($order_item_info['status']);
                     //array_push($status,array('payment_ack',date('d-m-Y h:i:sa')));
-                    
+
                     //$order_item_up = ['active_status' =>'payment_ack','status'=>json_encode($status)];
                     //$order_item_up = escape_array($order_item_up);
                     //$this->db->set($order_item_up)->where('id', $order_item_id)->update('order_items');
-                    
-    
+
+
                     // $result = fetch_details(['order_id' => $order_id], 'order_bank_transfer');
-                    
+
                     $order      = fetch_details(['id' => $order_id], 'orders');
                     $this->db->select('a.id, a.seller_id, a.status, a.active_status');
                     $this->db->from('order_items as a');
                     $this->db->where('a.order_id', $order_id);
-                    
+
                     $query = $this->db->get();
-                    $order_items_info = $query->result_array(); 
+                    $order_items_info = $query->result_array();
 
                     $system_settings = get_settings('system_settings', true);
                     $user_id    = $order[0]['user_id'];
                     $user = fetch_details(['id' => $order[0]['user_id']], 'users');
-    
+
                     $retailer_store_name = fetch_details(['user_id' => $user_id], 'retailer_data', 'company_name');
                     $retailer_store_name = $retailer_store_name[0]['company_name'];
-                    
+
                     $seller_email = fetch_details(['id' => $order_items_info[0]['seller_id']], 'users', 'email');
                     $seller_store_name = fetch_details(['user_id' => $order_items_info[0]['seller_id']], 'seller_data', 'company_name');
                     $seller_store_name = $seller_store_name[0]['company_name'];
-                    
+
                     //retailer
-                    if($user[0]['email']!='')
-                    {
-                        $html_text  = '<p>Hello '. ucfirst( $retailer_store_name) . ',</p>';
+                    if ($user[0]['email'] != '') {
+                        $html_text  = '<p>Hello ' . ucfirst($retailer_store_name) . ',</p>';
                         $html_text .= '<p style="margin-bottom: 0;">Payment confirmation received from Happycrop. You will receive E-way bill and invoices, once order get dispatched. </p>';
-                        
+
                         $order_info = array(
-                            'subject'    => 'Order #HC-A'. $order_id . ' - Updates from Happycrop',
+                            'subject'    => 'Order #HC-A' . $order_id . ' - Updates from Happycrop',
                             'user_msg' => $html_text,
                         );
-            
-                        send_mail2($user[0]['email'], 'Happycrop Order Updates - Order #HC-A'. $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
+
+                        send_mail2($user[0]['email'], 'Happycrop Order Updates - Order #HC-A' . $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
                     }
-                    
+
                     //seller
-                    if($seller_email[0]["email"]!='')
-                    {
-                        $html_text  = '<p>Hello '. ucfirst( $seller_store_name) . ',</p>';
+                    if ($seller_email[0]["email"] != '') {
+                        $html_text  = '<p>Hello ' . ucfirst($seller_store_name) . ',</p>';
                         $html_text .= '<p><b>We are pleased to inform you that the payment is confirmed by Happycrop. Please make sure the order is as per request and follow scheduled delivery time. Kindly upload the E-way bill and Invoices while dispatching the order.</b></p>';
                         $html_text .= '<p style="margin-bottom: 0;"><b>The payment will be released within 48 hrs from delivery.</b></p>';
-                        
+
                         $order_info = array(
-                           'subject'    => 'Order #HC-A'. $order_id . ' - Updates from Happycrop',
-                           'user_msg' => $html_text,
+                            'subject'    => 'Order #HC-A' . $order_id . ' - Updates from Happycrop',
+                            'user_msg' => $html_text,
                         );
-                        
-                        send_mail2($seller_email[0]["email"], 'Happycrop Order Updates - Order #HC-A'. $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
+
+                        send_mail2($seller_email[0]["email"], 'Happycrop Order Updates - Order #HC-A' . $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
                     }
-                    
+
                     //admin
-                    if(isset($system_settings['support_email']) && !empty($system_settings['support_email'])) 
-                    {
+                    if (isset($system_settings['support_email']) && !empty($system_settings['support_email'])) {
                         $html_text  = '<p><b>Hello Admin,</b></p>';
-                        $html_text .= '<p style="margin-bottom: 0;"><b>Happycrop have confirmed the payment made by Retailer - '. ucfirst( $retailer_store_name) . ' and sent notifications to retailer and seller.</b></p>';
-                        
+                        $html_text .= '<p style="margin-bottom: 0;"><b>Happycrop have confirmed the payment made by Retailer - ' . ucfirst($retailer_store_name) . ' and sent notifications to retailer and seller.</b></p>';
+
                         $order_info = array(
-                           'subject'    => 'Order #HC-A'. $order_id . ' - Updates from Happycrop',
-                           'user_msg' => $html_text,
+                            'subject'    => 'Order #HC-A' . $order_id . ' - Updates from Happycrop',
+                            'user_msg' => $html_text,
                         );
-                       
-                        send_mail2($system_settings['support_email'], 'Happycrop Order Updates - Order #HC-A'. $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
+
+                        send_mail2($system_settings['support_email'], 'Happycrop Order Updates - Order #HC-A' . $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
                     }
-                    
+
                     $this->response['error'] = false;
                     $this->response['message'] =  'Payment Confirmation Added Successfully!';
                     $this->response['csrfName'] = $this->security->get_csrf_token_name();
                     $this->response['csrfHash'] = $this->security->get_csrf_hash();
                     $this->response['data'] = (!empty($data)) ? $data : [];
+                   
                     print_r(json_encode($this->response));
                 } else {
                     $this->response['error'] = true;
@@ -1055,9 +1038,11 @@ class Orders extends CI_Controller
             redirect('admin/login', 'refresh');
         }
     }
-    
+
     public function send_mfg_payment_ack_form()
     {
+       
+        
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
             $this->form_validation->set_rules('order_id', 'Order Id', 'trim|required|numeric|xss_clean');
             //$this->form_validation->set_rules('order_item_id', 'Order Item', 'trim|required|xss_clean');
@@ -1067,15 +1052,13 @@ class Orders extends CI_Controller
                 $this->response['csrfHash'] = $this->security->get_csrf_hash();
                 $this->response['message'] = validation_errors();
                 print_r(json_encode($this->response));
-            } 
-            else 
-            {
+            } else {
                 $order_id = $this->input->post('order_id', true);
                 //$order_item_id = $this->input->post('order_item_id', true);
-    
+
                 $order = fetch_details(['id' => $order_id], 'orders', 'id');
                 //$order_item = fetch_details(['id' => $order_item_id], 'order_items', 'id');
-                
+
                 if (empty($order)) {
                     $this->response['error'] = true;
                     $this->response['message'] = "Order not found!";
@@ -1083,12 +1066,12 @@ class Orders extends CI_Controller
                     print_r(json_encode($this->response));
                     return false;
                 }
-                
-                
+
+
                 if (!file_exists(FCPATH . PAYMENT_MFG_ACK_IMG_PATH)) {
                     mkdir(FCPATH . PAYMENT_MFG_ACK_IMG_PATH, 0777);
                 }
-    
+
                 $temp_array = array();
                 $files = $_FILES;
                 $images_new_name_arr = array();
@@ -1099,17 +1082,17 @@ class Orders extends CI_Controller
                     'allowed_types' => $allowed_media_types,
                     'max_size' => 8000,
                 ];
-    
-    
+
+
                 if (!empty($_FILES['attachments']['name'][0]) && isset($_FILES['attachments']['name'])) {
                     $other_image_cnt = count($_FILES['attachments']['name']);
                     $other_img = $this->upload;
                     $other_img->initialize($config);
-    
+
                     for ($i = 0; $i < $other_image_cnt; $i++) {
-    
+
                         if (!empty($_FILES['attachments']['name'][$i])) {
-    
+
                             $_FILES['temp_image']['name'] = $files['attachments']['name'][$i];
                             $_FILES['temp_image']['type'] = $files['attachments']['type'][$i];
                             $_FILES['temp_image']['tmp_name'] = $files['attachments']['tmp_name'][$i];
@@ -1152,97 +1135,93 @@ class Orders extends CI_Controller
                     'order_id'      => $order_id,
                     'order_item_id' => $order_item_id,
                     'attachments'   => $images_new_name_arr,
+                    'transaction_id'   => $this->input->post('transaction_no')
                 );
-                
-                if($this->Order_model->add_mfg_payment_ack($data)) {
-                    
+
+                if ($this->Order_model->add_mfg_payment_ack($data)) {
+
                     $order      = fetch_details(['id' => $order_id], 'orders');
                     $this->db->select('a.id, a.seller_id, a.status, a.active_status');
                     $this->db->from('order_items as a');
                     $this->db->where('a.order_id', $order_id);
-                    
+
                     $query = $this->db->get();
-                    $order_items_info = $query->result_array(); 
+                    $order_items_info = $query->result_array();
 
                     $system_settings = get_settings('system_settings', true);
-                    
+
                     $seller_email = fetch_details(['id' => $order_items_info[0]['seller_id']], 'users', 'email');
                     $seller_store_name = fetch_details(['user_id' => $order_items_info[0]['seller_id']], 'seller_data', 'company_name');
                     $seller_store_name = $seller_store_name[0]['company_name'];
-                    
+
                     $this->db->select('id');
                     $this->db->from('order_item_stages');
                     $this->db->where('status', 'issue_resolved');
                     $this->db->where('order_id', $order_id);
                     $q = $this->db->get();
                     $rw = $q->row_array();
-                    
-                    if($rw['id'])
-                    {
+
+                    if ($rw['id']) {
                         //seller
-                        if($seller_email[0]["email"]!='')
-                        {
-                            $html_text  = '<p><b>Hello '. ucfirst( $seller_store_name) . '</b>,</p>';
+                        if ($seller_email[0]["email"] != '') {
+                            $html_text  = '<p><b>Hello ' . ucfirst($seller_store_name) . '</b>,</p>';
                             $html_text .= '<p style="text-indent:50px;margin-bottom: 0;"><b>We are happy to inform you that the payment is released by Happycrop and Transaction details shared with you. Kindly acknowledge the Payment and upload payment receipt.</b></p>';
-                            
+
                             $order_info = array(
-                               'subject'    => 'Order #HC-A'. $order_id . ' - Payment Release for issue order',
-                               'user_msg' => $html_text,
+                                'subject'    => 'Order #HC-A' . $order_id . ' - Payment Release for issue order',
+                                'user_msg' => $html_text,
                             );
-                            
-                            send_mail2($seller_email[0]["email"], 'Happycrop Order Updates - Order #HC-A'. $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
+
+                            send_mail2($seller_email[0]["email"], 'Happycrop Order Updates - Order #HC-A' . $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
                         }
-                        
+
                         //admin
-                        if(isset($system_settings['support_email']) && !empty($system_settings['support_email'])) 
-                        {
+                        if (isset($system_settings['support_email']) && !empty($system_settings['support_email'])) {
                             $html_text  = '<p><b>Hello Admin,</b></p>';
-                            $html_text .= '<p style="text-indent:50px;margin-bottom: 0;"><b>Happycrop has released the payment to the seller for the Order #HC-A'. $order_id.'. The transaction details are shared with Seller / Manufacturer.</p>';
-                            
+                            $html_text .= '<p style="text-indent:50px;margin-bottom: 0;"><b>Happycrop has released the payment to the seller for the Order #HC-A' . $order_id . '. The transaction details are shared with Seller / Manufacturer.</p>';
+
                             $order_info = array(
-                               'subject'    => 'Order #HC-A'. $order_id . ' - Payment Release for issue order',
-                               'user_msg' => $html_text,
+                                'subject'    => 'Order #HC-A' . $order_id . ' - Payment Release for issue order',
+                                'user_msg' => $html_text,
                             );
-                           
-                            send_mail2($system_settings['support_email'], 'Happycrop Order Updates - Order #HC-A'. $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
+
+                            send_mail2($system_settings['support_email'], 'Happycrop Order Updates - Order #HC-A' . $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
+                        }
+                    } else {
+                        //seller
+                        if ($seller_email[0]["email"] != '') {
+                            $html_text  = '<p><b>Hello ' . ucfirst($seller_store_name) . '</b>,</p>';
+                            $html_text .= '<p style="text-indent:50px;margin-bottom: 0;"><b>We are happy to inform you that the payment is released by Happycrop and Transaction details shared with you. Kindly acknowledge the Payment and upload payment receipt.</b></p>';
+
+                            $order_info = array(
+                                'subject'    => 'Order #HC-A' . $order_id . ' - Updates from Happycrop',
+                                'user_msg' => $html_text,
+                            );
+
+                            send_mail2($seller_email[0]["email"], 'Happycrop Order Updates - Order #HC-A' . $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
+                        }
+
+                        //admin
+                        if (isset($system_settings['support_email']) && !empty($system_settings['support_email'])) {
+                            $html_text  = '<p><b>Hello Admin,</b></p>';
+                            $html_text .= '<p style="text-indent:50px;margin-bottom: 0;"><b>Happycrop has released the payment to the seller for the Order #HC-A' . $order_id . '. The transaction details are shared with Seller / Manufacturer.</p>';
+
+                            $order_info = array(
+                                'subject'    => 'Order #HC-A' . $order_id . ' - Updates from Happycrop',
+                                'user_msg' => $html_text,
+                            );
+
+                            send_mail2($system_settings['support_email'], 'Happycrop Order Updates - Order #HC-A' . $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
                         }
                     }
-                    else
-                    {
-                        //seller
-                        if($seller_email[0]["email"]!='')
-                        {
-                            $html_text  = '<p><b>Hello '. ucfirst( $seller_store_name) . '</b>,</p>';
-                            $html_text .= '<p style="text-indent:50px;margin-bottom: 0;"><b>We are happy to inform you that the payment is released by Happycrop and Transaction details shared with you. Kindly acknowledge the Payment and upload payment receipt.</b></p>';
-                            
-                            $order_info = array(
-                               'subject'    => 'Order #HC-A'. $order_id . ' - Updates from Happycrop',
-                               'user_msg' => $html_text,
-                            );
-                            
-                            send_mail2($seller_email[0]["email"], 'Happycrop Order Updates - Order #HC-A'. $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
-                        }
-                        
-                        //admin
-                        if(isset($system_settings['support_email']) && !empty($system_settings['support_email'])) 
-                        {
-                            $html_text  = '<p><b>Hello Admin,</b></p>';
-                            $html_text .= '<p style="text-indent:50px;margin-bottom: 0;"><b>Happycrop has released the payment to the seller for the Order #HC-A'. $order_id.'. The transaction details are shared with Seller / Manufacturer.</p>';
-                            
-                            $order_info = array(
-                               'subject'    => 'Order #HC-A'. $order_id . ' - Updates from Happycrop',
-                               'user_msg' => $html_text,
-                            );
-                           
-                            send_mail2($system_settings['support_email'], 'Happycrop Order Updates - Order #HC-A'. $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
-                        }
-                    }
-                    
+
                     $this->response['error'] = false;
                     $this->response['message'] =  'Payment transaction details added Successfully!';
                     $this->response['csrfName'] = $this->security->get_csrf_token_name();
                     $this->response['csrfHash'] = $this->security->get_csrf_hash();
                     $this->response['data'] = (!empty($data)) ? $data : [];
+                    // $redirect_url = base_url() . 'admin/orders/paymentreceipt/' . $order_id;
+                    // redirect($redirect_url);
                     print_r(json_encode($this->response));
                 } else {
                     $this->response['error'] = true;
@@ -1257,7 +1236,7 @@ class Orders extends CI_Controller
             redirect('admin/login', 'refresh');
         }
     }
-    
+   
     public function msg_about_complaint()
     {
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
@@ -1270,14 +1249,12 @@ class Orders extends CI_Controller
                 $this->response['csrfHash'] = $this->security->get_csrf_hash();
                 $this->response['message'] = validation_errors();
                 print_r(json_encode($this->response));
-            } 
-            else 
-            {
+            } else {
                 $order_id   = $this->input->post('order_id', true);
                 $message    = $this->input->post('message', true);
-                
+
                 $order = fetch_details(['id' => $order_id], 'orders', 'id');
-                
+
                 if (empty($order)) {
                     $this->response['error'] = true;
                     $this->response['message'] = "Order not found!";
@@ -1285,11 +1262,11 @@ class Orders extends CI_Controller
                     print_r(json_encode($this->response));
                     return false;
                 }
-                
+
                 if (!file_exists(FCPATH . COMPLAINT_MSG_IMG_PATH)) {
                     mkdir(FCPATH . COMPLAINT_MSG_IMG_PATH, 0777);
                 }
-    
+
                 $temp_array = array();
                 $files = $_FILES;
                 $images_new_name_arr = array();
@@ -1300,17 +1277,17 @@ class Orders extends CI_Controller
                     'allowed_types' => $allowed_media_types,
                     'max_size' => 8000,
                 ];
-    
-    
+
+
                 if (!empty($_FILES['attachments']['name'][0]) && isset($_FILES['attachments']['name'])) {
                     $other_image_cnt = count($_FILES['attachments']['name']);
                     $other_img = $this->upload;
                     $other_img->initialize($config);
-    
+
                     for ($i = 0; $i < $other_image_cnt; $i++) {
-    
+
                         if (!empty($_FILES['attachments']['name'][$i])) {
-    
+
                             $_FILES['temp_image']['name'] = $files['attachments']['name'][$i];
                             $_FILES['temp_image']['type'] = $files['attachments']['type'][$i];
                             $_FILES['temp_image']['tmp_name'] = $files['attachments']['tmp_name'][$i];
@@ -1349,85 +1326,75 @@ class Orders extends CI_Controller
                     print_r(json_encode($this->response));
                     return false;
                 }
-                
+
                 $data = array(
                     'order_id'      => $order_id,
                     'message'       => $message,
                     'attachments'   => $images_new_name_arr,
                 );
-                
+
                 $this->load->model('Order_model');
-                if($this->Order_model->add_complaint_msg($data)) {
-                    
-                    if($order_item_id)
-                    {
+                if ($this->Order_model->add_complaint_msg($data)) {
+
+                    if ($order_item_id) {
                         $order_item_info = $this->db->get_where('order_items', array('id' => $order_item_id))->row_array();
-                        
+
                         $status = json_decode(stripallslashes($order_item_info['status']));
-                        array_push($status,array('complaint_msg',date('d-m-Y h:i:sa')));
-                        
-                        $order_item_up = ['active_status' =>'complaint_msg','status'=>json_encode($status)];
+                        array_push($status, array('complaint_msg', date('d-m-Y h:i:sa')));
+
+                        $order_item_up = ['active_status' => 'complaint_msg', 'status' => json_encode($status)];
                         $order_item_up = escape_array($order_item_up);
                         $this->db->set($order_item_up)->where('id', $order_item_id)->update('order_items');
-                    }
-                    else
-                    {
+                    } else {
                         $this->db->select('a.id, a.status, a.active_status');
                         $this->db->from('order_items as a');
                         $this->db->where('a.order_id', $order_id);
-                        $this->db->where_not_in('a.active_status', array('delivered','cancelled'));
+                        $this->db->where_not_in('a.active_status', array('delivered', 'cancelled'));
                         $query = $this->db->get();
-                        $order_items_info = $query->result_array(); 
-                        
-                        if($order_items_info)
-                        {
-                            foreach($order_items_info as $order_item_info)
-                            {
+                        $order_items_info = $query->result_array();
+
+                        if ($order_items_info) {
+                            foreach ($order_items_info as $order_item_info) {
                                 $status = json_decode(stripallslashes($order_item_info['status']));
-                                if($status!=null)
-                                {
+                                if ($status != null) {
                                     array_push($status, array('complaint_msg', date('d-m-Y h:i:sa')));
-                                }
-                                else
-                                {
+                                } else {
                                     $status =  array(array('complaint_msg', date("d-m-Y h:i:sa")));
                                 }
-                                
-                                $update_item_data = array('active_status'=>'complaint_msg','status'=>json_encode($status));
-                                update_details($update_item_data,['id'=>$order_item_info['id']],'order_items');
-                                     
+
+                                $update_item_data = array('active_status' => 'complaint_msg', 'status' => json_encode($status));
+                                update_details($update_item_data, ['id' => $order_item_info['id']], 'order_items');
                             }
                         }
                     }
-                    
-                    $this->db->update('orders', array('order_status' => 'complaint_msg','last_updated'=>date('Y-m-d H:i:s')), array('id' => $order_id));
-     
+
+                    $this->db->update('orders', array('order_status' => 'complaint_msg', 'last_updated' => date('Y-m-d H:i:s')), array('id' => $order_id));
+
                     $system_settings = get_settings('system_settings', true);
                     $order      = fetch_details(['id' => $order_id], 'orders');
                     $this->db->select('a.id, a.seller_id, a.status, a.active_status');
                     $this->db->from('order_items as a');
                     $this->db->where('a.order_id', $order_id);
                     $query = $this->db->get();
-                    $order_items_info = $query->result_array(); 
-                    
+                    $order_items_info = $query->result_array();
+
                     $user_id = $order[0]['user_id'];
                     $user    = fetch_details(['id' => $order[0]['user_id']], 'users');
-            
+
                     $retailer_store_name = fetch_details(['user_id' => $user_id], 'retailer_data', 'company_name');
                     $retailer_store_name = $retailer_store_name[0]['company_name'];
-                    
+
                     $seller_email       = fetch_details(['id' => $order_items_info[0]['seller_id']], 'users', 'email');
                     $seller_store_name  = fetch_details(['user_id' => $order_items_info[0]['seller_id']], 'seller_data', 'company_name');
                     $seller_store_name  = $seller_store_name[0]['company_name'];
-                    
+
                     $this->db->select('*');
                     $this->db->from('order_item_complaint_messages');
-                    $this->db->where('order_id',$order_id);
+                    $this->db->where('order_id', $order_id);
                     $query = $this->db->get();
                     $complaints_messages = $query->result_array();
-                    
-                    if($complaints_messages)
-                    {
+
+                    if ($complaints_messages) {
                         $complaint_text = '<table border="1" class="es-content-body" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:100%;margin-top:15px;margin-bottom:0px;">
                                            <tr  bgcolor="#efefef" style="Margin:0;padding-top:10px;padding-bottom:10px;background-color:#EFEFEF">
                                                 <th style="width: 8%;">Sr. No.</th>
@@ -1435,81 +1402,75 @@ class Orders extends CI_Controller
                                                 <th style="width: 18%;">Image</th>
                                             </tr>';
                         $i_count = 1;
-                        foreach($complaints_messages as $complaints_message)
-                        {
+                        foreach ($complaints_messages as $complaints_message) {
                             $complaint_text .= '<tr class="bg-white text-dark">
-                                                    <td align="center">'.$i_count.'</td>
-                                                    <td>'.$complaints_message['message'].'</td>
+                                                    <td align="center">' . $i_count . '</td>
+                                                    <td>' . $complaints_message['message'] . '</td>
                                                     <td>';
-                                                        
-                            if(file_exists($complaints_message['attachments']) && $complaints_message['attachments'])
-                            {
-                                $complaint_text .= '<a href="'.base_url().$complaints_message['attachments'].'" target="_blank">
-                                    <img src="'.base_url().$complaints_message['attachments'].'" alt="" style="width: 100px;" />
+
+                            if (file_exists($complaints_message['attachments']) && $complaints_message['attachments']) {
+                                $complaint_text .= '<a href="' . base_url() . $complaints_message['attachments'] . '" target="_blank">
+                                    <img src="' . base_url() . $complaints_message['attachments'] . '" alt="" style="width: 100px;" />
                                 </a>';
-                                
                             }
-                            
+
                             $complaint_text .= '</td></tr>';
-                            
+
                             $i_count++;
                         }
                         $complaint_text .= '</table>';
                     }
-                    
-                    if($user[0]['email']!='')
-                    {
-                        $html_text  = '<p>Dear '.ucfirst($retailer_store_name);
-                        $html_text .= '<p style="margin-bottom:0px;">We would like to inform you that the issue with your recent order #HC-A'. $order_id . '. has been successfully addressed by Happycrop. Your patience and cooperation throughout this process were greatly appreciated.</p>';
+
+                    if ($user[0]['email'] != '') {
+                        $html_text  = '<p>Dear ' . ucfirst($retailer_store_name);
+                        $html_text .= '<p style="margin-bottom:0px;">We would like to inform you that the issue with your recent order #HC-A' . $order_id . '. has been successfully addressed by Happycrop. Your patience and cooperation throughout this process were greatly appreciated.</p>';
                         $html_text .= '<p style="margin-bottom:0px;">We kindly request you to confirm by logging into www.happycrop.in., if issue get resolved.</p>';
                         $html_text .= '<p style="margin-bottom:0px;">Our comment on the related issue as below.</p>';
                         $html_text .= $complaint_text;
-                        
-                        
+
+
                         $note_text  = '<p style="margin-top:0px;">We understand the inconvenience that the previous issue may have caused you, and we sincerely apologize for any disruption to your experience with us. We appreciate your patience and cooperation during this resolution process. It is essential for us to ensure that you receive the correct products in perfect condition, and we are committed to maintaining the highest standards in our services.</p>';
                         $note_text .= '<p>Once again, we apologize for any inconvenience you may have experienced, and we appreciate your continued trust in our services. We look forward to serving you in the future and providing you with the exceptional experience you deserve.</p>';
-                        
+
                         $order_info = array(
-                            'subject'           => 'Order #HC-A'. $order_id . ' Issue Resolved',
+                            'subject'           => 'Order #HC-A' . $order_id . ' Issue Resolved',
                             'user_msg'          => $html_text,
                             'note'              => $note_text,
-                        ); 
-                        send_mail2($user[0]['email'], 'Happycrop Order Updates - Order #HC-A'. $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
+                        );
+                        send_mail2($user[0]['email'], 'Happycrop Order Updates - Order #HC-A' . $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
                     }
-                    
-                    if($seller_email[0]['email']!='')
-                    {
-                        $html_text  = '<p>Dear '.ucfirst($seller_store_name);
-                        $html_text .= '<p style="margin-bottom:0px;">We would like to inform you that the issue with your recent order #HC-A'. $order_id . ' has been successfully addressed by Happycrop. Your patience and cooperation throughout this process were greatly appreciated.</p>';
+
+                    if ($seller_email[0]['email'] != '') {
+                        $html_text  = '<p>Dear ' . ucfirst($seller_store_name);
+                        $html_text .= '<p style="margin-bottom:0px;">We would like to inform you that the issue with your recent order #HC-A' . $order_id . ' has been successfully addressed by Happycrop. Your patience and cooperation throughout this process were greatly appreciated.</p>';
                         $html_text .= '<p style="margin-bottom:0px;">Waiting for retailer confirmation.</p>';
                         $html_text .= '<p style="margin-bottom:0px;">Our comment on the related issue as below.</p>';
                         $html_text .= $complaint_text;
-                        
+
                         $note_text  = '<p style="margin-top:0px;">We understand the inconvenience that the previous issue may have caused you, and we sincerely apologize for any disruption to your experience with us. We appreciate your patience and cooperation during this resolution process.</p>';
-        
+
                         $order_info = array(
-                            'subject'           => 'Order #HC-A'. $order_id . ' Issue Resolved',
+                            'subject'           => 'Order #HC-A' . $order_id . ' Issue Resolved',
                             'user_msg'          => $html_text,
                             'note'              => $note_text,
-                        ); 
-                        send_mail2($seller_email[0]['email'], 'Happycrop Order Updates - Order #HC-A'. $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
+                        );
+                        send_mail2($seller_email[0]['email'], 'Happycrop Order Updates - Order #HC-A' . $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
                     }
-                    
-                    if(isset($system_settings['support_email']) && !empty($system_settings['support_email'])) 
-                    {
+
+                    if (isset($system_settings['support_email']) && !empty($system_settings['support_email'])) {
                         $html_text  = '<p>Dear Admin';
-                        $html_text .= '<p style="margin-bottom:0px;">We would like to inform you that the issue with the recent order #HC-A'. $order_id . ' has been successfully resolved.</p>';
+                        $html_text .= '<p style="margin-bottom:0px;">We would like to inform you that the issue with the recent order #HC-A' . $order_id . ' has been successfully resolved.</p>';
                         $html_text .= '<p style="margin-bottom:0px;">Our comment on the related issue as below.</p>';
                         $html_text .= $complaint_text;
-                        
+
                         $note_text  = '<p style="margin-top:0px;">Kindly release the payment according to issue status.</p>';
-                        
+
                         $order_info = array(
-                            'subject'           => 'Order #HC-A'. $order_id . ' Issue Resolved',
+                            'subject'           => 'Order #HC-A' . $order_id . ' Issue Resolved',
                             'user_msg'          => $html_text,
                             'note'              => $note_text,
-                        ); 
-                        send_mail2($system_settings['support_email'], 'Happycrop Order Updates - Order #HC-A'. $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
+                        );
+                        send_mail2($system_settings['support_email'], 'Happycrop Order Updates - Order #HC-A' . $order_id, $this->load->view('admin/pages/view/order-email-template.php', $order_info, TRUE));
                     }
                     // $result = fetch_details(['order_id' => $order_id], 'order_bank_transfer');
                     /* Send notification */
@@ -1542,29 +1503,28 @@ class Orders extends CI_Controller
                     $this->response['data'] = (!empty($this->response['data'])) ? $this->response['data'] : [];
                     print_r(json_encode($this->response));
                 }
-                
             }
         } else {
             redirect('admin/login', 'refresh');
         }
     }
-    
+
     public function accounts()
     {
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
             $this->data['page_title'] = 'Accounts';
             $settings = get_settings('system_settings', true);
             $this->data['main_page'] = TABLES . 'manage-accounts';
-            
+
             $this->data['title'] = 'Accounts | ' . $settings['app_name'];
             $this->data['meta_description'] = 'Accounts  | ' . $settings['app_name'];
-            
+
             $this->load->view('admin/template', $this->data);
         } else {
             redirect('admin/login', 'refresh');
         }
     }
-        
+
     public function view_admin_account_orders()
     {
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
@@ -1573,17 +1533,17 @@ class Orders extends CI_Controller
             redirect('admin/login', 'refresh');
         }
     }
-    
+
     public function statements()
     {
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
             $this->data['page_title'] = 'Statements';
             $settings = get_settings('system_settings', true);
             $this->data['main_page'] = TABLES . 'manage-statements';
-            
+
             $this->data['title'] = 'Statements | ' . $settings['app_name'];
             $this->data['meta_description'] = 'Statements  | ' . $settings['app_name'];
-            
+
             $this->load->view('admin/template', $this->data);
         } else {
             redirect('admin/login', 'refresh');

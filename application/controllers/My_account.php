@@ -4757,7 +4757,7 @@ class My_account extends CI_Controller
 
         return $this->load->view('front-end/happycrop/pages/payment_receipt.php', $pdfdata);
     }
-    public function tax_invoice($order_id, $view = "")
+    public function tax_invoice($order_id, $view = "",$dchallan="")
     {
         $order = fetch_orders($order_id, NULL, false, false, 1, NULL, NULL, NULL, NULL);        
         $this->db->distinct();
@@ -4791,6 +4791,7 @@ class My_account extends CI_Controller
         $pdfdata['order'] = $order['order_data'];
         $pdfdata['getterms'] = $getterms;
         $pdfdata['view'] = $view;
+        $pdfdata['dchallan'] = $dchallan;
         $pdfdata['order_item_stages'] = $order_item_stages;
 
 

@@ -13,44 +13,37 @@
 
 <body>
     <div class="container mt-5">
-        <div class="row justify-content-center border border-black p-2" id="generatePDf">
+        <div class="row  border border-black p-2" id="generatePDf">
             <div class="col-lg-12 py-4">
                 <h2 class="text-center font-weight-bold">Payment Receipt</h2>
             </div>
-            <div class="col-lg-6 pb-2">
+            <div class="col-lg-6">
                 <div class="bg-gray-light">
                     <table class="table border-none">
-                        <tbody>
-                            <tr>
-                                <td colspan="2">
-                                    <p class="font-weight-bold p-2 m-0">Retail Shop Name</p>
+                        <p class="font-weight-bold p-2 m-0">Happycrop Name</p>
 
-                                </td>
+                        <tbody>
+                            <tr class="p-2">
+                                <td class="border-top-0 py-2 w-50 font-weight-bold">Address : -</td>
+                                <td class="border-top-0 py-2 w-50 pl-2"><?= $this->config->item('address'); ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold">Address : -</td>
-                                <td class="border-top-0 py-1 text-left pl-2"><?= $order[0]['billing_address'] ?></td>
+                                <td class="border-top-0 py-2 w-50 font-weight-bold">Contact : -</td>
+                                <td class="border-top-0 py-2 w-50 pl-2"><?= $this->config->item('mobile'); ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold">Contact : -</td>
-                                <td class="border-top-0 py-1 text-left pl-2"><?= $order[0]['mobile'] ?></td>
-                            </tr>
-                            <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold">Email : -</td>
-                                <td class="border-top-0 py-1 text-left pl-2"><?= $order[0]['email'] ?></td>
-                            </tr>
-                            <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold">GSTIN : -</td>
-                                <td class="border-top-0 py-1 text-left pl-2"><?= $order[0]['retailer_gst_no'] ?></td>
-                            </tr>
-                            <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold">State : -</td>
-                                <td class="border-top-0 py-1 text-left pl-2"><?= $order[0]['state'] ?></td>
+                                <td class="border-top-0 py-2 w-50 font-weight-bold">Email : -</td>
+                                <td class="border-top-0 py-2 w-50 pl-2"><?= $this->config->item('support'); ?></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+            <div class="col-lg-12">
+                <p class="font-weight-bold p-2 m-0">Paid To</p>
+
+            </div>
+           
             <div class="col-lg-6 pb-2">
                 <div class="bg-gray-light">
                     <table class="table border-none">
@@ -58,11 +51,10 @@
                             <tr>
                                 <td colspan="2">
                                     <p class="font-weight-bold p-2 m-0">Manufacturer/ Service Provider Name</p>
-
                                 </td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold">Name : -</td>
+                                <td class="border-top-0 py-1 text-left font-weight-bold">Company Name : -</td>
                                 <td class="border-top-0 py-1 text-left pl-2"><?= $manufacture['company_name'] ?></td>
                             </tr>
                             <tr class="p-2">
@@ -95,36 +87,6 @@
                     </table>
                 </div>
             </div>
-            <div class="col-lg-12">
-                <p class="font-weight-bold p-2 m-0">Paid To</p>
-
-            </div>
-            <div class="col-lg-6">
-                <div class="bg-gray-light">
-                    <table class="table border-none">
-                        <p class="font-weight-bold p-2 m-0">Happycrop Name</p>
-
-                        <tbody>
-                            <tr class="p-2">
-                                <td class="border-top-0 py-2 w-50 font-weight-bold">Address : -</td>
-                                <td class="border-top-0 py-2 w-50 pl-2"><?= $this->config->item('address'); ?></td>
-                            </tr>
-                            <tr class="p-2">
-                                <td class="border-top-0 py-2 w-50 font-weight-bold">Contact : -</td>
-                                <td class="border-top-0 py-2 w-50 pl-2"><?= $this->config->item('mobile'); ?></td>
-                            </tr>
-                            <tr class="p-2">
-                                <td class="border-top-0 py-2 w-50 font-weight-bold">Email : -</td>
-                                <td class="border-top-0 py-2 w-50 pl-2"><?= $this->config->item('support'); ?></td>
-                            </tr>
-                            <!-- <tr class="p-2">
-                                <td class="border-top-0 py-2 w-50 font-weight-bold">GSTIN : -</td>
-                                <td class="border-top-0 py-2 w-50 pl-2"><?= $order[0]['gstin'] ?></td>
-                            </tr> -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
             <div class="col-lg-6">
                 <div class="bg-gray-light">
                     <table class="table h-100 border-none">
@@ -152,7 +114,7 @@
                     <div class="col-lg-6 py-2">
                         <div class="form-group ">
                             <label for="receipt"> <strong>Transaction Number</strong> </label>
-                            <div class="bg-gray-light p-2 w-100"><?php echo $order[0]['order_items'][0]["transaction_id"] ?></div>
+                            <div class="bg-gray-light p-2 w-100"><?php echo $order[0]['order_items'][0]["admin_transaction_id"] ?></div>
                         </div>
                     </div>
                     <div class="col-lg-6 py-2">

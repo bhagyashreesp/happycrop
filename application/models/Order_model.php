@@ -844,9 +844,12 @@ class Order_model extends CI_Model
                 
                 $tempRow['order_status'] = $order_msg[$row['order_status']];
                 
-                $tempRow['payment_receipt'] = (file_exists($row['payment_receipt']) && $row['payment_receipt']!='') ? '<a href="'.base_url($row['payment_receipt']).'" target="_blank">View / Download</a>' : '';
-                $tempRow['invoice_receipt'] = (file_exists($row['invoice_receipt']) && $row['invoice_receipt']!='') ? '<a href="'.base_url($row['invoice_receipt']).'" target="_blank">View / Download</a>' : '';
-                $tempRow['hc_receipt'] = (file_exists($row['hc_receipt']) && $row['hc_receipt']!='') ? '<a href="'.base_url($row['hc_receipt']).'" target="_blank">View / Download</a>' : '';
+                // $tempRow['payment_receipt'] = (file_exists($row['payment_receipt']) && $row['payment_receipt']!='') ? '<a href="'.base_url($row['payment_receipt']).'" target="_blank">View / Download</a>' : '';
+                // $tempRow['invoice_receipt'] = (file_exists($row['invoice_receipt']) && $row['invoice_receipt']!='') ? '<a href="'.base_url($row['invoice_receipt']).'" target="_blank">View / Download</a>' : '';
+                // $tempRow['hc_receipt'] = (file_exists($row['hc_receipt']) && $row['hc_receipt']!='') ? '<a href="'.base_url($row['hc_receipt']).'" target="_blank">View / Download</a>' : '';
+                $tempRow['payment_receipt'] = (file_exists($row['payment_receipt']) && $row['payment_receipt']!='') ?'<a href="'.base_url("my-account/payment-receipt/").$row['id']."/view".'" target="_blank">View / Download</a>': '';
+                $tempRow['invoice_receipt'] = (file_exists($row['invoice_receipt']) && $row['invoice_receipt']!='') ?'<a href="'.base_url("my-account/tax-invoice/").$row['id']."/view".'" target="_blank">View / Download</a>' : '';
+                $tempRow['hc_receipt'] = (file_exists($row['hc_receipt']) && $row['hc_receipt']!='') ?'<a href="'.base_url("seller/orders/paymentreceipt/").$row['id']."/view".'" target="_blank">View / Download</a>' : '';
                 
                 /*
                 $tempRow['color_state'] = '';
@@ -1275,10 +1278,13 @@ class Order_model extends CI_Model
                 }
                 
                 $tempRow['order_status'] = $order_msg[$row['order_status']];
-                
-                $tempRow['payment_receipt'] = (file_exists($row['payment_receipt']) && $row['payment_receipt']!='') ? '<a href="'.base_url($row['payment_receipt']).'" target="_blank">View / Download</a>' : '';
-                $tempRow['invoice_receipt'] = (file_exists($row['invoice_receipt']) && $row['invoice_receipt']!='') ? '<a href="'.base_url($row['invoice_receipt']).'" target="_blank">View / Download</a>' : '';
-                $tempRow['hc_receipt'] = (file_exists($row['hc_receipt']) && $row['hc_receipt']!='') ? '<a href="'.base_url($row['hc_receipt']).'" target="_blank">View / Download</a>' : '';
+             
+                // $tempRow['payment_receipt'] = (file_exists($row['payment_receipt']) && $row['payment_receipt']!='') ? '<a href="'.base_url($row['payment_receipt']).'" target="_blank">View / Download</a>' : '';
+                // $tempRow['invoice_receipt'] = (file_exists($row['invoice_receipt']) && $row['invoice_receipt']!='') ? '<a href="'.base_url($row['invoice_receipt']).'" target="_blank">View / Download</a>' : '';
+                // $tempRow['hc_receipt'] = (file_exists($row['hc_receipt']) && $row['hc_receipt']!='') ? '<a href="'.base_url($row['hc_receipt']).'" target="_blank">View / Download</a>' : '';
+                $tempRow['payment_receipt'] = (file_exists($row['payment_receipt']) && $row['payment_receipt']!='') ?'<a href="'.base_url("my-account/payment-receipt/").$row['id']."/view".'" target="_blank">View / Download</a>': '';
+                $tempRow['invoice_receipt'] = (file_exists($row['invoice_receipt']) && $row['invoice_receipt']!='') ?'<a href="'.base_url("my-account/tax-invoice/").$row['id']."/view".'" target="_blank">View / Download</a>' : '';
+                $tempRow['hc_receipt'] = (file_exists($row['hc_receipt']) && $row['hc_receipt']!='') ?'<a href="'.base_url("seller/orders/paymentreceipt/").$row['id']."/view".'" target="_blank">View / Download</a>' : '';
                 
                 
                 /*$tempRow['color_state'] = '';
@@ -1629,9 +1635,12 @@ class Order_model extends CI_Model
                 $tempRow['last_updated']   = ($row['last_updated']!=null) ? date('d-m-Y', strtotime($row['last_updated'])) : '';
                 
                 
-                $tempRow['payment_receipt'] = (file_exists($row['retailer_pay_confirm']) && $row['retailer_pay_confirm']!='') ? '<a href="'.base_url($row['retailer_pay_confirm']).'" target="_blank">View / Download</a>' : '';
-                $tempRow['invoice_receipt'] = (file_exists($row['retailer_invoice']) && $row['retailer_invoice']!='') ? '<a href="'.base_url($row['retailer_invoice']).'" target="_blank">View / Download</a>' : '';
+                // $tempRow['payment_receipt'] = (file_exists($row['retailer_pay_confirm']) && $row['retailer_pay_confirm']!='') ? '<a href="'.base_url($row['retailer_pay_confirm']).'" target="_blank">View / Download</a>' : '';
+                // $tempRow['invoice_receipt'] = (file_exists($row['retailer_invoice']) && $row['retailer_invoice']!='') ? '<a href="'.base_url($row['retailer_invoice']).'" target="_blank">View / Download</a>' : '';
                 
+                $tempRow['payment_receipt'] = (file_exists($row['retailer_pay_confirm']) && $row['retailer_pay_confirm']!='') ?'<a href="'.base_url("my-account/payment-receipt/").$row['id']."/view".'" target="_blank">View / Download</a>': '';
+                $tempRow['invoice_receipt'] = (file_exists($row['retailer_invoice']) && $row['retailer_invoice']!='') ?'<a href="'.base_url("my-account/tax-invoice/").$row['id']."/view".'" target="_blank">View / Download</a>' : '';
+               
                 $this->db->select('id');
                 $this->db->from('order_item_stages');
                 $this->db->where('status', 'issue_resolved');
@@ -4303,6 +4312,7 @@ class Order_model extends CI_Model
                 }
                 
                 $update_item_data = array('active_status'=>'send_mfg_payment_ack','status'=>json_encode($status));
+                $update_item_data["admin_transaction_id"] = $data["transaction_id"];
                 update_details($update_item_data,['id'=>$order_item_info['id']],'order_items');
                      
             }

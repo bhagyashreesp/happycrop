@@ -1074,7 +1074,7 @@
                                                                 <?php } else if ($order_item_stage['status'] == 'shipped') { ?>
                                                                     <p>Your order shipped by manufacturer.</p>
                                                                 <?php } else if ($order_item_stage['status'] == 'send_invoice') { ?>
-                                                                    
+
                                                                     <h3 class="tmln-title">Order is in transit, E-way bill and invoices received from manufacturer. <small class="float-right font-weight-normal"><?php echo date('d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
                                                                     <div class="btn-group">
                                                                         <?php
@@ -1127,9 +1127,9 @@
                                                                             }
                                                                         }
                                                                         ?>
-                                                                         <div class="form-group mb-0 col-md-2">
-                                                                        <a href="<?php echo base_url('my-account/tax-invoice/').$order_item_stage['order_id']."/view" ?>" target="_blank" type="button" class="btn btn-primary btn-sm btn-block" >View Invoice</a>
-                                                                    </div>
+                                                                        <div class="form-group mb-0 col-md-2">
+                                                                            <a href="<?php echo base_url('my-account/tax-invoice/') . $order_item_stage['order_id'] . "/view" ?>" target="_blank" type="button" class="btn btn-primary btn-sm btn-block">View Invoice</a>
+                                                                        </div>
                                                                     </div>
                                                                     <p class="">Note - Please make sure timely unloading of material.</p>
 
@@ -1382,6 +1382,9 @@
                                         </small>
                                     <?php } else { ?>
                                         <h3 class="tmln-title">Your order delivered successfully. <small class="float-right font-weight-normal"><?php echo date('d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                        <div class="form-group mb-0 col-md-2">
+                                            <a href="<?php echo base_url('my-account/tax-invoice/') . $order_item_stage['order_id'] . "/view/1" ?>" target="_blank" type="button" class="btn btn-primary btn-sm btn-block">View Delivery Challan</a>
+                                        </div>
                                         <small>
                                             <ul>
                                                 <li>- Delivery status shared with Happycrop & manufacturer.</li>
@@ -2083,7 +2086,7 @@
                             <div class="form-group col-md-6">
                                 <label class="btn btn-primary btn-sm btn-block " for="receipt">Upload Transaction Receipt</label>
                                 <div class="custom-file-input mb-2"><!--  style="margin-top: -30px;" -->
-                                    <input type="file" class="form-control" name="attachments[]" id="receipt" style="padding:0px;min-height: 28px;"  onchange="$('#f1_text').html(this.value.replace('C:\\fakepath\\', ''));" /><!-- multiple-->
+                                    <input type="file" class="form-control" name="attachments[]" id="receipt" style="padding:0px;min-height: 28px;" onchange="$('#f1_text').html(this.value.replace('C:\\fakepath\\', ''));" /><!-- multiple-->
                                 </div>
                                 <p class=""><span id="f1_text"></span></p>
                             </div>
@@ -2093,9 +2096,9 @@
                                 <?php } else { ?>
                                     <input type="hidden" name="order_item_id" value="<?= $order_item_stage['order_item_id'] ?>">
 
-                                    <?php } ?>
-                                    <input type="hidden" name="order_id" value="<?= $order_item_stage['order_id'] ?>">
-                                    <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit_btn">Send</button>
+                                <?php } ?>
+                                <input type="hidden" name="order_id" value="<?= $order_item_stage['order_id'] ?>">
+                                <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit_btn">Send</button>
                             </div>
                         </div>
                     </form>

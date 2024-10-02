@@ -72,64 +72,90 @@
                     </div>
                 </div>
                 <style>
-                .shadow{box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;}
-                .h5, h5 {font-size: 1.0rem;font-family: Poppins,sans-serif;}
-                h6 {font-size: 0.9rem !important;font-family: Poppins,sans-serif;}
-                .act_state {text-align: center;}
-                .billing-info span{font-size: 13px;font-family: Poppins,sans-serif;}
-                .orange_msg{background: #FFD580;display: inline-block;padding: 2px 10px;font-weight: 600;color: #555;border-radius: 5px;}
+                    .shadow {
+                        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+                    }
+
+                    .h5,
+                    h5 {
+                        font-size: 1.0rem;
+                        font-family: Poppins, sans-serif;
+                    }
+
+                    h6 {
+                        font-size: 0.9rem !important;
+                        font-family: Poppins, sans-serif;
+                    }
+
+                    .act_state {
+                        text-align: center;
+                    }
+
+                    .billing-info span {
+                        font-size: 13px;
+                        font-family: Poppins, sans-serif;
+                    }
+
+                    .orange_msg {
+                        background: #FFD580;
+                        display: inline-block;
+                        padding: 2px 10px;
+                        font-weight: 600;
+                        color: #555;
+                        border-radius: 5px;
+                    }
                 </style>
-                
+
                 <div class="col-md-12 ">
                     <input type="hidden" name="hidden" id="order_id" value="<?php echo $order_detls[0]['id']; ?>">
-                    <h5 class=" font-weight-bold">Order ID: <?php echo 'HC-A'.$order_detls[0]['id']; ?>  - Order Date: <?php echo date('d-M-Y', strtotime($order_detls[0]['date_added'])); ?></h5>
+                    <h5 class=" font-weight-bold">Order ID: <?php echo 'HC-A' . $order_detls[0]['id']; ?> - Order Date: <?php echo date('d-M-Y', strtotime($order_detls[0]['date_added'])); ?></h5>
                 </div>
-                
+
                 <div class="col-md-12 ">
                     <div class="shadow billing-info p-3 mb-3 bg-white rounded">
                         <h6 class="h5 font-weight-bold"><?= !empty($this->lang->line('retailer_details')) ? $this->lang->line('retailer_details') : 'Retailer Details' ?></h6>
-                        <hr/>
+                        <hr />
                         <div class="row">
                             <div class="col-md-4">
                                 <h6 class="h6 font-weight-bold">Billing Details</h6>
-                                <span>Retailer ID- <?= "HCR".str_pad($order_detls[0]['ret_no'],5,"0",STR_PAD_LEFT) ?></span> <br/>
-                                <span>Retailer Name- <?= $order_detls[0]['company_name'] ?></span> <br/>
-                                <span>Address- <?= $order_detls[0]['billing_address'] ?></span> <br/>
-                                <span>GSTIN- <?= $order_detls[0]['r_gst_no'] ?></span> <br/>
-                                <span>Contact No.- <?= $order_detls[0]['mobile'] ?></span> <br/>    
+                                <span>Retailer ID- <?= "HCR" . str_pad($order_detls[0]['ret_no'], 5, "0", STR_PAD_LEFT) ?></span> <br />
+                                <span>Retailer Name- <?= $order_detls[0]['company_name'] ?></span> <br />
+                                <span>Address- <?= $order_detls[0]['billing_address'] ?></span> <br />
+                                <span>GSTIN- <?= $order_detls[0]['r_gst_no'] ?></span> <br />
+                                <span>Contact No.- <?= $order_detls[0]['mobile'] ?></span> <br />
                             </div>
                             <div class="col-md-4">
                                 <h6 class="h6 font-weight-bold">License Details</h6>
-                                <span>Fertilizer License No- <?= $order_detls[0]['fertilizer_license_no'] ?></span> <br/>
-                                <span>Pesticide License No- <?= $order_detls[0]['pesticide_license_no'] ?></span> <br/>
-                                <span>Seeds License No- <?= $order_detls[0]['seeds_license_no'] ?></span> <br/>
+                                <span>Fertilizer License No- <?= $order_detls[0]['fertilizer_license_no'] ?></span> <br />
+                                <span>Pesticide License No- <?= $order_detls[0]['pesticide_license_no'] ?></span> <br />
+                                <span>Seeds License No- <?= $order_detls[0]['seeds_license_no'] ?></span> <br />
                             </div>
                             <div class="col-md-4">
                                 <h6 class="h6 font-weight-bold">Shipping Details</h6>
-                                <span>Retailer Name- <?= $order_detls[0]['company_name'] ?></span> <br/>
-                                <span>Address- <?= $order_detls[0]['address'] ?></span> <br/>
-                                <span>Contact No.- <?= $order_detls[0]['mobile'] ?></span> <br/>    
+                                <span>Retailer Name- <?= $order_detls[0]['company_name'] ?></span> <br />
+                                <span>Address- <?= $order_detls[0]['address'] ?></span> <br />
+                                <span>Contact No.- <?= $order_detls[0]['mobile'] ?></span> <br />
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-md-12">
                     <div class="shadow billing-info p-3 mb-3 bg-white rounded">
                         <h6 class="h5 font-weight-bold">Manufacturer Details</h6>
-                        <hr/>
+                        <hr />
                         <?php
-                        
+
                         $this->db->distinct();
                         $this->db->select('a.seller_id, b.username, b.mfg_no, b.mobile, b.email, c.company_name, c.gst_no, c.fertilizer_license_no, c.pesticide_license_no, c.seeds_license_no, c.account_name, c.account_number, c.bank_name, c.bank_code, c.bank_city, c.bank_branch, c.bank_state, c.plot_no, c.street_locality, c.landmark, cc.name, city, s.name as state, c.pin');
                         $this->db->from('order_items as a');
-                        $this->db->join('users as b','a.seller_id = b.id','left');
-                        $this->db->join('seller_data as c','a.seller_id = c.user_id','left');
-                        $this->db->join('states as s','c.state_id = s.id','left');
-                        $this->db->join('cities as cc','c.city_id = cc.id','left');
+                        $this->db->join('users as b', 'a.seller_id = b.id', 'left');
+                        $this->db->join('seller_data as c', 'a.seller_id = c.user_id', 'left');
+                        $this->db->join('states as s', 'c.state_id = s.id', 'left');
+                        $this->db->join('cities as cc', 'c.city_id = cc.id', 'left');
                         $this->db->where('a.order_id', $order_detls[0]['id']);
                         $query = $this->db->get();
-                        
+
                         $manufacture = $query->row_array();
                         ?>
                         <div class="row mb-2">
@@ -139,33 +165,33 @@
                                 <!--<span>Name: <?= $manufacture['username'] ?></span> <br/>-->
                                 <?php */ ?>
                                 <h6 class="h6 font-weight-bold">Company Name: <?= $manufacture['company_name'] ?></h6>
-                                <h6 class="h6 font-weight-bold">ID: <?= "HCM".str_pad($manufacture['mfg_no'],4,"0",STR_PAD_LEFT) ?></h6> 
+                                <h6 class="h6 font-weight-bold">ID: <?= "HCM" . str_pad($manufacture['mfg_no'], 4, "0", STR_PAD_LEFT) ?></h6>
                                 <?php /* ?>
                                 <!--<span class="font-weight-bold">Email: <?= $manufacture['email'] ?></span><br/>-->
                                 <?php */ ?>
-                                <span class="">Address: <?= $manufacture['plot_no'].' '.$manufacture['street_locality'].' '.$manufacture['landmark'].' '.$manufacture['city'].' '.$manufacture['state'].' '.$manufacture['pin'] ?></span><br/>
-                                <span class="">GST No.: <?= $manufacture['gst_no'] ?></span> <br/>
+                                <span class="">Address: <?= $manufacture['plot_no'] . ' ' . $manufacture['street_locality'] . ' ' . $manufacture['landmark'] . ' ' . $manufacture['city'] . ' ' . $manufacture['state'] . ' ' . $manufacture['pin'] ?></span><br />
+                                <span class="">GST No.: <?= $manufacture['gst_no'] ?></span> <br />
                                 <?php /* ?>
                                 <span class="font-weight-bold">Contact No.: <?= $manufacture['mobile'] ?></span> <br/>
                                 <?php */ ?>
                             </div>
                             <div class="col-md-4">
                                 <h6 class="h6 font-weight-bold">License Details</h6>
-                                <span>Fertilizer License No: <?= $manufacture['fertilizer_license_no'] ?></span> <br/>
-                                <span>Pesticides License No: <?= $manufacture['pesticide_license_no'] ?></span> <br/>
-                                <span>Seeds License No: <?= $manufacture['seeds_license_no'] ?></span> <br/>
+                                <span>Fertilizer License No: <?= $manufacture['fertilizer_license_no'] ?></span> <br />
+                                <span>Pesticides License No: <?= $manufacture['pesticide_license_no'] ?></span> <br />
+                                <span>Seeds License No: <?= $manufacture['seeds_license_no'] ?></span> <br />
                             </div>
                             <div class="col-md-4">
                                 <h6 class="h6 font-weight-bold">Bank Details</h6>
-                                <span>Acct Name: <?= $manufacture['company_name'] ?></span> <br/>
-                                <span>Acct No: <?= $manufacture['account_number'] ?></span> <br/>
-                                <span>Bank Name: <?= $manufacture['bank_name'] ?></span> <br/>
-                                <span>Bank IFSC: <?= $manufacture['bank_code'] ?></span> <br/>
+                                <span>Acct Name: <?= $manufacture['company_name'] ?></span> <br />
+                                <span>Acct No: <?= $manufacture['account_number'] ?></span> <br />
+                                <span>Bank Name: <?= $manufacture['bank_name'] ?></span> <br />
+                                <span>Bank IFSC: <?= $manufacture['bank_code'] ?></span> <br />
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-md-12 ">
                     <div class="shadow p-3 mb-3 bg-white rounded">
                         <?php /* ?>
@@ -232,20 +258,20 @@
                             $i = 0;
                             $service_total = 0;
                             foreach ($items as $item) {
-                                
-                                
+
+
                                 $selected = "";
-                                
+
                                 /*if($item['active_status'] !='cancelled')
                                 {*/
-                                    $item['discounted_price'] = ($item['discounted_price'] == '') ? 0 : $item['discounted_price'];
-                                    $total += $subtotal = ($item['quantity'] != 0 && ($item['discounted_price'] != '' && $item['discounted_price'] > 0) && $item['price'] > $item['discounted_price']) ? ($item['price'] - $item['discounted_price']) : ($item['price'] * $item['quantity']);
-                                    $tax_amount += $item['tax_amount'];
-                                    $total += $subtotal = $tax_amount;
+                                $item['discounted_price'] = ($item['discounted_price'] == '') ? 0 : $item['discounted_price'];
+                                $total += $subtotal = ($item['quantity'] != 0 && ($item['discounted_price'] != '' && $item['discounted_price'] > 0) && $item['price'] > $item['discounted_price']) ? ($item['price'] - $item['discounted_price']) : ($item['price'] * $item['quantity']);
+                                $tax_amount += $item['tax_amount'];
+                                $total += $subtotal = $tax_amount;
                                 //}
-                                
-                                ?>
-                                <tr id="row_<?php echo $item['id'];?>">
+
+                            ?>
+                                <tr id="row_<?php echo $item['id']; ?>">
                                     <?php /* ?>
                                     <td class="check_<?php echo $item['id'];?>">
                                         <?php 
@@ -258,28 +284,32 @@
                                         ?>
                                     </td>
                                     <?php */ ?>
-                                    <td><p><?= $item['pname'] ?><span style="font-size:10px;font-weight: 500;"><?php echo ($item['mfg_date']!=null) ? '<br/>MFG Dt: '.date('d/m/Y',strtotime($item['mfg_date'])) : '';?><?php echo ($item['exp_date']!=null) ? '&nbsp;&nbsp; EXP Dt: '.date('d/m/Y',strtotime($item['exp_date'])) : '';?><?php echo ($item['batch_no']!=null) ? '<br/>Batch No: '.$item['batch_no'] : '';?></span></p></td>
                                     <td>
-                                        <?php //echo $item['packing_size'].' '.$item['unit']; echo ($item['carton_qty'] > 1) ? ' &#x2715; '.$item['carton_qty'] : '&#x2715; 1'; ?>
-                                        <?php 
-                                        $packing_size = ($item['packing_size']!='') ? $item['packing_size'] : $item['pv_packing_size'];
-                                        $unit = ($item['unit']!='') ? $item['unit'] : $item['pv_unit'];
+                                        <p><?= $item['pname'] ?><span style="font-size:10px;font-weight: 500;"><?php echo ($item['mfg_date'] != null) ? '<br/>MFG Dt: ' . date('d/m/Y', strtotime($item['mfg_date'])) : ''; ?><?php echo ($item['exp_date'] != null) ? '&nbsp;&nbsp; EXP Dt: ' . date('d/m/Y', strtotime($item['exp_date'])) : ''; ?><?php echo ($item['batch_no'] != null) ? '<br/>Batch No: ' . $item['batch_no'] : ''; ?></span></p>
+                                    </td>
+                                    <td>
+                                        <?php //echo $item['packing_size'].' '.$item['unit']; echo ($item['carton_qty'] > 1) ? ' &#x2715; '.$item['carton_qty'] : '&#x2715; 1'; 
+                                        ?>
+                                        <?php
+                                        $packing_size = ($item['packing_size'] != '') ? $item['packing_size'] : $item['pv_packing_size'];
+                                        $unit = ($item['unit'] != '') ? $item['unit'] : $item['pv_unit'];
                                         $car_qty = ($item['carton_qty']) ? $item['carton_qty'] : $item['pv_carton_qty'];
-                                        echo $packing_size.' '.$unit; echo ($car_qty > 1) ? ' &#x2715; '.$car_qty : ' &#x2715; 1'; 
+                                        echo $packing_size . ' ' . $unit;
+                                        echo ($car_qty > 1) ? ' &#x2715; ' . $car_qty : ' &#x2715; 1';
                                         ?>
                                     </td>
                                     <td>
-                                        <?php if($item['active_status'] !='cancelled' && $item['active_status'] !='delivered' ) { ?>
-                                        <div class="input-group">
-                                            <?= $item['quantity'] ?>
-                                            <?php /* ?>
+                                        <?php if ($item['active_status'] != 'cancelled' && $item['active_status'] != 'delivered') { ?>
+                                            <div class="input-group">
+                                                <?= $item['quantity'] ?>
+                                                <?php /* ?>
                                             <input type="hidden" id="quantity_<?= $i ?>" name="quantity_<?= $i ?>" value="<?= $item['quantity'] ?>" style="width: 80px;" onkeyup="calPrice(this.value, <?= $item['price'] + $item['tax_amount'] ?>, <?php echo $i; ?>)" data-order-id="<?php echo $order_detls[0]['id'];?>" data-order-item-id="<?php echo $item['id']; ?>" />
                                             <input type="hidden" name="order_item_ids[]" value="<?php echo $item['id']; ?>" />
                                             <?php */ ?>
-                                        </div>
+                                            </div>
                                         <?php } else { ?>
-                                        <?= $item['quantity'] ?>
-                                        <?php /* ?>
+                                            <?= $item['quantity'] ?>
+                                            <?php /* ?>
                                         <input type="hidden" id="quantity_<?= $i ?>" name="quantity_<?= $i ?>" value="<?= $item['quantity'] ?>" style="width: 80px;" readonly=""/>
                                         <?php */ ?>
                                         <?php } ?>
@@ -293,8 +323,10 @@
                                             <span class="input-group-text" style="font-size: 12px;"><?php echo $item['unit']; ?></span>
                                         </div>
                                         <?php */ ?>
-                                        <?php //echo ($item['packing_size']*$item['carton_qty']*$item['quantity']);?> <?php //echo $item['unit']; ?>
-                                        <?php echo $packing_size*$car_qty*$item['quantity']. ' '.$unit; ?>
+                                        <?php //echo ($item['packing_size']*$item['carton_qty']*$item['quantity']);
+                                        ?> <?php //echo $item['unit']; 
+                                            ?>
+                                        <?php echo $packing_size * $car_qty * $item['quantity'] . ' ' . $unit; ?>
                                     </td>
                                     <td><?php echo $item['tax_percentage']; ?></td>
                                     <td>
@@ -315,7 +347,7 @@
                                         <?php */ ?>
                                         <?= $item['price'] + $item['tax_amount'] ?>
                                     </td>
-                                    
+
                                     <td>
                                         <?php /* ?>
                                         <input class="<?php echo ($item['active_status'] !='cancelled') ? 'sub_total' : ''; ?>" type="text" id="sub_total_<?= $i ?>" name="sub_total_<?= $i ?>" value="<?= $item['price'] * $item['quantity'] ?>" style="width: 120px;" readonly="" />
@@ -325,13 +357,12 @@
                                     <td>
                                         <?php
                                         $service_charges = 0;
-                                        if(round($item['special_price_per_item']) > 0)
-                                        {
-                                            $service_charges = ((($item['mrp']) - ($item['special_price_per_item']* $car_qty)) * $item['quantity'])*10/100;
+                                        if (round($item['special_price_per_item']) > 0) {
+                                            $service_charges = ((($item['mrp']) - ($item['special_price_per_item'] * $car_qty)) * $item['quantity']) * 10 / 100;
                                             $service_total += $service_charges;
                                         }
                                         ?>
-                                        <input type="hidden" id="special_price_per_item_<?= $i ?>" value="<?php echo $item['special_price_per_item'];?>" />
+                                        <input type="hidden" id="special_price_per_item_<?= $i ?>" value="<?php echo $item['special_price_per_item']; ?>" />
                                         <?php echo $service_charges; ?>
                                     </td>
                                     <?php /* ?>
@@ -451,7 +482,7 @@
                                     </td>
                                     <?php */ ?>
                                 </tr>
-                                <?php
+                            <?php
                                 $i++;
                             }
                             ?>
@@ -470,10 +501,16 @@
                             </tr>
                         </table>
                         <style>
-                        .table.table-borderless td, .table.table-borderless th {padding: .5rem;}
-                        .table-borderless tr {border-bottom: 1px solid #dee2e6;}
+                            .table.table-borderless td,
+                            .table.table-borderless th {
+                                padding: .5rem;
+                            }
+
+                            .table-borderless tr {
+                                border-bottom: 1px solid #dee2e6;
+                            }
                         </style>
-                        <div class="row">               
+                        <div class="row">
                             <div class="col-md-12">
                                 <div class="bg-white rounded">
                                     <h6 class="h4 font-weight-bold">Payable Balance Details</h6>
@@ -482,15 +519,15 @@
                                             <tbody>
                                                 <tr>
                                                     <td>Total amount receivable from retailer (Invoice value)</td>
-                                                    <td width="21%"><?php echo $total;?></td>
+                                                    <td width="21%"><?php echo $total; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Total Happycrop service charges</td>
-                                                    <td><?php echo $service_total;?></td>
+                                                    <td><?php echo $service_total; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th>Total Payable Amount (inc GST)</th>
-                                                    <th><?php echo $total-$service_total;?></th>
+                                                    <th><?php echo $total - $service_total; ?></th>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -595,64 +632,61 @@
                             </div>
                         </div>
                         <?php */ ?>
-                        
+
                     </div>
                 </div>
                 <div class="card-body">
                     <?php
-                    if($order_detls[0]['is_service_category'])
-                    {
+                    if ($order_detls[0]['is_service_category']) {
                         $order = $order_detls[0];
                         $order_id = $order['id'];
-                        
-                        $state_array = array('received','qty_update', 'schedule_delivery', 'shipped', 'send_mfg_payment_ack', 'send_mfg_payment_confirmation','issue_resolved');
-                        
+
+                        $state_array = array('received', 'qty_update', 'schedule_delivery', 'shipped', 'send_mfg_payment_ack', 'send_mfg_payment_confirmation', 'issue_resolved');
+
                         $this->db->select('a.*, b.active_status, b.product_name, b.schedule_delivery_date');
                         $this->db->from('order_item_stages as a');
-                        $this->db->join('order_items as b','a.order_item_id = b.id','left');
-                        $this->db->where('a.order_id',$order_id);
+                        $this->db->join('order_items as b', 'a.order_item_id = b.id', 'left');
+                        $this->db->where('a.order_id', $order_id);
                         $this->db->where_not_in('a.status', $state_array);
                         $query = $this->db->get();
                         $order_item_stages = $query->result_array();
-                        
-                        ?>
+
+                    ?>
                         <div class="row">
                             <div class="col-md-12 ">
                                 <div class="shadow w-90 p-3 mb-5 bg-white rounded">
                                     <h6 class="h4">Order Stages Details</h6>
-                                    <hr/>
+                                    <hr />
                                     <div class="tmln">
                                         <div class="tmln-outer">
                                             <div class="tmln-card">
                                                 <div class="tmln-info">
-                                                    <h3 class="tmln-title">Order placed. <small class="float-right font-weight-normal"><?php echo date('d M Y h:i A',strtotime($order['date_added'])); ?></small></h3>
+                                                    <h3 class="tmln-title">Order placed. <small class="float-right font-weight-normal"><?php echo date('d M Y h:i A', strtotime($order['date_added'])); ?></small></h3>
                                                 </div>
                                             </div>
-                                            
+
                                             <?php
-                                            
-                                            if($order_item_stages)
-                                            {
+
+                                            if ($order_item_stages) {
                                                 $s_count = 0;
-                                                foreach($order_item_stages as $order_item_stage)
-                                                {
+                                                foreach ($order_item_stages as $order_item_stage) {
                                                     $s_count++;
-                                                    ?>
+                                            ?>
                                                     <div class="tmln-card">
                                                         <div class="tmln-info">
                                                             <?php
-                                                            if($order_item_stage['status']=='service_completed') { ?>  
-                                                            <h3 class="tmln-title">Service completed. <small class="float-right font-weight-normal"><?php echo date('d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
-                                                            <small>
-                                                                <ul>
-                                                                    <li>Status shared with Happycrop and manufacturer.</li>
-                                                                    <li>Service completed.</li>
-                                                                </ul>
-                                                            </small>   
+                                                            if ($order_item_stage['status'] == 'service_completed') { ?>
+                                                                <h3 class="tmln-title">Service completed. <small class="float-right font-weight-normal"><?php echo date('d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                                <small>
+                                                                    <ul>
+                                                                        <li>Status shared with Happycrop and manufacturer.</li>
+                                                                        <li>Service completed.</li>
+                                                                    </ul>
+                                                                </small>
                                                             <?php }  ?>
                                                         </div>
                                                     </div>
-                                                    <?php
+                                            <?php
                                                 }
                                             }
                                             ?>
@@ -660,36 +694,34 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>                      
-                        <?php
-                        
-                    }
-                    else
-                    {
-                    $order_id = $order_detls[0]['id'];
-                    
-                    $state_array = array('received','qty_update', 'schedule_delivery', 'payment_demand', 'shipped');//
-                    
-                    /*if($order_detls[0]['oi_active_status'] == 'schedule_delivery')
+                        </div>
+                    <?php
+
+                    } else {
+                        $order_id = $order_detls[0]['id'];
+
+                        $state_array = array('received', 'qty_update', 'schedule_delivery', 'payment_demand', 'shipped'); //
+
+                        /*if($order_detls[0]['oi_active_status'] == 'schedule_delivery')
                     {
                         $state_array = array('received','qty_update', 'payment_demand', 'shipped');//
                     }
-                    else*/ if($order_detls[0]['oi_active_status'] == 'payment_demand')
-                    {
-                        $state_array = array('received','qty_update', 'schedule_delivery', 'shipped');//
-                    }
-                    
-                    $this->db->select('a.*, b.active_status, b.product_name, b.schedule_delivery_date');
-                    $this->db->from('order_item_stages as a');
-                    $this->db->join('order_items as b','a.order_item_id = b.id','left');
-                    $this->db->where('a.order_id',$order_id);
-                    //$this->db->where('a.status !=', 'received');
-                    $this->db->where_not_in('a.status', $state_array);
-                    $query = $this->db->get();
-                    $order_item_stages = $query->result_array();
-                    //echo $this->db->last_query();
-                    
-                        ?>
+                    else*/
+                        if ($order_detls[0]['oi_active_status'] == 'payment_demand') {
+                            $state_array = array('received', 'qty_update', 'schedule_delivery', 'shipped'); //
+                        }
+
+                        $this->db->select('a.*, b.active_status, b.product_name, b.schedule_delivery_date');
+                        $this->db->from('order_item_stages as a');
+                        $this->db->join('order_items as b', 'a.order_item_id = b.id', 'left');
+                        $this->db->where('a.order_id', $order_id);
+                        //$this->db->where('a.status !=', 'received');
+                        $this->db->where_not_in('a.status', $state_array);
+                        $query = $this->db->get();
+                        $order_item_stages = $query->result_array();
+                        //echo $this->db->last_query();
+
+                    ?>
                         <div class="row">
                             <div class="col-md-12 ">
                                 <div class="shadow p-3 mb-5 bg-white rounded">
@@ -709,16 +741,16 @@
                                         </div>
                                     </div>
                                     <?php ?>
-                                    <hr/>
+                                    <hr />
                                     <div class="tmln">
                                         <div class="tmln-outer">
                                             <div class="tmln-card">
                                                 <div class="tmln-info">
-                                                    <h3 class="tmln-title mb-0">Order placed.  <small class="float-right"><?php echo date('l d M Y h:i A',strtotime($order_detls[0]['date_added'])); ?></small></h3>
+                                                    <h3 class="tmln-title mb-0">Order placed. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_detls[0]['date_added'])); ?></small></h3>
                                                     <small class="mb-0">- Waiting for updates from manufacturer.</small>
                                                 </div>
                                             </div>
-                                            
+
                                             <?php
                                             /*if($order_detls[0]['oi_active_status']=='received')
                                             {
@@ -747,137 +779,122 @@
                                             }*/
                                             ?>
                                             <?php
-                                            $_count = 0; 
-                                            if($order_item_stages)
-                                            {
-                                            foreach($order_item_stages as $order_item_stage)
-                                            {
-                                                $_count++;
-                                                ?>
-                                                <div class="tmln-card">
-                                                    <div class="tmln-info">
-                                                        <!--<h3 class="tmln-title"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></h3>-->
-                                                        <?php if($order_item_stage['status']=='qty_update') { ?> 
-                                                        <?php
-                                                        if((int)$order_item_stage['order_item_id']!=0)
-                                                        {
-                                                            ?>
-                                                            <p><span class="stage_prod_name"><?php echo $order_item_stage['product_name']; ?></span> Quantity updated and approval request sent to retailer.</p>
-                                                            <?php
-                                                        }
-                                                        else
-                                                        {
-                                                            $order_item_ids = array();
-                                                            $order_item_ids = explode(',',$order_item_stage['ids']);
-                                                            
-                                                            $this->db->select('a.*');
-                                                            $this->db->from('order_items as a');
-                                                            $this->db->where_in('a.id', $order_item_ids);
-                                                            $query = $this->db->get();
-                                                            
-                                                            $order_items_rows = $query->result_array();
-                                                            
-                                                            if($order_items_rows)
-                                                            {
-                                                                ?>
-                                                                <p>
+                                            $_count = 0;
+                                            if ($order_item_stages) {
+                                                foreach ($order_item_stages as $order_item_stage) {
+                                                    $_count++;
+                                            ?>
+                                                    <div class="tmln-card">
+                                                        <div class="tmln-info">
+                                                            <!--<h3 class="tmln-title"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></h3>-->
+                                                            <?php if ($order_item_stage['status'] == 'qty_update') { ?>
                                                                 <?php
-                                                                $pr = 0;
-                                                                foreach($order_items_rows as $order_items_row)
-                                                                {
-                                                                    ?>
-                                                                    <span class="stage_prod_name"><?php echo $order_items_row['product_name']; ?></span> 
+                                                                if ((int)$order_item_stage['order_item_id'] != 0) {
+                                                                ?>
+                                                                    <p><span class="stage_prod_name"><?php echo $order_item_stage['product_name']; ?></span> Quantity updated and approval request sent to retailer.</p>
                                                                     <?php
-                                                                    $pr++;
-                                                                    if($pr < count($order_items_rows))
-                                                                    {
-                                                                        echo ", ";
+                                                                } else {
+                                                                    $order_item_ids = array();
+                                                                    $order_item_ids = explode(',', $order_item_stage['ids']);
+
+                                                                    $this->db->select('a.*');
+                                                                    $this->db->from('order_items as a');
+                                                                    $this->db->where_in('a.id', $order_item_ids);
+                                                                    $query = $this->db->get();
+
+                                                                    $order_items_rows = $query->result_array();
+
+                                                                    if ($order_items_rows) {
+                                                                    ?>
+                                                                        <p>
+                                                                            <?php
+                                                                            $pr = 0;
+                                                                            foreach ($order_items_rows as $order_items_row) {
+                                                                            ?>
+                                                                                <span class="stage_prod_name"><?php echo $order_items_row['product_name']; ?></span>
+                                                                            <?php
+                                                                                $pr++;
+                                                                                if ($pr < count($order_items_rows)) {
+                                                                                    echo ", ";
+                                                                                }
+                                                                            }
+                                                                            ?>
+                                                                            Quantity updated and approval request sent to retailer.
+                                                                        </p>
+                                                                <?php
                                                                     }
                                                                 }
                                                                 ?>
-                                                                Quantity updated and approval request sent to retailer.
-                                                                </p>
+                                                            <?php } else if ($order_item_stage['status'] == 'qty_approved') { ?>
                                                                 <?php
-                                                            }
-                                                        }
-                                                        ?>
-                                                        <?php } else if($order_item_stage['status']=='qty_approved') { ?>
-                                                        <?php
-                                                        if((int)$order_item_stage['order_item_id']!=0)
-                                                        {
-                                                            ?>
-                                                            <p><span class="stage_prod_name"><?php echo $order_item_stage['product_name']; ?></span> Quantity approval accepted by retailer.</p>
-                                                            <?php
-                                                        }
-                                                        else
-                                                        {
-                                                            $order_item_ids = array();
-                                                            $order_item_ids = explode(',',$order_item_stage['ids']);
-                                                            
-                                                            $this->db->select('a.*');
-                                                            $this->db->from('order_items as a');
-                                                            $this->db->where_in('a.id', $order_item_ids);
-                                                            $query = $this->db->get();
-                                                            
-                                                            $order_items_rows = $query->result_array();
-                                                            
-                                                            if($order_items_rows)
-                                                            {
+                                                                if ((int)$order_item_stage['order_item_id'] != 0) {
                                                                 ?>
-                                                                <p>
-                                                                <?php
-                                                                $pr = 0;
-                                                                foreach($order_items_rows as $order_items_row)
-                                                                {
-                                                                    ?>
-                                                                    <span class="stage_prod_name"><?php echo $order_items_row['product_name']; ?></span> 
+                                                                    <p><span class="stage_prod_name"><?php echo $order_item_stage['product_name']; ?></span> Quantity approval accepted by retailer.</p>
                                                                     <?php
-                                                                    $pr++;
-                                                                    if($pr < count($order_items_rows))
-                                                                    {
-                                                                        echo ", ";
+                                                                } else {
+                                                                    $order_item_ids = array();
+                                                                    $order_item_ids = explode(',', $order_item_stage['ids']);
+
+                                                                    $this->db->select('a.*');
+                                                                    $this->db->from('order_items as a');
+                                                                    $this->db->where_in('a.id', $order_item_ids);
+                                                                    $query = $this->db->get();
+
+                                                                    $order_items_rows = $query->result_array();
+
+                                                                    if ($order_items_rows) {
+                                                                    ?>
+                                                                        <p>
+                                                                            <?php
+                                                                            $pr = 0;
+                                                                            foreach ($order_items_rows as $order_items_row) {
+                                                                            ?>
+                                                                                <span class="stage_prod_name"><?php echo $order_items_row['product_name']; ?></span>
+                                                                            <?php
+                                                                                $pr++;
+                                                                                if ($pr < count($order_items_rows)) {
+                                                                                    echo ", ";
+                                                                                }
+                                                                            }
+                                                                            ?>
+                                                                            Quantity approval accepted by retailer.
+                                                                        </p>
+                                                                <?php
                                                                     }
                                                                 }
                                                                 ?>
-                                                                Quantity approval accepted by retailer.
-                                                                </p>
+
                                                                 <?php
-                                                            }
-                                                        }
-                                                        ?>
-                                                        
-                                                        <?php
-                                                        if(count($order_item_stages) == $_count)
-                                                        {
-                                                            ?>
-                                                                </div>
-                                                            </div>
-                                                            <div class="tmln-card">
-                                                                <div class="tmln-info">
-                                                                    <h3 class="tmln-title">Schedule Delivery Date</h3>
-                                                                    <div class="">
-                                                                        <form class="form-horizontal " id="schedule_delivery_form" action="<?= base_url('seller/orders/send_delivery_schedule'); ?>" method="POST" enctype="multipart/form-data">
-                                                                            <div class="row">
-                                                                                <div class="form-group col-md-3">
-                                                                                    <input class="form-control datepicker" type="date" id="schedule_delivery_date" name="schedule_delivery_date" value="" placeholder="DD/MM/YYYY" required="" />
-                                                                                </div>
-                                                                                <div class="form-group col-md-3">
-                                                                                    <input type="hidden" name="order_item_id" value="<?= $order_item_stage['order_item_id'] ?>">
-                                                                                    <input type="hidden" name="order_id" value="<?= $order_item_stage['order_id'] ?>">
-                                                                                    <button type="submit" class="btn btn-primary btn-block" id="submit_btn">Save</button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </form>
+                                                                if (count($order_item_stages) == $_count) {
+                                                                ?>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tmln-card">
+                                                        <div class="tmln-info">
+                                                            <h3 class="tmln-title">Schedule Delivery Date</h3>
+                                                            <div class="">
+                                                                <form class="form-horizontal " id="schedule_delivery_form" action="<?= base_url('seller/orders/send_delivery_schedule'); ?>" method="POST" enctype="multipart/form-data">
+                                                                    <div class="row">
+                                                                        <div class="form-group col-md-3">
+                                                                            <input class="form-control datepicker" type="date" id="schedule_delivery_date" name="schedule_delivery_date" value="" placeholder="DD/MM/YYYY" required="" />
+                                                                        </div>
+                                                                        <div class="form-group col-md-3">
+                                                                            <input type="hidden" name="order_item_id" value="<?= $order_item_stage['order_item_id'] ?>">
+                                                                            <input type="hidden" name="order_id" value="<?= $order_item_stage['order_id'] ?>">
+                                                                            <button type="submit" class="btn btn-primary btn-block" id="submit_btn">Save</button>
+                                                                        </div>
                                                                     </div>
-                                                            <?php
-                                                            }
+                                                                </form>
+                                                            </div>
+                                                        <?php
+                                                                }
                                                         ?>
-                                                        
-                                                        <?php } else if($order_item_stage['status']=='qty_rejected') { ?> 
-                                                        <h3 class="tmln-title">Order cancelled.  <small class="float-right"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
+
+                                                    <?php } else if ($order_item_stage['status'] == 'qty_rejected') { ?>
+                                                        <h3 class="tmln-title">Order cancelled. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
                                                         <small>- Order Closed</small>
                                                         <?php
-                                                        /*if((int)$order_item_stage['order_item_id']!=0)
+                                                                /*if((int)$order_item_stage['order_item_id']!=0)
                                                         {
                                                             ?>
                                                             <p><span class="stage_prod_name"><?php echo $order_item_stage['product_name']; ?></span> Quantity approval rejected by retailer.</p>
@@ -919,10 +936,10 @@
                                                             }
                                                         }*/
                                                         ?>
-                                                        <?php } else if($order_item_stage['status']=='schedule_delivery') { ?>
-                                                            <h3 class="tmln-title mb-0">Confirmed / updated qty and delivery schedule sent. <small class="mb-0">- Waiting for payment from retailer.</small> <small class="float-right"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
-                                                            <?php
-                                                            /*
+                                                    <?php } else if ($order_item_stage['status'] == 'schedule_delivery') { ?>
+                                                        <h3 class="tmln-title mb-0">Confirmed / updated qty and delivery schedule sent. <small class="mb-0">- Waiting for payment from retailer.</small> <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                        <?php
+                                                                /*
                                                             if($order_detls[0]['schedule_delivery_date']!=null && $order_detls[0]['schedule_delivery_date'] != '0000-00-00')
                                                             {
                                                                 echo "<p>Delivery Scheduled ON ".date('d/m/Y',strtotime($order_detls[0]['schedule_delivery_date'])).'</p>';
@@ -943,45 +960,41 @@
                                                                 </div>
                                                                 <?php
                                                             }*/
-                                                            ?>
-                                                        <?php } else if($order_item_stage['status']=='payment_demand') { ?> 
-                                                        <h3 class="tmln-title mb-0">Manufacturer reviewed the order.  <small class="float-right"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                        ?>
+                                                    <?php } else if ($order_item_stage['status'] == 'payment_demand') { ?>
+                                                        <h3 class="tmln-title mb-0">Manufacturer reviewed the order. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
                                                         <small>
-                                                        <ul>
-                                                            <li>For order details please check order table</li>
-                                                            <li>Tentative delivery date <?php echo date('d/m/Y',strtotime($order_detls[0]['schedule_delivery_date'])); ?></li>
-                                                            <li>Payment requested by manufacturer is <?php echo $settings['currency'] . ' ' . number_format($order_detls[0]['final_total'], 2); ?>/-</li>
-                                                            <li>Waiting for retailer response.</li>
-                                                        </ul>
+                                                            <ul>
+                                                                <li>For order details please check order table</li>
+                                                                <li>Tentative delivery date <?php echo date('d/m/Y', strtotime($order_detls[0]['schedule_delivery_date'])); ?></li>
+                                                                <li>Payment requested by manufacturer is <?php echo $settings['currency'] . ' ' . number_format($order_detls[0]['final_total'], 2); ?>/-</li>
+                                                                <li>Waiting for retailer response.</li>
+                                                            </ul>
                                                         </small>
-                                                        <?php } else if($order_item_stage['status']=='payment_ack') { ?> 
-                                                        <h3 class="tmln-title">Transaction details received from retailer.  <small class="float-right"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                    <?php } else if ($order_item_stage['status'] == 'payment_ack') { ?>
+                                                        <h3 class="tmln-title">Transaction details received from retailer. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
                                                         <?php
-                                                        $ids = explode(',',$order_item_stage['ids']);
-                                                        if($ids)
-                                                        {
-                                                            $this->db->select('*');
-                                                            $this->db->from('order_item_payment_demand');
-                                                            $this->db->where_in('id',$ids);
-                                                            $query = $this->db->get();
-                                                            $order_item_payment_demands = $query->result_array();
-                                                            
-                                                            //$order_item_payment_demands = $this->db->get_where('order_item_payment_demand', array('order_item_id'=>$order_item_id))->result_array();
-                                                            if($order_item_payment_demands)
-                                                            {
-                                                                $i_count = 1;
-                                                                foreach($order_item_payment_demands as $order_item_payment_demand)
-                                                                {
-                                                                    if(file_exists($order_item_payment_demand['attachments']) && $order_item_payment_demand['attachments'])
-                                                                    {
-                                                                        ?>
-                                                                        <a class="btn btn-sm col-md-3 btn-primary mb-1" href="<?php echo base_url().$order_item_payment_demand['attachments'];?>" target="_blank">Download the transaction details</a><br />
-                                                                        <?php
-                                                                        $i_count++;
+                                                                $ids = explode(',', $order_item_stage['ids']);
+                                                                if ($ids) {
+                                                                    $this->db->select('*');
+                                                                    $this->db->from('order_item_payment_demand');
+                                                                    $this->db->where_in('id', $ids);
+                                                                    $query = $this->db->get();
+                                                                    $order_item_payment_demands = $query->result_array();
+
+                                                                    //$order_item_payment_demands = $this->db->get_where('order_item_payment_demand', array('order_item_id'=>$order_item_id))->result_array();
+                                                                    if ($order_item_payment_demands) {
+                                                                        $i_count = 1;
+                                                                        foreach ($order_item_payment_demands as $order_item_payment_demand) {
+                                                                            if (file_exists($order_item_payment_demand['attachments']) && $order_item_payment_demand['attachments']) {
+                                                        ?>
+                                                                        <a class="btn btn-sm col-md-3 btn-primary mb-1" href="<?php echo base_url() . $order_item_payment_demand['attachments']; ?>" target="_blank">Download the transaction details</a><br />
+                                                        <?php
+                                                                                $i_count++;
+                                                                            }
+                                                                        }
                                                                     }
                                                                 }
-                                                            }
-                                                        }
                                                         ?>
                                                         <?php /* ?>
                                                         <table class="table table-bordered">
@@ -1023,39 +1036,39 @@
                                                         ?>
                                                         </table>
                                                         <?php */ ?>
-                                                        <?php //} else if($order_item_stage['status']=='payment_ack') { ?>
-                                                            <?php
-                                                            /*if($order_detls[0]['schedule_delivery_date']!=null && $order_detls[0]['schedule_delivery_date'] != '0000-00-00')
+                                                        <?php //} else if($order_item_stage['status']=='payment_ack') { 
+                                                        ?>
+                                                        <?php
+                                                                /*if($order_detls[0]['schedule_delivery_date']!=null && $order_detls[0]['schedule_delivery_date'] != '0000-00-00')
                                                             {
                                                                 echo "<p>Delivery Scheduled ON ".date('d/m/Y',strtotime($order_detls[0]['schedule_delivery_date'])).'</p>';
                                                             }*/
-                                                            
-                                                            if(count($order_item_stages) == $_count)
-                                                            {
-                                                                ?>
-                                                                    <!--</div>
+
+                                                                if (count($order_item_stages) == $_count) {
+                                                        ?>
+                                                            <!--</div>
                                                                 </div>
                                                                 <div class="tmln-card">
                                                                     <div class="tmln-info">-->
-                                                                        <p>Please send confirmation of payment.</p>
-                                                                        <a href="<?= base_url('my-account/payment-receipt/').$order_detls[0]['id']."/view" ?>" target="_blank" class="btn btn-primary btn-sm btn-block w-25">View Payment Receipt</a>
-                                                                        <form class="form-horizontal " id="send_payment_confirmation_form" action="<?= base_url('admin/orders/send_payment_confirmation/'); ?>" method="POST" enctype="multipart/form-data">
-                                                                            <div class="row">
-                                                                                <div class="form-group mb-0 col-md-2">
-                                                                                    <label class="btn btn-warning btn-sm btn-block" for="payment_confirmation">Select file</label>
-                                                                                    <div class="custom-file-input" style="margin-top: -30px;">
-                                                                                        <input type="file" class="form-control" name="attachments[]" id="payment_confirmation" style="padding:0px;min-height: 28px;" required="" onchange="$('#f1_text').html(this.value.replace('C:\\fakepath\\', ''));" />
-                                                                                    </div>
-                                                                                    <p class=""><span id="f1_text"></span></p>
-                                                                                </div>
-                                                                                <div class="form-group mb-0 col-md-3">
-                                                                                    <input type="hidden" name="order_item_id" value="">
-                                                                                    <input type="hidden" name="order_id" value="<?= $order_detls[0]['id'] ?>">
-                                                                                    <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit_payment_confirmation_btn">Upload the payment receipt</button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </form>
-                                                                        <?php /* ?>
+                                                            <p>Please send confirmation of payment.</p>
+                                                            <a href="<?= base_url('my-account/payment-receipt/') . $order_detls[0]['id'] . "/view" ?>" target="_blank" class="btn btn-primary btn-sm btn-block w-25">View Payment Receipt</a>
+                                                            <form class="form-horizontal " id="send_payment_confirmation_form" action="<?= base_url('admin/orders/send_payment_confirmation/'); ?>" method="POST" enctype="multipart/form-data">
+                                                                <div class="row">
+                                                                    <div class="form-group mb-0 col-md-2">
+                                                                        <label class="btn btn-warning btn-sm btn-block" for="payment_confirmation">Select file</label>
+                                                                        <div class="custom-file-input" style="margin-top: -30px;">
+                                                                            <input type="file" class="form-control" name="attachments[]" id="payment_confirmation" style="padding:0px;min-height: 28px;" required="" onchange="$('#f1_text').html(this.value.replace('C:\\fakepath\\', ''));" />
+                                                                        </div>
+                                                                        <p class=""><span id="f1_text"></span></p>
+                                                                    </div>
+                                                                    <div class="form-group mb-0 col-md-3">
+                                                                        <input type="hidden" name="order_item_id" value="">
+                                                                        <input type="hidden" name="order_id" value="<?= $order_detls[0]['id'] ?>">
+                                                                        <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit_payment_confirmation_btn">Upload the payment receipt</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                            <?php /* ?>
                                                                         <h3 class="tmln-title">Is Order Shipped ?</h3>
                                                                         <div class="">
                                                                             <form class="form-horizontal " id="shipped_delivery_form" action="<?= base_url('seller/orders/send_order_status'); ?>" method="POST" enctype="multipart/form-data">
@@ -1070,39 +1083,35 @@
                                                                             </form>
                                                                         </div>
                                                                         <?php */ ?>
-                                                                    <!--</div>
+                                                            <!--</div>
                                                                 </div>-->
-                                                                <?php
-                                                            }
-                                                            ?>
-                                                        <?php } else if($order_item_stage['status']=='send_payment_confirmation') { ?> 
-                                                                <h3 class="tmln-title">Payment confirmation sent to retailer and manufacturer.  <small class="float-right"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
-                                                                <?php
-                                                                $ids = explode(',',$order_item_stage['ids']);
-                                                                if($ids)
-                                                                {
+                                                        <?php
+                                                                }
+                                                        ?>
+                                                    <?php } else if ($order_item_stage['status'] == 'send_payment_confirmation') { ?>
+                                                        <h3 class="tmln-title">Payment confirmation sent to retailer and manufacturer. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                        <?php
+                                                                $ids = explode(',', $order_item_stage['ids']);
+                                                                if ($ids) {
                                                                     $this->db->select('*');
                                                                     $this->db->from('order_item_payment_confirmation');
-                                                                    $this->db->where_in('id',$ids);
+                                                                    $this->db->where_in('id', $ids);
                                                                     $query = $this->db->get();
                                                                     $order_item_payment_confirmations = $query->result_array();
-                                                                    
-                                                                    
-                                                                    if($order_item_payment_confirmations)
-                                                                    {
+
+
+                                                                    if ($order_item_payment_confirmations) {
                                                                         $i_count = 1;
-                                                                        foreach($order_item_payment_confirmations as $order_item_payment_confirmation)
-                                                                        {
-                                                                            if(file_exists($order_item_payment_confirmation['attachments']) && $order_item_payment_confirmation['attachments'])
-                                                                            {
-                                                                                ?><a class="btn btn-sm col-md-3 btn-primary mb-1" href="<?php echo base_url().$order_item_payment_confirmation['attachments'];?>" target="_blank">Download Confirmation</a><?php
-                                                                                $i_count++;
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                                ?>
-                                                                <?php /* ?>
+                                                                        foreach ($order_item_payment_confirmations as $order_item_payment_confirmation) {
+                                                                            if (file_exists($order_item_payment_confirmation['attachments']) && $order_item_payment_confirmation['attachments']) {
+                                                        ?><a class="btn btn-sm col-md-3 btn-primary mb-1" href="<?php echo base_url() . $order_item_payment_confirmation['attachments']; ?>" target="_blank">Download Confirmation</a><?php
+                                                                                                                                                                                                                                        $i_count++;
+                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                        ?>
+                                                        <?php /* ?>
                                                                 <table class="table table-bordered">
                                                                     <tr class="bg-primary text-white">
                                                                         <th style="width: 8%;">Sr. No.</th>
@@ -1143,7 +1152,7 @@
                                                                 </table>
                                                                 <p class=""><small class="text-danger p-1 bg-red font-weight-bold" style="color: #fff !important;">Note – The order need to be delivered within scheduled date.</small></p>
                                                                 <?php */ ?>
-                                                                <?php
+                                                        <?php
                                                                 /*if(count($order_item_stages) == $_count)
                                                                 {
                                                                     ?>
@@ -1168,8 +1177,8 @@
                                                                     </div>
                                                                     <?php
                                                                 }*/
-                                                                ?>
-                                                                <?php
+                                                        ?>
+                                                        <?php
                                                                 /*if(count($order_item_stages) == $_count)
                                                                 {
                                                                     ?>
@@ -1203,74 +1212,66 @@
                                                                             </form>
                                                                     <?php
                                                                 }*/
-                                                                ?>
-                                                        <?php } else if($order_item_stage['status']=='shipped') { ?> 
-                                                            <p>Order dispatch date is <?php echo date('d/m/Y',strtotime($order_item_stage['created_date'])); ?>.</p>
-                                                            
-                                                        <?php } else if($order_item_stage['status']=='send_invoice') { ?> 
-                                                                <h3 class="tmln-title">Order is in transit, E-way bill and invoices received from manufacturer.  <small class="float-right"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
-                                                                <div class="btn-group">
-                                                                    <?php
-                                                                    $ids2 = explode(',',$order_item_stage['ids2']);
-                                                                    if($ids2)
-                                                                    {
-                                                                        $this->db->select('*');
-                                                                        $this->db->from('order_item_eway_bill');
-                                                                        $this->db->where_in('id',$ids2);
-                                                                        $query = $this->db->get();
-                                                                        $order_item_eway_bills = $query->result_array();
-                                                                        
-                                                                        if($order_item_eway_bills)
-                                                                        {
-                                                                            $i_count = 1;
-                                                                            foreach($order_item_eway_bills as $order_item_eway_bill)
-                                                                            {
-                                                                                if(file_exists($order_item_eway_bill['attachments']) && $order_item_eway_bill['attachments'])
-                                                                                {
-                                                                                    ?>
-                                                                                    <div class="btn-wrap show-code-action mb-0">
-                                                                                        <a class="btn btn-sm btn-primary mb-1" href="<?php echo base_url().$order_item_eway_bill['attachments'];?>" target="_blank">Download E-way Bill</a>
-                                                                                    </div>
-                                                                                    <?php
-                                                                                    $i_count++;
-                                                                                }
+                                                        ?>
+                                                    <?php } else if ($order_item_stage['status'] == 'shipped') { ?>
+                                                        <p>Order dispatch date is <?php echo date('d/m/Y', strtotime($order_item_stage['created_date'])); ?>.</p>
+
+                                                    <?php } else if ($order_item_stage['status'] == 'send_invoice') { ?>
+                                                        <h3 class="tmln-title">Order is in transit, E-way bill and invoices received from manufacturer. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                        <div class="btn-group">
+                                                            <?php
+                                                                $ids2 = explode(',', $order_item_stage['ids2']);
+                                                                if ($ids2) {
+                                                                    $this->db->select('*');
+                                                                    $this->db->from('order_item_eway_bill');
+                                                                    $this->db->where_in('id', $ids2);
+                                                                    $query = $this->db->get();
+                                                                    $order_item_eway_bills = $query->result_array();
+
+                                                                    if ($order_item_eway_bills) {
+                                                                        $i_count = 1;
+                                                                        foreach ($order_item_eway_bills as $order_item_eway_bill) {
+                                                                            if (file_exists($order_item_eway_bill['attachments']) && $order_item_eway_bill['attachments']) {
+                                                            ?>
+                                                                            <div class="btn-wrap show-code-action mb-0">
+                                                                                <a class="btn btn-sm btn-primary mb-1" href="<?php echo base_url() . $order_item_eway_bill['attachments']; ?>" target="_blank">Download E-way Bill</a>
+                                                                            </div>
+                                                            <?php
+                                                                                $i_count++;
                                                                             }
                                                                         }
                                                                     }
-                                                                    ?>
-                                                                    
-                                                                    <?php
-                                                                    $ids = explode(',',$order_item_stage['ids']);
-                                                                    if($ids)
-                                                                    {
-                                                                        $this->db->select('*');
-                                                                        $this->db->from('order_item_invoice');
-                                                                        $this->db->where_in('id',$ids);
-                                                                        $query = $this->db->get();
-                                                                        $order_item_invoices = $query->result_array();
-                                                                        
-                                                                        //$order_item_invoices = $this->db->get_where('order_item_invoice', array('order_item_id'=>$order_item_id))->result_array();
-                                                                        if($order_item_invoices)
-                                                                        {
-                                                                            $i_count = 1;
-                                                                            foreach($order_item_invoices as $order_item_invoice)
-                                                                            {
-                                                                                if(file_exists($order_item_invoice['attachments']) && $order_item_invoice['attachments'])
-                                                                                {
-                                                                                    ?>
-                                                                                    <div class="btn-wrap show-code-action mb-0 ml-2">
-                                                                                        <a class="btn btn-sm btn-primary mb-1" href="<?php echo base_url().$order_item_invoice['attachments'];?>" target="_blank">Download Invoice</a>
-                                                                                    </div>    
-                                                                                    <?php
-                                                                                    $i_count++;
-                                                                                }
+                                                                }
+                                                            ?>
+
+                                                            <?php
+                                                                $ids = explode(',', $order_item_stage['ids']);
+                                                                if ($ids) {
+                                                                    $this->db->select('*');
+                                                                    $this->db->from('order_item_invoice');
+                                                                    $this->db->where_in('id', $ids);
+                                                                    $query = $this->db->get();
+                                                                    $order_item_invoices = $query->result_array();
+
+                                                                    //$order_item_invoices = $this->db->get_where('order_item_invoice', array('order_item_id'=>$order_item_id))->result_array();
+                                                                    if ($order_item_invoices) {
+                                                                        $i_count = 1;
+                                                                        foreach ($order_item_invoices as $order_item_invoice) {
+                                                                            if (file_exists($order_item_invoice['attachments']) && $order_item_invoice['attachments']) {
+                                                            ?>
+                                                                            <div class="btn-wrap show-code-action mb-0 ml-2">
+                                                                                <a class="btn btn-sm btn-primary mb-1" href="<?php echo base_url() . $order_item_invoice['attachments']; ?>" target="_blank">Download Invoice</a>
+                                                                            </div>
+                                                            <?php
+                                                                                $i_count++;
                                                                             }
                                                                         }
                                                                     }
-                                                                    ?>
-                                                                </div>
-                                                                
-                                                                <?php /* ?>
+                                                                }
+                                                            ?>
+                                                        </div>
+
+                                                        <?php /* ?>
                                                                 <table class="table table-bordered">
                                                                     <tr class="bg-primary text-white">
                                                                         <th style="width: 8%;">Sr. No.</th>
@@ -1310,7 +1311,7 @@
                                                                     ?>
                                                                 </table>
                                                                 <?php */ ?>
-                                                                <?php
+                                                        <?php
                                                                 /*if(count($order_item_stages) == $_count)
                                                                 {
                                                                     ?>
@@ -1335,58 +1336,53 @@
                                                                     </div>
                                                                     <?php
                                                                 }*/
-                                                                ?>
-                                                        <?php } else if($order_item_stage['status']=='complaint') { ?> 
-                                                            <h3 class="tmln-title">Retailer raised his concern.  <small class="float-right"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
-                                                            <table class="table table-bordered">
-                                                                <tr class="bg-primary text-white">
-                                                                    <th style="width: 8%;">Sr. No.</th>
-                                                                    <th>Retailer Concern</th>
-                                                                    <th style="width: 18%;">Image</th>
-                                                                </tr>
-                                                                <?php
-                                                                $ids = explode(',',$order_item_stage['ids']);
-                                                                if($ids)
-                                                                {
+                                                        ?>
+                                                    <?php } else if ($order_item_stage['status'] == 'complaint') { ?>
+                                                        <h3 class="tmln-title">Retailer raised his concern. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                        <table class="table table-bordered">
+                                                            <tr class="bg-primary text-white">
+                                                                <th style="width: 8%;">Sr. No.</th>
+                                                                <th>Retailer Concern</th>
+                                                                <th style="width: 18%;">Image</th>
+                                                            </tr>
+                                                            <?php
+                                                                $ids = explode(',', $order_item_stage['ids']);
+                                                                if ($ids) {
                                                                     $this->db->select('*');
                                                                     $this->db->from('order_item_complaints');
-                                                                    $this->db->where_in('id',$ids);
+                                                                    $this->db->where_in('id', $ids);
                                                                     $query = $this->db->get();
                                                                     $order_item_complaints = $query->result_array();
                                                                     //echo $this->db->last_query();die;
-                                                                    
-                                                                    if($order_item_complaints)
-                                                                    {
+
+                                                                    if ($order_item_complaints) {
                                                                         $i_count = 1;
-                                                                        foreach($order_item_complaints as $order_item_complaint)
-                                                                        {
-                                                                            
-                                                                                ?>
-                                                                                <tr class="bg-white text-dark">
-                                                                                    <td class="text-center"><?php echo $i_count; ?></td>
-                                                                                    <td><?php echo $order_item_complaint['concern'];?></td>
-                                                                                    <td>
-                                                                                        <?php
-                                                                                        if(file_exists($order_item_complaint['attachments']) && $order_item_complaint['attachments'])
-                                                                                        {
-                                                                                            ?>
-                                                                                            <a href="<?php echo base_url().$order_item_complaint['attachments'];?>" target="_blank">
-                                                                                                <img src="<?php echo base_url().$order_item_complaint['attachments'];?>" alt="" style="width: 100px;" />
-                                                                                            </a>
-                                                                                            <?php
-                                                                                        }
-                                                                                        ?>
-                                                                                    </td>
-                                                                                </tr>
+                                                                        foreach ($order_item_complaints as $order_item_complaint) {
+
+                                                            ?>
+                                                                        <tr class="bg-white text-dark">
+                                                                            <td class="text-center"><?php echo $i_count; ?></td>
+                                                                            <td><?php echo $order_item_complaint['concern']; ?></td>
+                                                                            <td>
                                                                                 <?php
-                                                                                $i_count++;
-                                                                            
+                                                                                if (file_exists($order_item_complaint['attachments']) && $order_item_complaint['attachments']) {
+                                                                                ?>
+                                                                                    <a href="<?php echo base_url() . $order_item_complaint['attachments']; ?>" target="_blank">
+                                                                                        <img src="<?php echo base_url() . $order_item_complaint['attachments']; ?>" alt="" style="width: 100px;" />
+                                                                                    </a>
+                                                                                <?php
+                                                                                }
+                                                                                ?>
+                                                                            </td>
+                                                                        </tr>
+                                                            <?php
+                                                                            $i_count++;
                                                                         }
                                                                     }
                                                                 }
-                                                                ?>
-                                                            </table>
-                                                            <?php if(count($order_item_stages) == $_count) { ?>
+                                                            ?>
+                                                        </table>
+                                                        <?php if (count($order_item_stages) == $_count) { ?>
                                                             <form class="form-horizontal " id="send_complaint_msg_form" action="<?= base_url('admin/orders/msg-about-complaint'); ?>" method="POST" enctype="multipart/form-data">
                                                                 <div class="row">
                                                                     <div class="form-group col-md-3">
@@ -1410,142 +1406,145 @@
                                                                     </div>
                                                                 </div>
                                                             </form>
-                                                            <?php } ?>
-                                                        <?php } else if($order_item_stage['status']=='complaint_msg') { ?>
-                                                                <h3 class="tmln-title">Issue details shared to Reatailer and Manufacturer. <small class="float-right font-weight-normal"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
-                                                        <?php } else if($order_item_stage['status']=='issue_resolved') { ?> 
-                                                            <h3 class="tmln-title">Issue resolved. <small class="float-right font-weight-normal"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
-                                                            
-                                                        <?php } else if($order_item_stage['status']=='delivered') { ?> 
-                                                                <?php
+                                                        <?php } ?>
+                                                    <?php } else if ($order_item_stage['status'] == 'complaint_msg') { ?>
+                                                        <h3 class="tmln-title">Issue details shared to Reatailer and Manufacturer. <small class="float-right font-weight-normal"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                    <?php } else if ($order_item_stage['status'] == 'issue_resolved') { ?>
+                                                        <h3 class="tmln-title">Issue resolved. <small class="float-right font-weight-normal"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+
+                                                    <?php } else if ($order_item_stage['status'] == 'delivered') { ?>
+                                                        <?php
                                                                 $this->db->select('id');
                                                                 $this->db->from('order_item_stages');
                                                                 $this->db->where('status', 'issue_resolved');
                                                                 $this->db->where('order_id', $order_id);
                                                                 $q = $this->db->get();
                                                                 $rw = $q->row_array();
-                                                                
-                                                                if($rw['id'])
-                                                                {
-                                                                    ?>
-                                                                    <?php /* ?>
+
+                                                                if ($rw['id']) {
+                                                        ?>
+                                                            <?php /* ?>
                                                                     <h3 class="tmln-title">Order closed successfully. <small class="float-right"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
                                                                     <?php */ ?>
-                                                                    <h3 class="tmln-title">Issue Resolved Successfully.  <small class="float-right"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
-                                                                    <small>- Please release payment to <?php echo $order_detls[0]['seller_name']; ?> and upload transaction details.</small>
-                                                                    <?php
+                                                            <h3 class="tmln-title">Issue Resolved Successfully. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                            <small>- Please release payment to <?php echo $order_detls[0]['seller_name']; ?> and upload transaction details.</small>
+                                                        <?php
+                                                                } else {
+                                                        ?>
+                                                            <h3 class="tmln-title">Order delivered successfully. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                            <small>- Please release payment (<?php echo $settings['currency'] . ' ' . number_format(($order_detls[0]['final_total'] - $service_total), 2); ?>/-) to <?php echo $order_detls[0]['seller_name']; ?> and upload transaction details.</small>
+                                                        <?php
                                                                 }
-                                                                else
-                                                                {
-                                                                    ?>
-                                                                    <h3 class="tmln-title">Order delivered successfully. <small class="float-right"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
-                                                                    <small>- Please release payment (<?php echo $settings['currency'] . ' ' . number_format(($order_detls[0]['final_total']-$service_total), 2); ?>/-) to <?php echo $order_detls[0]['seller_name']; ?> and upload transaction details.</small>
-                                                                    <?php
-                                                                }
-                                                                ?>
-                                                                <?php
-                                                                if(count($order_item_stages) == $_count)
-                                                                {
-                                                                    ?>
-                                                                    <form class="form-horizontal " id="send_payment_confirmation_form" action="<?= base_url('admin/orders/send_mfg_payment_ack_form/'); ?>" method="POST" enctype="multipart/form-data">
-                                                                        <div class="row">
-                                                                            <div class="form-group mb-0 col-md-2">
-                                                                                <label class="btn btn-warning btn-sm btn-block" for="payment_confirmation">Select file</label>
-                                                                                <div class="custom-file-input" style="margin-top: -30px;">
-                                                                                    <input type="file" class="form-control" name="attachments[]" id="payment_confirmation" style="padding:0px;min-height: 28px;" required="" onchange="$('#pay_text').html(this.value.replace('C:\\fakepath\\', ''));" />
-                                                                                </div>
-                                                                                <p class=""><span id="pay_text"></span></p>
-                                                                            </div>
-                                                                            <div class="form-group mb-0 col-md-2">
-                                                                                <input type="hidden" name="order_item_id" value="">
-                                                                                <input type="hidden" name="order_id" value="<?= $order_detls[0]['id'] ?>">
-                                                                                <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit_payment_confirmation_btn">Send</button>
-                                                                            </div>
+                                                        ?>
+                                                        <?php
+                                                                if (count($order_item_stages) == $_count) {
+                                                        ?>
+                                                            <!-- <div class="col-md-5">
+                                                                <a href="#" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-1' data-toggle="modal" data-target="#send-payment-request">Send Transaction Receipt</a>
+
+                                                            </div> -->
+                                                            <form class="form-horizontal d-none1" id="send_payment_confirmation_form" action="<?= base_url('admin/orders/send_mfg_payment_ack_form/'); ?>" method="POST" enctype="multipart/form-data">
+                                                                <div class="row">
+                                                                    <div class="form-group mb-0 col-md-2">
+                                                                        <label class="btn btn-warning btn-sm btn-block" for="payment_confirmation">Select file</label>
+                                                                        <div class="custom-file-input" style="margin-top: -30px;">
+                                                                            <input type="file" class="form-control" name="attachments[]" id="payment_confirmation" style="padding:0px;min-height: 28px;" required="" onchange="$('#pay_text').html(this.value.replace('C:\\fakepath\\', ''));" />
                                                                         </div>
-                                                                    </form>
-                                                                    <?php
+                                                                        <p class=""><span id="pay_text"></span></p>
+                                                                    </div>
+                                                                    <div class="form-group col-md-3">
+                                                                        <div class="">
+                                                                            <input type="text" class="form-control" name="transaction_no" id="transaction_no" placeholder="Transaction Number" required />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group mb-0 col-md-2">
+                                                                        <input type="hidden" name="order_item_id" value="">
+                                                                        <input type="hidden" name="order_id" value="<?= $order_detls[0]['id'] ?>">
+                                                                        <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit_payment_confirmation_btn">Send</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        <?php
                                                                 }
-                                                                ?>
-                                                        <?php } else if($order_item_stage['status']=='send_mfg_payment_ack') { ?>
-                                                            <h3 class="tmln-title">Transaction details shared with manufacturer.  <small class="float-right"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                        ?>
+                                                    <?php } else if ($order_item_stage['status'] == 'send_mfg_payment_ack') { ?>
+                                                        <h3 class="tmln-title">Transaction details shared with manufacturer. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                        <div class="row">
+
+                                                            <div class="col-md-3">
+                                                                <a href="<?= base_url('seller/orders/paymentreceipt/') . $order_detls[0]['id'] . "/view" ?>" target="_blank" class="btn btn-primary btn-sm btn-block ">View Payment Receipt</a>
+
+                                                            </div>
                                                             <?php
-                                                            $ids = explode(',',$order_item_stage['ids']);
-                                                            if($ids)
-                                                            {
-                                                                $this->db->select('*');
-                                                                $this->db->from('order_item_mfg_payment_ack');
-                                                                $this->db->where_in('id',$ids);
-                                                                $query = $this->db->get();
-                                                                $order_item_mfg_payment_acks = $query->result_array();
-                                                                
-                                                                
-                                                                if($order_item_mfg_payment_acks)
-                                                                {
-                                                                    $i_count = 1;
-                                                                    foreach($order_item_mfg_payment_acks as $order_item_mfg_payment_ack)
-                                                                    {
-                                                                        if(file_exists($order_item_mfg_payment_ack['attachments']) && $order_item_mfg_payment_ack['attachments'])
-                                                                        {
-                                                                            ?><a class="btn btn-sm col-md-3 btn-primary mb-1" href="<?php echo base_url().$order_item_mfg_payment_ack['attachments'];?>" target="_blank">Download the transaction details</a><?php
-                                                                            $i_count++;
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                            ?>
-                                                        <?php } else if($order_item_stage['status']=='send_mfg_payment_confirmation') { ?> 
-                                                            <h3 class="tmln-title">Payment receipt received. <small class="float-right"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
-                                                            <?php
-                                                            $ids = explode(',',$order_item_stage['ids']);
-                                                            if($ids)
-                                                            {
-                                                                $this->db->select('*');
-                                                                $this->db->from('order_item_mfg_payment_confirmation');
-                                                                $this->db->where_in('id',$ids);
-                                                                $query = $this->db->get();
-                                                                $order_item_mfg_payment_confirmations = $query->result_array();
-                                                                
-                                                                
-                                                                if($order_item_mfg_payment_confirmations)
-                                                                {
-                                                                    $i_count = 1;
-                                                                    foreach($order_item_mfg_payment_confirmations as $order_item_mfg_payment_confirmation)
-                                                                    {
-                                                                        if(file_exists($order_item_mfg_payment_confirmation['attachments']) && $order_item_mfg_payment_confirmation['attachments'])
-                                                                        {
-                                                                            ?><a class="btn btn-sm col-md-3 btn-primary mb-1" href="<?php echo base_url().$order_item_mfg_payment_confirmation['attachments'];?>" target="_blank">Download Transaction Receipt</a><?php
-                                                                            $i_count++;
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                            ?>
-                                                            <small>- Order closed.</small>
-                                                        <?php } else if($order_item_stage['status']=='out_of_stock') { ?> 
-                                                                <h3 class="tmln-title">Quantities are out of stock <small>- Notification sent to retailer and order has been closed.</small> <small class="float-right"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
-                                                        <?php } else  { ?> 
-                                                        <h3 class="tmln-title"><?php echo $order_item_stage['status']; ?>  <small class="float-right"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
-                                                        <?php } ?>
+                                                                $ids = explode(',', $order_item_stage['ids']);
+                                                                if ($ids) {
+                                                                    $this->db->select('*');
+                                                                    $this->db->from('order_item_mfg_payment_ack');
+                                                                    $this->db->where_in('id', $ids);
+                                                                    $query = $this->db->get();
+                                                                    $order_item_mfg_payment_acks = $query->result_array();
+
+
+                                                                    if ($order_item_mfg_payment_acks) {
+                                                                        $i_count = 1;
+                                                                        foreach ($order_item_mfg_payment_acks as $order_item_mfg_payment_ack) {
+                                                                            if (file_exists($order_item_mfg_payment_ack['attachments']) && $order_item_mfg_payment_ack['attachments']) {
+                                                            ?><a class="btn btn-sm col-md-3 btn-primary mb-1" href="<?php echo base_url() . $order_item_mfg_payment_ack['attachments']; ?>" target="_blank">Download the transaction details</a><?php
+                                                                                                                                                                                                                                            $i_count++;
+                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                            ?>
+                                                        </div>
+                                                    <?php } else if ($order_item_stage['status'] == 'send_mfg_payment_confirmation') { ?>
+                                                        <h3 class="tmln-title">Payment receipt received. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                        <?php
+                                                                $ids = explode(',', $order_item_stage['ids']);
+                                                                if ($ids) {
+                                                                    $this->db->select('*');
+                                                                    $this->db->from('order_item_mfg_payment_confirmation');
+                                                                    $this->db->where_in('id', $ids);
+                                                                    $query = $this->db->get();
+                                                                    $order_item_mfg_payment_confirmations = $query->result_array();
+
+
+                                                                    if ($order_item_mfg_payment_confirmations) {
+                                                                        $i_count = 1;
+                                                                        foreach ($order_item_mfg_payment_confirmations as $order_item_mfg_payment_confirmation) {
+                                                                            if (file_exists($order_item_mfg_payment_confirmation['attachments']) && $order_item_mfg_payment_confirmation['attachments']) {
+                                                        ?><a class="btn btn-sm col-md-3 btn-primary mb-1" href="<?php echo base_url() . $order_item_mfg_payment_confirmation['attachments']; ?>" target="_blank">Download Transaction Receipt</a><?php
+                                                                                                                                                                                                                                                    $i_count++;
+                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                    ?>
+                                                        <small>- Order closed.</small>
+                                                    <?php } else if ($order_item_stage['status'] == 'out_of_stock') { ?>
+                                                        <h3 class="tmln-title">Quantities are out of stock <small>- Notification sent to retailer and order has been closed.</small> <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                    <?php } else { ?>
+                                                        <h3 class="tmln-title"><?php echo $order_item_stage['status']; ?> <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                    <?php } ?>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <?php   
-                                                
+                                            <?php
+
                                                 }
-                                                
                                             }
-                                            ?>                                            
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     <?php
-                }
-                ?>
+                    }
+                    ?>
                 </div>
-                
-                
-                
+
+
+
                 <?php /* ?>
                 <div class="col-md-12 ">
                     <div class="shadow p-3 mb-3 bg-white rounded">
@@ -1630,11 +1629,11 @@
                                                 </div>
                                             </div>
                                             <?php */ ?>
-                                            
-                                            
-                                            
-                                            <?php 
-                                            /*
+
+
+
+                <?php
+                /*
                                             $total = 0;
                                             $tax_amount = 0;
                                             echo '<div class="container-fluid row">';
@@ -1746,8 +1745,8 @@
                                     </td>
                                 </tr>
                                 <?php */ ?>
-                                
-                                <?php /* ?>
+
+                <?php /* ?>
                                 <tr>
                                     <th class="w-10px">Wallet Balance(<?= $settings['currency'] ?>)</th>
                                     <td><?php echo $order_detls[0]['wallet_balance'];
@@ -1819,280 +1818,394 @@
     </section>
     <!-- /.content -->
 </div>
+<div class="modal fade" id="send-payment-request" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Payment Out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row p-3">
+                    <form class="form-horizontal " id="send_bank_receipt_form" action="<?= base_url('my-account/send-payment-receipt'); ?>" method="POST" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label>Party Name</label>
+                                    <input type="text" class="form-control" readonly disabled value="<?= $this->config->item('happycrop_name'); ?>" placeholder="Party Name" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label>Receipt Number</label>
+                                    <input type="text" class="form-control" readonly name="receipt_no" value="<?= $receipt_no ?>" placeholder="Receipt Number" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label>Address</label>
+                                    <input type="text" class="form-control" readonly disabled value="<?= $this->config->item('address'); ?>" placeholder="Address" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label>Order Number</label>
+                                    <input type="text" class="form-control" readonly disabled placeholder="Order Number" value="<?= $order['id'] ?>" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label>Phone Number</label>
+                                    <input type="text" class="form-control" readonly disabled value="<?= $this->config->item('mobile'); ?>" placeholder="Phone Number" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label>Date</label>
+                                    <input type="date" class="form-control" name="paid_date" value="<?= date('Y-m-d'); ?>" placeholder="Date" />
+
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control" readonly disabled value="<?= $this->config->item('support'); ?>" placeholder="Email" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label>GSTIN</label>
+                                    <input type="text" class="form-control" readonly disabled value="<?= $this->config->item('gstin'); ?>" placeholder="GSTIN" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label class="form-label" for="transaction_no">Transaction Number</label>
+                                    <input type="text" class="form-control" name="transaction_no" id="transaction_no" placeholder="Transaction Number" required />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="">
+                                    <label class="form-label" for="received">Received</label>
+                                    <input type="text" class="form-control" id="received" readonly disabled placeholder="Received" value="<?= number_format($total_amt, 2); ?>" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="">
+                                    <label class="form-label" for="received">In Words</label>
+                                    <input type="text" class="form-control" readonly disabled value="<?= convertNumberToWords($total_amt) ?>" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="">
+                                    <label class="form-label" for="description">Description</label>
+                                    <textarea class="form-control w-100" name="description" rows="4" maxlength="255">
+
+                                    </textarea>
+
+                                </div>
+                            </div>
+                            <div class="form-group mb-0 col-md-6">
+                                <label class="btn btn-warning btn-sm btn-block" for="payment_confirmation">Select file</label>
+                                <div class="custom-file-input" style="margin-top: -30px;">
+                                    <input type="file" class="form-control" name="attachments[]" id="payment_confirmation" style="padding:0px;min-height: 28px;" required="" onchange="$('#pay_text').html(this.value.replace('C:\\fakepath\\', ''));" />
+                                </div>
+                                <p class=""><span id="pay_text"></span></p>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <input type="hidden" name="order_id" value="<?= $order_detls[0]['id'] ?>">
+                                <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit_btn">Send</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
-function calPrice(qty, price, i)
-{
-    var total       = 0;
-    total           = qty*price;
-        
-    $("#sub_total_"+i).val(total.toFixed(2));
-    
-    var order_total = 0;
-    
-    $(".sub_total").each(function (){
-        if(jQuery.isNumeric(jQuery(this).val()))
-        {
-            order_total += Number(jQuery(this).val());  
+    function calPrice(qty, price, i) {
+        var total = 0;
+        total = qty * price;
+
+        $("#sub_total_" + i).val(total.toFixed(2));
+
+        var order_total = 0;
+
+        $(".sub_total").each(function() {
+            if (jQuery.isNumeric(jQuery(this).val())) {
+                order_total += Number(jQuery(this).val());
+            }
+        });
+
+        $("#order_total").val(order_total.toFixed(2));
+
+        var packing_size = $("#packing_size_" + i).val();
+        var carton_qty = $("#carton_qty_" + i).val();
+
+        if (packing_size != '' && carton_qty != '' && qty != '') {
+            $("#volume_" + i).val(packing_size * carton_qty * qty);
         }
-    });
-    
-    $("#order_total").val(order_total.toFixed(2));
-    
-    var packing_size    = $("#packing_size_"+i).val();
-    var carton_qty      = $("#carton_qty_"+i).val();
-    
-    if(packing_size!='' && carton_qty!='' && qty !='')
-    {
-        $("#volume_"+i).val(packing_size*carton_qty*qty);
+
     }
-    
-}
 
-function confirm_order_qty(order_id)
-{
-    Swal.fire({
-        title: 'Are You Sure!',
-        text: "You want to update quantity",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, update it!',
-        showLoaderOnConfirm: true,
-        preConfirm: function () {
-            return new Promise((resolve, reject) => {
-                
-                $form = $("<form></form>");
-                var total_products = $("#total_products").val();
-                
-                $form.append("<input name='order_id' value="+order_id+" type='hidden'/>");
-                
-                for(i=0;i<total_products;i++)
-                {
-                    var qty_input = $("#quantity_"+i);
-                    var field_name = "quantity_"+qty_input.attr('data-order-item-id');
-                    
-                    $form.append("<input name='"+field_name+"' value='"+qty_input.val()+"' type='hidden'/>");
-                    $form.append("<input name='order_item_ids[]' value="+qty_input.attr('data-order-item-id')+" type='hidden'/>");
-                }
-                
-                //console.log($("#order_form").serialize());
-                
-                $.ajax({
-                    url: "<?php echo base_url('seller/orders/updateBulkQty') ?>",
-                    type: 'POST',
-                    cache: false,
-                    data:$form.serialize(),
-                    dataType: "json",
-                    error: function (xhr, status, error) {
-                        //alert(xhr.responseText);
-                        iziToast.error({
-                            message: 'Something went wrong',
-                        });
-                        swal.close();
-                        location.reload();
-                    },
-                    success: function (result) {
-                        if (result['error'] == false) {
-                            iziToast.success({
-                                message: result['message'],
-                            });
-                            
-                            location.reload();
-                            
-                        } else {
-                            iziToast.error({
-                                message: result['message'],
-                            });
-                        }
-                        swal.close();
-                        location.reload();
-                    }  
-                });
-                
-            });
-        },
-        allowOutsideClick: false
-    });
-}
+    function confirm_order_qty(order_id) {
+        Swal.fire({
+            title: 'Are You Sure!',
+            text: "You want to update quantity",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, update it!',
+            showLoaderOnConfirm: true,
+            preConfirm: function() {
+                return new Promise((resolve, reject) => {
 
-function updateQty(order_item_id, order_id, i)
-{
-    Swal.fire({
-        title: 'Are You Sure!',
-        text: "You want to update quantity",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, update it!',
-        showLoaderOnConfirm: true,
-        preConfirm: function () {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    url: "<?php echo base_url('seller/orders/updateQty') ?>",
-                    type: 'POST',
-                    cache: false,
-                    data:{qty:$("#quantity_"+i).val(),order_item_id:order_item_id,order_id:order_id,i:i},
-                    dataType: "json",
-                    error: function (xhr, status, error) {
-                        //alert(xhr.responseText);
-                        iziToast.error({
-                            message: 'Something went wrong',
-                        });
-                        swal.close();
-                        location.reload();
-                    },
-                    success: function (result) {
-                        if (result['error'] == false) {
-                            iziToast.success({
-                                message: result['message'],
-                            });
-                            
-                            //$("#check_"+order_item_id).remove();
-                            //("#it_state_"+order_item_id).remove();
-                            location.reload();
-                            
-                        } else {
+                    $form = $("<form></form>");
+                    var total_products = $("#total_products").val();
+
+                    $form.append("<input name='order_id' value=" + order_id + " type='hidden'/>");
+
+                    for (i = 0; i < total_products; i++) {
+                        var qty_input = $("#quantity_" + i);
+                        var field_name = "quantity_" + qty_input.attr('data-order-item-id');
+
+                        $form.append("<input name='" + field_name + "' value='" + qty_input.val() + "' type='hidden'/>");
+                        $form.append("<input name='order_item_ids[]' value=" + qty_input.attr('data-order-item-id') + " type='hidden'/>");
+                    }
+
+                    //console.log($("#order_form").serialize());
+
+                    $.ajax({
+                        url: "<?php echo base_url('seller/orders/updateBulkQty') ?>",
+                        type: 'POST',
+                        cache: false,
+                        data: $form.serialize(),
+                        dataType: "json",
+                        error: function(xhr, status, error) {
+                            //alert(xhr.responseText);
                             iziToast.error({
-                                message: result['message'],
+                                message: 'Something went wrong',
                             });
+                            swal.close();
+                            location.reload();
+                        },
+                        success: function(result) {
+                            if (result['error'] == false) {
+                                iziToast.success({
+                                    message: result['message'],
+                                });
+
+                                location.reload();
+
+                            } else {
+                                iziToast.error({
+                                    message: result['message'],
+                                });
+                            }
+                            swal.close();
+                            location.reload();
                         }
-                        swal.close();
-                        location.reload();
-                    }  
+                    });
+
                 });
-            });
-        },
-        allowOutsideClick: false
-    });
-}
-function send_delivery_schedule(order_item_id, order_id)
-{
-    var schedule_delivery_date = $("#schedule_delivery_date_"+order_item_id).val();
-    $.ajax({
+            },
+            allowOutsideClick: false
+        });
+    }
+
+    function updateQty(order_item_id, order_id, i) {
+        Swal.fire({
+            title: 'Are You Sure!',
+            text: "You want to update quantity",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, update it!',
+            showLoaderOnConfirm: true,
+            preConfirm: function() {
+                return new Promise((resolve, reject) => {
+                    $.ajax({
+                        url: "<?php echo base_url('seller/orders/updateQty') ?>",
+                        type: 'POST',
+                        cache: false,
+                        data: {
+                            qty: $("#quantity_" + i).val(),
+                            order_item_id: order_item_id,
+                            order_id: order_id,
+                            i: i
+                        },
+                        dataType: "json",
+                        error: function(xhr, status, error) {
+                            //alert(xhr.responseText);
+                            iziToast.error({
+                                message: 'Something went wrong',
+                            });
+                            swal.close();
+                            location.reload();
+                        },
+                        success: function(result) {
+                            if (result['error'] == false) {
+                                iziToast.success({
+                                    message: result['message'],
+                                });
+
+                                //$("#check_"+order_item_id).remove();
+                                //("#it_state_"+order_item_id).remove();
+                                location.reload();
+
+                            } else {
+                                iziToast.error({
+                                    message: result['message'],
+                                });
+                            }
+                            swal.close();
+                            location.reload();
+                        }
+                    });
+                });
+            },
+            allowOutsideClick: false
+        });
+    }
+
+    function send_delivery_schedule(order_item_id, order_id) {
+        var schedule_delivery_date = $("#schedule_delivery_date_" + order_item_id).val();
+        $.ajax({
             url: "<?php echo base_url('seller/orders/send_delivery_schedule') ?>",
             type: 'POST',
             cache: false,
-            data:{schedule_delivery_date:schedule_delivery_date, order_item_id:order_item_id, order_id: order_id},
+            data: {
+                schedule_delivery_date: schedule_delivery_date,
+                order_item_id: order_item_id,
+                order_id: order_id
+            },
             dataType: "json",
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
                 //alert(xhr.responseText);
                 iziToast.error({
                     message: 'Something went wrong',
                 });
-               
+
             },
-            success: function (result) {
+            success: function(result) {
                 if (result['error'] == false) {
                     iziToast.success({
                         message: result['message'],
                     });
-                    
+
                 } else {
                     iziToast.error({
                         message: result['message'],
                     });
                 }
                 location.reload();
-            }  
+            }
         });
-}
-function requestPayment(order_id)
-{
-    Swal.fire({
-        title: 'Are You Sure!',
-        text: "You want to sent payment demand",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, update it!',
-        showLoaderOnConfirm: true,
-        preConfirm: function () {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    url: "<?php echo base_url('seller/orders/requestPayment') ?>",
-                    type: 'POST',
-                    cache: false,
-                    data:{order_id:order_id},
-                    dataType: "json",
-                    error: function (xhr, status, error) {
-                        //alert(xhr.responseText);
-                        iziToast.error({
-                            message: 'Something went wrong',
-                        });
-                        swal.close();
-                        //location.reload();
-                    },
-                    success: function (result) {
-                        if (result['error'] == false) {
-                            iziToast.success({
-                                message: result['message'],
-                            });
-                            
-                        } else {
-                            iziToast.error({
-                                message: result['message'],
-                            });
-                        }
-                        swal.close();
-                        location.reload();
-                    }  
-                });
-            
-            });
-        },
-        allowOutsideClick: false
-    });
-}
+    }
 
-function out_of_stock(order_id)
-{
-    Swal.fire({
-        title: 'Are You Sure!',
-        text: "You want to cancel the order",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, cancel it!',
-        showLoaderOnConfirm: true,
-        preConfirm: function () {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    url: "<?php echo base_url('seller/orders/out_of_stock') ?>",
-                    type: 'POST',
-                    cache: false,
-                    data:{order_id:order_id},
-                    dataType: "json",
-                    error: function (xhr, status, error) {
-                        //alert(xhr.responseText);
-                        iziToast.error({
-                            message: 'Something went wrong',
-                        });
-                        swal.close();
-                        //location.reload();
-                    },
-                    success: function (result) {
-                        if (result['error'] == false) {
-                            iziToast.success({
-                                message: result['message'],
-                            });
-                            
-                        } else {
+    function requestPayment(order_id) {
+        Swal.fire({
+            title: 'Are You Sure!',
+            text: "You want to sent payment demand",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, update it!',
+            showLoaderOnConfirm: true,
+            preConfirm: function() {
+                return new Promise((resolve, reject) => {
+                    $.ajax({
+                        url: "<?php echo base_url('seller/orders/requestPayment') ?>",
+                        type: 'POST',
+                        cache: false,
+                        data: {
+                            order_id: order_id
+                        },
+                        dataType: "json",
+                        error: function(xhr, status, error) {
+                            //alert(xhr.responseText);
                             iziToast.error({
-                                message: result['message'],
+                                message: 'Something went wrong',
                             });
+                            swal.close();
+                            //location.reload();
+                        },
+                        success: function(result) {
+                            if (result['error'] == false) {
+                                iziToast.success({
+                                    message: result['message'],
+                                });
+
+                            } else {
+                                iziToast.error({
+                                    message: result['message'],
+                                });
+                            }
+                            swal.close();
+                            location.reload();
                         }
-                        swal.close();
-                        location.reload();
-                    }  
+                    });
+
                 });
-            
-            });
-        },
-        allowOutsideClick: false
-    });
-}
+            },
+            allowOutsideClick: false
+        });
+    }
+
+    function out_of_stock(order_id) {
+        Swal.fire({
+            title: 'Are You Sure!',
+            text: "You want to cancel the order",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, cancel it!',
+            showLoaderOnConfirm: true,
+            preConfirm: function() {
+                return new Promise((resolve, reject) => {
+                    $.ajax({
+                        url: "<?php echo base_url('seller/orders/out_of_stock') ?>",
+                        type: 'POST',
+                        cache: false,
+                        data: {
+                            order_id: order_id
+                        },
+                        dataType: "json",
+                        error: function(xhr, status, error) {
+                            //alert(xhr.responseText);
+                            iziToast.error({
+                                message: 'Something went wrong',
+                            });
+                            swal.close();
+                            //location.reload();
+                        },
+                        success: function(result) {
+                            if (result['error'] == false) {
+                                iziToast.success({
+                                    message: result['message'],
+                                });
+
+                            } else {
+                                iziToast.error({
+                                    message: result['message'],
+                                });
+                            }
+                            swal.close();
+                            location.reload();
+                        }
+                    });
+
+                });
+            },
+            allowOutsideClick: false
+        });
+    }
 </script>

@@ -4,18 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tax Invoice</title>
+    <title><?php echo ($dchallan !="" && $dchallan == "1" ? "Delivery Challan" : "Tax Invoice"); ?></title>
     <?php $this->load->view('admin/include-head.php'); ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
 </head>
-
 <body>
     <div class="container mt-5">
         <div class="row justify-content-center border border-black p-2" id="generatePDf">
             <div class="col-lg-12 py-4">
-                <h2 class="text-center font-weight-bold">Tax Invoice</h2>
+                <h2 class="text-center font-weight-bold"><?php echo ($dchallan !="" && $dchallan == "1" ? "Delivery Challan" : "Tax Invoice"); ?></h2>
             </div>
             <div class="col-lg-8 pb-2">
                 <div class="bg-gray-light">
@@ -29,7 +26,7 @@
                             </tr>
                             <tr class="p-2">
                                 <td class="border-top-0 py-1 text-left font-weight-bold">Address : -</td>
-                                <td class="border-top-0 py-1 text-left pl-2"> <?php echo $manufacture['plot_no'] . ' ' . $manufacture['street_locality'] . ' ' . $manufacture['landmark'] . ' ' . $manufacture['city'] . ' ' . $manufacture['state'] . ' ' . $manufacture['pin'];?></td>
+                                <td class="border-top-0 py-1 text-left pl-2"> <?php echo $manufacture['plot_no'] . ' ' . $manufacture['street_locality'] . ' ' . $manufacture['landmark'] . ' ' . $manufacture['city'] . ' ' . $manufacture['state'] . ' ' . $manufacture['pin']; ?></td>
                             </tr>
                             <tr class="p-2">
                                 <td class="border-top-0 py-1 text-left font-weight-bold">Contact : -</td>
@@ -121,13 +118,12 @@
                             </tr>
                             <tr class="p-2 ">
                                 <td class="border-top-0 py-2 w-50 font-weight-bold">Date : -</td>
-                                <td class="border-top-0 py-2 w-50 pl-2"><?=  (!empty($order_item_stages) && $order_item_stages[0]["status"] === "send_invoice" ? date('d M Y h:i a', strtotime($order_item_stages[0]["created_date"])) : date('d M Y h:i a', strtotime(date('d-m-y')))); ?></td>
+                                <td class="border-top-0 py-2 w-50 pl-2"><?= (!empty($order_item_stages) && $order_item_stages[0]["status"] === "send_invoice" ? date('d M Y h:i a', strtotime($order_item_stages[0]["created_date"])) : date('d M Y h:i a', strtotime(date('d-m-y')))); ?></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
             <div class="col-lg-12 py-3">
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -219,7 +215,6 @@
             </div>
         </div>
         <?php if ($view == "view") { ?>
-
             <div class="row justify-content-center">
                 <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
             </div>
@@ -254,5 +249,4 @@
         }
     </script>
 </body>
-
 </html>

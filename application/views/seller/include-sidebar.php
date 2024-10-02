@@ -107,6 +107,14 @@ li.nav-item {text-align: center;}
                         <p>Settings</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?php echo base_url('seller/orders/termscondition');?>" class="nav-link">
+                        <i class="nav-icon fa fa-file-contract text-primary--"></i><br />
+                        <p>
+                            Terms & Conditions
+                        </p>
+                    </a>
+                </li>
                 
                 <li class="nav-item">
                     <a href="<?php echo base_url();?>" class="nav-link">
@@ -116,6 +124,7 @@ li.nav-item {text-align: center;}
                         </p>
                     </a>
                 </li>
+               
                 
                 <li class="nav-item">
                     <a href="<?= base_url('seller/home/logout/') ?>" class="nav-link">

@@ -221,6 +221,105 @@ class Orders extends CI_Controller
         }
     }
 
+    public function termscondition()
+    {
+
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+
+            $bank_transfer = array();
+            $this->data['main_page'] = FORMS . 'terms-conditions';
+            $settings = get_settings('system_settings', true);
+
+            $this->data['title'] = 'View Order | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'View Order | ' . $settings['app_name'];
+            $seller_id = $this->session->userdata('user_id');
+            $getterms = $this->common_model->getRecords('terms_conditions', '*', array("user_id" => $order["order_data"][0]["seller_id"]));
+
+
+            $this->data["getterms"] = $getterms;
+            $this->load->view('seller/template', $this->data);
+        } else {
+            redirect('seller/login', 'refresh');
+        }
+    }
+    public function gettermsdetails($id)
+    {
+        $getterms = $this->common_model->getRecords('terms_conditions', '*', array("id" => $id));
+        if(!empty($getterms)) {
+            $response["status"] = true;
+            $response["data"] = $getterms;
+        }else {
+            $response["status"] = false;
+            $response["message"] = "No data found";
+        }
+        echo json_encode($response);
+
+
+    }
+    public function termdelete($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete("terms_conditions");
+        redirect('seller/orders/termscondition', 'refresh');
+
+    }
+    public function termsconditionsave()
+    {
+        $postData = $this->input->post();
+        $termsArr["terms_conditions"] = $postData["terms_cond"];
+        $termsArr["user_id"] = $this->session->userdata('user_id');
+        if (isset($postData["term_id"]) && $postData["term_id"] != "") {
+            $this->db->where('id', $postData['term_id']);
+            $updateterms = $this->db->update('terms_conditions', $termsArr);
+        } else {
+            $ins_purchase_details = $this->db->insert("terms_conditions", $termsArr);
+            $updateterms = $this->db->insert_id();
+        }
+        if ($updateterms) {
+            $response["status"] = true;
+            $response["message"] = "Data saved successfully";
+        } else {
+            $response["status"] = false;
+            $response["message"] = "Please tr again later";
+        }
+        echo json_encode($response);
+    }
+
+    public function paymentreceipt($order_id, $view = "")
+    {
+            $order = fetch_orders($order_id, NULL, false, false, 1, NULL, NULL, NULL, NULL);
+            $this->db->distinct();
+            $this->db->select('a.seller_id, b.username, b.mobile, b.email, b.mfg_no, c.company_name, c.gst_no, c.fertilizer_license_no, c.pesticide_license_no, c.seeds_license_no, c.account_name, c.account_number, c.bank_name, c.bank_code, c.bank_city, c.bank_branch, c.bank_state, c.plot_no, c.street_locality, c.landmark, cc.name, city, s.name as state, c.pin');
+            $this->db->from('order_items as a');
+            $this->db->join('users as b', 'a.seller_id = b.id', 'left');
+            $this->db->join('seller_data as c', 'a.seller_id = c.user_id', 'left');
+            $this->db->join('states as s', 'c.state_id = s.id', 'left');
+            $this->db->join('cities as cc', 'c.city_id = cc.id', 'left');
+            $this->db->where('a.order_id', $order_id);
+            $query = $this->db->get();
+
+            $manufactures = $query->result_array();
+
+
+            if (!empty($order)) {
+                $orderState = fetch_details(["id" => $order["order_data"][0]["address_id"]], "addresses");
+                $userdetails = fetch_details(["id" => $order["order_data"][0]["user_id"]], "users");
+                if (!empty($orderState)) {
+                    $order["order_data"][0]["state"] = $orderState[0]["state"];
+                }
+                if (!empty($userdetails)) {
+                    $order["order_data"][0]["email"] = $userdetails[0]["email"];
+                }
+            }
+
+            $pdfdata['manufacture'] = $manufactures[0];
+            $pdfdata['order'] = $order['order_data'];
+            $pdfdata['view'] = $view;
+
+
+            return $this->load->view('admin/pages/view/manufacture-payment-receipt.php', $pdfdata);
+        
+    }
     /* To update the status of particular order item */
     public function update_order_status()
     {
@@ -1754,6 +1853,7 @@ class Orders extends CI_Controller
     {
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
             $seller_id = $this->ion_auth->get_user_id();
+          
             return $this->Order_model->get_seller_account_orders_list($seller_id);
         } else {
             redirect('admin/login', 'refresh');

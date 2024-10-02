@@ -1255,7 +1255,7 @@
                                                                         <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit_invoice_btn">Send</button>
                                                                     </div>
                                                                     <div class="form-group mb-0 col-md-2">
-                                                                        <a href="<?php echo base_url('my-account/tax-invoice/').$order_detls[0]['id']."/view" ?>" target="_blank" type="button" class="btn btn-primary btn-sm btn-block" >View Invoice</a>
+                                                                        <a href="<?php echo base_url('my-account/tax-invoice/') . $order_detls[0]['id'] . "/view" ?>" target="_blank" type="button" class="btn btn-primary btn-sm btn-block">View Invoice</a>
                                                                     </div>
                                                                 </div>
                                                             </form>
@@ -1508,7 +1508,12 @@
                                                         ?>
                                                     <?php } else if ($order_item_stage['status'] == 'send_mfg_payment_ack') { ?>
                                                         <h3 class="tmln-title">Transaction details received from Happycrop. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
-                                                        <?php
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                            <a href="<?= base_url('seller/orders/paymentreceipt/') . $order_detls[0]['id'] . "/view" ?>" target="_blank" class="btn btn-primary btn-sm btn-block ">View Payment Receipt</a>
+
+                                                            </div>
+                                                            <?php
                                                                 $ids = explode(',', $order_item_stage['ids']);
                                                                 if ($ids) {
                                                                     $this->db->select('*');
@@ -1522,30 +1527,31 @@
                                                                         $i_count = 1;
                                                                         foreach ($order_item_mfg_payment_acks as $order_item_mfg_payment_ack) {
                                                                             if (file_exists($order_item_mfg_payment_ack['attachments']) && $order_item_mfg_payment_ack['attachments']) {
-                                                        ?><a class="btn btn-sm col-md-3 btn-primary mb-1" href="<?php echo base_url() . $order_item_mfg_payment_ack['attachments']; ?>" target="_blank">Download transaction details</a><?php
+                                                            ?><a class="btn btn-sm col-md-3 btn-primary mb-1" href="<?php echo base_url() . $order_item_mfg_payment_ack['attachments']; ?>" target="_blank">Download transaction details</a><?php
                                                                                                                                                                                                                                         $i_count++;
                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                             }
                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                         ?>
+                                                        </div>
                                                         <?php
                                                                 if (count($order_item_stages) == $_count) {
                                                         ?>
                                                             <p class="mb-0">Please send confirmation of payment.</p>
                                                             <form class="form-horizontal " id="send_payment_confirmation_form" action="<?= base_url('seller/orders/send_mfg_payment_confirmation_form/'); ?>" method="POST" enctype="multipart/form-data">
                                                                 <div class="row">
-                                                                    <div class="form-group mb-0 col-md-2">
+                                                                    <!-- <div class="form-group mb-0 col-md-2">
                                                                         <label class="btn btn-warning btn-sm btn-block" for="payment_confirmation">Select file</label>
                                                                         <div class="custom-file-input" style="margin-top: -30px;">
                                                                             <input type="file" class="form-control" name="attachments[]" id="payment_confirmation" style="padding:0px;min-height: 28px;" required="" onchange="$('#pay_text').html(this.value.replace('C:\\fakepath\\', ''));" />
                                                                         </div>
                                                                         <p class=""><span id="pay_text"></span></p>
-                                                                    </div>
-                                                                    <div class="form-group mb-0 col-md-2">
+                                                                    </div> -->
+                                                                    <div class="form-group mb-0 col-md-3">
                                                                         <input type="hidden" name="order_item_id" value="">
                                                                         <input type="hidden" name="order_id" value="<?= $order_detls[0]['id'] ?>">
-                                                                        <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit_payment_confirmation_btn">Send</button>
+                                                                        <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit_payment_confirmation_btn">Received Confirmation</button>
                                                                     </div>
                                                                 </div>
                                                             </form>
