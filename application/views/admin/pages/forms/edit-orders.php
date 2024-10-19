@@ -748,6 +748,8 @@
                                                 <div class="tmln-info">
                                                     <h3 class="tmln-title mb-0">Order placed. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_detls[0]['date_added'])); ?></small></h3>
                                                     <small class="mb-0">- Waiting for updates from manufacturer.</small>
+                                                    <a href="#" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block ' data-toggle="modal" data-target="#purchase-modal">View Purchase Invoice</a>
+
                                                 </div>
                                             </div>
 
@@ -1054,17 +1056,18 @@
                                                             <a href="<?= base_url('my-account/payment-receipt/') . $order_detls[0]['id'] . "/view" ?>" target="_blank" class="btn btn-primary btn-sm btn-block w-25">View Payment Receipt</a>
                                                             <form class="form-horizontal " id="send_payment_confirmation_form" action="<?= base_url('admin/orders/send_payment_confirmation/'); ?>" method="POST" enctype="multipart/form-data">
                                                                 <div class="row">
-                                                                    <div class="form-group mb-0 col-md-2">
+                                                                    <!-- <div class="form-group mb-0 col-md-2 ">
                                                                         <label class="btn btn-warning btn-sm btn-block" for="payment_confirmation">Select file</label>
                                                                         <div class="custom-file-input" style="margin-top: -30px;">
                                                                             <input type="file" class="form-control" name="attachments[]" id="payment_confirmation" style="padding:0px;min-height: 28px;" required="" onchange="$('#f1_text').html(this.value.replace('C:\\fakepath\\', ''));" />
                                                                         </div>
                                                                         <p class=""><span id="f1_text"></span></p>
-                                                                    </div>
+                                                                    </div> -->
                                                                     <div class="form-group mb-0 col-md-3">
                                                                         <input type="hidden" name="order_item_id" value="">
                                                                         <input type="hidden" name="order_id" value="<?= $order_detls[0]['id'] ?>">
-                                                                        <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit_payment_confirmation_btn">Upload the payment receipt</button>
+                                                                        <!-- <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit_payment_confirmation_btn">Upload the payment receipt</button> -->
+                                                                        <button type="submit" class="btn btn-primary btn-sm btn-block" id="submit_payment_confirmation_btn">Confirm Received Payment</button>
                                                                     </div>
                                                                 </div>
                                                             </form>
@@ -1448,7 +1451,7 @@
                                                                     <div class="form-group mb-0 col-md-2">
                                                                         <label class="btn btn-warning btn-sm btn-block" for="payment_confirmation">Select file</label>
                                                                         <div class="custom-file-input" style="margin-top: -30px;">
-                                                                            <input type="file" class="form-control" name="attachments[]" id="payment_confirmation" style="padding:0px;min-height: 28px;" required="" onchange="$('#pay_text').html(this.value.replace('C:\\fakepath\\', ''));" />
+                                                                            <input type="file" class="form-control" name="attachments[]" id="payment_confirmation" style="padding:0px;min-height: 28px;" onchange="$('#pay_text').html(this.value.replace('C:\\fakepath\\', ''));" />
                                                                         </div>
                                                                         <p class=""><span id="pay_text"></span></p>
                                                                     </div>
@@ -1925,6 +1928,196 @@
             </div>
         </div>
     </div>
+</div>
+<div class="modal fade" id="purchase-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- <h5 class="modal-title" id="exampleModalLongTitle">Purchase Order</h5> -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="mt-4" id="generatepdf">
+                    <div class="row ">
+                        <div class="col-lg-12 py-2">
+                            <h2 class="text-center">Purchase Order</h2>
+                        </div>
+                        <div class="col-lg-12 pb-2">
+                            <div class="bg-gray-light">
+                                <p class="font-weight-bold p-2 m-0">Manufacturer / Service provider Name</p>
+                                <table class="table border-none">
+                                    <tbody>
+                                        <tr class="p-2">
+                                            <td class="border-top-0 py-1 w-50 font-weight-bold">Address : -</td>
+                                            <td class="border-top-0 py-1 w-50 pl-2"> <?= $manufacture['plot_no'] . ' ' . $manufacture['street_locality'] . ' ' . $manufacture['landmark'] . ' ' . $manufacture['city'] . ' ' . $manufacture['state'] . ' ' . $manufacture['pin'] ?></td>
+                                        </tr>
+                                        <tr class="p-2">
+                                            <td class="border-top-0 py-1 w-50 font-weight-bold">Contact : -</td>
+                                            <td class="border-top-0 py-1 w-50 pl-2"><?= $manufacture['mobile'] ?></td>
+                                        </tr>
+                                        <tr class="p-2">
+                                            <td class="border-top-0 py-1 w-50 font-weight-bold">Email : -</td>
+                                            <td class="border-top-0 py-1 w-50 pl-2"><?= $manufacture['email'] ?></td>
+                                        </tr>
+                                        <tr class="p-2">
+                                            <td class="border-top-0 py-1 w-50 font-weight-bold">GSTIN : -</td>
+                                            <td class="border-top-0 py-1 w-50 pl-2"><?= $manufacture['gst_no'] ?></td>
+                                        </tr>
+                                        <tr class="p-2">
+                                            <td class="border-top-0 py-1 w-50 font-weight-bold">State : -</td>
+                                            <td class="border-top-0 py-1 w-50 pl-2"><?= $manufacture['state'] ?></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="bg-gray-light h-100">
+                                <table class="table border-none">
+                                    <tbody>
+                                        <tr class="p-2">
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">Seller Name : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?= $order_detls[0]['company_name'] ?></td>
+                                        </tr>
+                                        <tr class="p-2">
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">Address : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?= $order_detls[0]['billing_address'] ?></td>
+                                        </tr>
+                                        <tr class="p-2">
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">Phone Number : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?= $order_detls[0]['mobile'] ?></td>
+                                        </tr>
+                                        <tr class="p-2">
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">Email : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?= $order_detls[0]['email'] ?></td>
+                                        </tr>
+                                        <tr class="p-2">
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">State of Supply : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?= $order_detls[0]['state'] ?></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="bg-gray-light h-100">
+                                <table class="table h-100 border-none">
+                                    <tbody>
+                                        <tr class="p-2 ">
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">Order Number : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?php echo 'HC-A' . $order_detls[0]['id']; ?></td>
+                                        </tr>
+                                        <tr class="p-2 ">
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">Order Date : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?= date('d M Y H:i', strtotime($order_detls[0]['date_added'])); ?></td>
+                                        </tr>
+                                        <tr class="p-2 ">
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">Due Date : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?= date('d M Y H:i', strtotime($order_detls[0]['schedule_delivery_date'])) ?></td>
+                                        </tr>
+                                        <tr class="p-2 ">
+                                            <td class="border-top-0 py-2 w-50 font-weight-bold">GSTIN : -</td>
+                                            <td class="border-top-0 py-2 w-50 pl-2"><?= $order_detls[0]['retailer_gst_no']; ?></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 py-3">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr class="bg-primary text-white">
+                                            <th>#</th>
+                                            <th>Item Name</th>
+                                            <th>Qty</th>
+                                            <th>Unit</th>
+                                            <th>Price/Unit</th>
+                                            <th>GST</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $i = 1;
+                                        $total_amt = 0;
+                                        $total_qty = 0;
+                                        $total_gst = 0;
+                                      
+                                        
+                                        foreach ($order['order_items'] as $key => $item) {
+                                            $total_amt += $item["price"] * (($item['quantity']) ? $item['quantity'] : $item['quantity']);
+                                            $total_qty += (($item['quantity']) ? $item['quantity'] : $item['quantity']);
+                                            $total_gst += ($item["price"] * $item['tax_percentage'] / 100);
+
+                                            if ($manufacture['seller_id'] == $item['seller_id']) {
+                                        ?>
+                                                <tr>
+                                                    <td><?= $i; ?></td>
+                                                    <td><?php echo $item['product_name']; ?></td>
+                                                    <td><?php echo (($item['quantity']) ? $item['quantity'] : $item['quantity']) ?></td>
+                                                    <td><?php echo (($item['unit'] != '') ? $item['unit'] : $item['pv_unit']) ?></td>
+                                                    <td><?php echo $item["price"] ?></td>
+                                                    <td><?= isset($item['tax_percentage']) && !empty($item['tax_percentage']) ? ($item["price"] * $item['tax_percentage'] / 100) . '(' . $item['tax_percentage'] . ' %)' : '-' ?></td>
+                                                    <td><?= ($item["price"] * (($item['quantity']) ? $item['quantity'] : $item['quantity'])) ?></td>
+                                                </tr>
+                                        <?php
+                                            }
+                                            $i++;
+                                        }
+                                        ?>
+                                        <tr>
+                                            <th class="text-left" colspan="2">Total Amount</th>
+                                            <th class="text-left"><?= $total_qty; ?></th>
+                                            <th class="text-left" colspan="2"></th>
+                                            <th class="text-left"><?= $settings['currency'] . '' . number_format($total_gst, 2); ?></th>
+                                            <th class="text-left"><?php echo $settings['currency'] . '' . number_format(($total_amt), 2); ?></th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 py-2">
+                                    <div class="form-group ">
+                                        <label for="receipt"> <strong>Invoice Amount in Words</strong> </label>
+                                        <div class="bg-gray-light p-2 w-100"><?php echo convertNumberToWords($total_amt) ?></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 pt-6">
+                                    <div class="bg-gray-light">
+                                        <table class="table h-100 border-none">
+                                            <tbody>
+                                                <tr class="p-2 ">
+                                                    <td class="border-top-0 w-50 font-weight-bold">Total : -</td>
+                                                    <td class="border-top-0 w-50 pl-2"><?php echo $settings['currency'] . '' . number_format(($total_amt), 2); ?></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <?php include(APPPATH . 'views/front-end/happycrop/exportfooter.php'); ?>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row justify-content-center py-3 ">
+
+                    <div class="col-lg-4 align-center text-center">
+                        <button class="btn btn-primary btn-sm" onclick="generatePDF('generatepdf')">Download</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 </div>
 <script type="text/javascript">
     function calPrice(qty, price, i) {

@@ -4,17 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo ($dchallan !="" && $dchallan == "1" ? "Delivery Challan" : "Tax Invoice"); ?></title>
+    <title><?php echo ($dchallan != "" && $dchallan == "1" ? "Delivery Challan" : "Tax Invoice"); ?></title>
     <?php $this->load->view('admin/include-head.php'); ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        .signatureimg {
+            width: 228px;
+            height: 143px;
+            margin-left: 100px;
+        }
+    </style>
 </head>
+
 <body>
     <div class="container mt-5">
         <div class="row justify-content-center border border-black p-2" id="generatePDf">
             <div class="col-lg-12 py-4">
-                <h2 class="text-center font-weight-bold"><?php echo ($dchallan !="" && $dchallan == "1" ? "Delivery Challan" : "Tax Invoice"); ?></h2>
+                <h2 class="text-center font-weight-bold"><?php echo ($dchallan != "" && $dchallan == "1" ? "Delivery Challan" : "Tax Invoice"); ?></h2>
             </div>
-            <div class="col-lg-8 pb-2">
+            <div class="col-lg-12 pb-2">
                 <div class="bg-gray-light">
                     <table class="table border-none">
                         <tbody>
@@ -24,37 +32,43 @@
 
                                 </td>
                             </tr>
+
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold">Address : -</td>
+                                <td class="border-top-0 py-1 text-left font-weight-bold w-25">Name : -</td>
+                                <td class="border-top-0 py-1 text-left pl-2"> <?php echo $manufacture['company_name']; ?></td>
+                            </tr>
+                            <tr class="p-2">
+                                <td class="border-top-0 py-1 text-left font-weight-bold w-25">Address : -</td>
                                 <td class="border-top-0 py-1 text-left pl-2"> <?php echo $manufacture['plot_no'] . ' ' . $manufacture['street_locality'] . ' ' . $manufacture['landmark'] . ' ' . $manufacture['city'] . ' ' . $manufacture['state'] . ' ' . $manufacture['pin']; ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold">Contact : -</td>
+                                <td class="border-top-0 py-1 text-left font-weight-bold w-25">Contact : -</td>
                                 <td class="border-top-0 py-1 text-left pl-2"><?= $manufacture['mobile'] ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold">Email : -</td>
+                                <td class="border-top-0 py-1 text-left font-weight-bold w-25">Email : -</td>
                                 <td class="border-top-0 py-1 text-left pl-2"><?= $manufacture['email'] ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold">GSTIN : -</td>
+                                <td class="border-top-0 py-1 text-left font-weight-bold w-25">GSTIN : -</td>
                                 <td class="border-top-0 py-1 text-left pl-2"><?= $manufacture['gst_no'] ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold">State : -</td>
+                                <td class="border-top-0 py-1 text-left font-weight-bold w-25">State : -</td>
                                 <td class="border-top-0 py-1 text-left pl-2"><?= $manufacture['state'] ?></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="col-lg-4 pb-2">
-            </div>
+            <!-- <div class="col-lg-4 pb-2">
+            </div> -->
             <div class="col-lg-4">
-                <div class="bg-gray-light">
+                <div class="bg-gray-light h-100">
                     <table class="table border-none">
+
                         <p class="font-weight-bold p-2 m-0">Bill To:</p>
-                        <p class="font-weight-bold p-2 m-0">Shop Owner Name</p>
+                        <p class="font-weight-bold p-2 m-0"><?php echo $order[0]['retailer_company_name']; ?></p>
 
                         <tbody>
                             <tr class="p-2">
@@ -79,10 +93,10 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="bg-gray-light">
+                <div class="bg-gray-light h-100">
                     <table class="table border-none">
                         <p class="font-weight-bold p-2 m-0">Ship To:</p>
-                        <p class="font-weight-bold p-2 m-0">Shop Owner Name</p>
+                        <p class="font-weight-bold p-2 m-0"><?php echo $order[0]['retailer_company_name']; ?></p>
 
                         <tbody>
                             <tr class="p-2">
@@ -107,10 +121,9 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="bg-gray-light">
-                    <table class="table h-100 border-none">
-                        <p class="font-weight-bold p-2 m-0">Place to supply</p>
-
+                <div class="bg-gray-light h-100">
+                    <table class="table  border-none">
+                        <p class="font-weight-bold p-2 m-0">Place to supply : <?php echo ($order[0]['state'] ? $order[0]['state'] : "Maharashtra") ?></p>
                         <tbody>
                             <tr class="p-2 ">
                                 <td class="border-top-0 py-2 w-50 font-weight-bold">Invoice No : -</td>
@@ -207,26 +220,45 @@
                                 </tbody>
                             </table>
                         </div>
+                        <p class="pb-2 text-right pr-5"><?= $this->config->item('happycrop_name'); ?></p>
+                        <div>
+                            <img src="<?= base_url('assets/signature-img.jpeg') ?>" class="signatureimg">
+                        </div>
+                        <p class="py-2 text-right pr-5">Authorized Signatory</p>
                     </div>
-                    <?php include(APPPATH . 'views/front-end/happycrop/exportfooter.php'); ?>
-
-
                 </div>
+
+                <?php include(APPPATH . 'views/front-end/happycrop/exportfooter.php'); ?>
+
+
             </div>
         </div>
-        <?php if ($view == "view") { ?>
-            <div class="row justify-content-center">
-                <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
-            </div>
-        <?php } ?>
+
+    </div>
+    <?php if ($view == "view") { ?>
+        <div class="row justify-content-center">
+            <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
+        </div>
+    <?php } ?>
     </div>
     <?php $this->load->view('admin/include-script.php'); ?>
     <script>
         $(document).ready(function() {
             <?php if ($view != "view") { ?>
                 generatePDF();
+                s
             <?php } ?>
         });
+
+        function printDiv(divId) {
+            var printContents = document.getElementById('generatePDf').innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents; 
+        }
+
 
         function generatePDF() {
             const element = document.getElementById('generatePDf');
@@ -245,8 +277,10 @@
                 history.back();
 
             });
+            // window.print();
 
         }
     </script>
 </body>
+
 </html>

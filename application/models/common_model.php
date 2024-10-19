@@ -4,7 +4,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class common_model extends CI_Model
+class Common_model extends CI_Model
 {
     public function getRecords($table, $fields = '', $condition = '', $order_by = '', $limit = '', $debug = 0, $group_by = '')
     {

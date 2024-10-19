@@ -438,7 +438,8 @@ class Orders extends CI_Controller
 
                     array_push($items, $temp);
                 }
-
+                $order = fetch_orders($_GET['edit_id'], Null, false, false, 1, NULL, NULL, NULL, NULL);
+                $this->data['order'] = $order["order_data"][0];
                 $this->data['order_detls'] = $res;
                 $this->data['bank_transfer'] = $bank_transfer;
                 $this->data['items'] = $items;
@@ -1023,7 +1024,7 @@ class Orders extends CI_Controller
                     $this->response['csrfName'] = $this->security->get_csrf_token_name();
                     $this->response['csrfHash'] = $this->security->get_csrf_hash();
                     $this->response['data'] = (!empty($data)) ? $data : [];
-                   
+
                     print_r(json_encode($this->response));
                 } else {
                     $this->response['error'] = true;
@@ -1041,8 +1042,8 @@ class Orders extends CI_Controller
 
     public function send_mfg_payment_ack_form()
     {
-       
-        
+
+
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
             $this->form_validation->set_rules('order_id', 'Order Id', 'trim|required|numeric|xss_clean');
             //$this->form_validation->set_rules('order_item_id', 'Order Item', 'trim|required|xss_clean');
@@ -1236,7 +1237,7 @@ class Orders extends CI_Controller
             redirect('admin/login', 'refresh');
         }
     }
-   
+
     public function msg_about_complaint()
     {
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {

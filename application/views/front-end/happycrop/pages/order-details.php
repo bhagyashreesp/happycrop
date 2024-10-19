@@ -108,7 +108,6 @@
                                 <h6 class="ml-auto-- mr-3-- float-md-right mb-3">
                                     <!--<a target="_blank" href="<?= base_url('my-account/order-invoice/' . $order['id']) ?>" class='button button-primary-outline '><?= !empty($this->lang->line('invoice')) ? $this->lang->line('invoice') : 'Invoice' ?></a>-->
                                     <a href="<?= base_url('my-account/orders/') ?>" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3'><?= !empty($this->lang->line('back_to_orders')) ? $this->lang->line('back_to_orders') : 'Back to Orders' ?></a>
-                                    <a href="#" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3' data-toggle="modal" data-target="#purchase-modal">View Purchase Invoice</a>
                                 </h6>
                             </div>
                             <div class="col-md-8 ">
@@ -248,9 +247,9 @@
                                                                 </td>
                                                                 <td class="text-center"><?php echo $item['quantity'] ?></td>
                                                                 <td class="text-center">
-                                                                    <?php //echo ($item['packing_size']*$item['carton_qty']*$item['quantity']).' '.$item['unit']; 
+                                                                    <?php echo ($item['packing_size']*$item['carton_qty']*$item['quantity']).' '.$item['unit']; 
                                                                     ?>
-                                                                    <?php echo $packing_size * $car_qty . ' ' . $unit; ?>
+                                                                    <!-- <?php echo $packing_size * $car_qty . ' ' . $unit; ?> -->
                                                                 </td>
                                                                 <td class="text-center"><?= isset($item['tax_percentage']) && !empty($item['tax_percentage']) ? $item['tax_percentage'] . ' %' : '-' ?></td>
                                                                 <td class="text-right"><?php echo number_format(($item['mrp']), 2) ?></td>
@@ -662,6 +661,7 @@
                                                 <div class="tmln-card">
                                                     <div class="tmln-info">
                                                         <h3 class="tmln-title">Your order placed. <small class="float-right font-weight-normal"><?php echo date('d M Y h:i A', strtotime($order['date_added'])); ?></small></h3>
+                                                        
                                                         <p>
                                                             <?php
                                                             /*if($order['order_status']=='received')
@@ -672,6 +672,9 @@
                                                             //}
                                                             ?>
                                                         </p>
+                                                        <a href="#" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3' data-toggle="modal" data-target="#purchase-modal">View Purchase Invoice</a>
+
+
                                                     </div>
                                                 </div>
                                                 <?php
@@ -943,6 +946,8 @@
                                                                 <?php } else if ($order_item_stage['status'] == 'payment_ack') { ?>
                                                                     <h3 class="tmln-title">Transaction details shared with Happycrop. <small class="float-right font-weight-normal"><?php echo date('d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
                                                                     <p><small>- Waiting for confirmation.</small></p>
+                                                                    <a target="_blank" class=' w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3' href="<?php echo base_url().'my-account/payment-receipt/' . $order_item_stage['order_id'].'/view' ; ?>">View Payment Receipt</a>
+
                                                                     <?php /* ?>
                                                     <table class="table table-bordered">
                                                         <tr class="bg-primary text-white">
@@ -1851,7 +1856,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="bg-gray-light">
+                            <div class="bg-gray-light h-100">
                                 <table class="table border-none">
                                     <tbody>
                                         <tr class="p-2">
@@ -1879,7 +1884,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="bg-gray-light">
+                            <div class="bg-gray-light h-100">
                                 <table class="table h-100 border-none">
                                     <tbody>
                                         <tr class="p-2 ">
@@ -2077,9 +2082,8 @@
                             <div class="form-group col-md-12">
                                 <div class="">
                                     <label class="form-label" for="description">Description</label>
-                                    <textarea class="form-control w-100" name="description" rows="4" maxlength="255">
+                                    <input type="text" class="form-control w-100" name="description" rows="4" maxlength="255" />
 
-                                    </textarea>
 
                                 </div>
                             </div>
@@ -2112,6 +2116,7 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     <?php /* ?>
 function approveBulkQty(order_stage_id, order_id)

@@ -88,7 +88,7 @@
         })
     }
     $(document).ready(function() {
-        $(document).on("submit", "#terms_conditions", function(e) {
+        $(document).on("submit", "#terms_conditionform", function(e) {
             e.preventDefault();
             e.stopImmediatePropagation();
             var form_data = new FormData($('#terms_conditionform')[0]);

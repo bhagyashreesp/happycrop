@@ -165,9 +165,6 @@
 
                     <div>
 
-                        <?php if (!empty($order_detls) && $order_detls[0]['active_status'] === "payment_demand") { ?>
-                            <a href="#" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block py-2 mb-2' data-toggle="modal" data-target="#purchase-modal">View Sale Order</a>
-                        <?php } ?>
                     </div>
                 </div>
 
@@ -1019,6 +1016,7 @@
                                                     <?php } else if ($order_item_stage['status'] == 'payment_demand') { ?>
                                                         <h3 class="tmln-title mb-0">Confirmed quantity, scheduled delivery and payment request sent to retailer. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
                                                         <small class="mb-0">-Waiting for retailer response.</small>
+                                                            <a href="#" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block py-2 mb-2' data-toggle="modal" data-target="#purchase-modal">View Sale Order</a>
                                                     <?php } else if ($order_item_stage['status'] == 'payment_ack') { ?>
                                                         <h3 class="tmln-title">Retailer shared transaction details with Happycrop. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
                                                         <small class="mb-0">- Waiting for confirmation.</small>
@@ -1131,8 +1129,7 @@
                                                         ?>
                                                     <?php } else if ($order_item_stage['status'] == 'send_payment_confirmation') { ?>
                                                         <h3 class="tmln-title">Payment confirmation sent to retailer by Happycrop. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
-                                                        <a href="<?= base_url('my-account/payment-receipt/') . $order_detls[0]['id'] . "/view" ?>" target="_blank" class="btn btn-primary btn-sm btn-block w-25">View Payment Receipt</a>
-
+                                                        
                                                         <?php
                                                                 //         $ids = explode(',', $order_item_stage['ids']);
                                                                 //         if ($ids) {
@@ -1503,6 +1500,8 @@
                                                         ?>
                                                             <h3 class="tmln-title">Your order delivered successfully. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
                                                             <small>- Delivery status shared with Happycrop. Payment release will be initiated within 48 Hrs.</small>
+                                                            <a href="<?php echo base_url('my-account/tax-invoice/') . $order_item_stage['order_id'] . "/view/1" ?>" target="_blank" type="button" class="w-25 btn btn-primary btn-sm btn-block">View Delivery Challan</a>
+
                                                         <?php
                                                                 }
                                                         ?>
@@ -1510,7 +1509,7 @@
                                                         <h3 class="tmln-title">Transaction details received from Happycrop. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
                                                         <div class="row">
                                                             <div class="col-md-3">
-                                                            <a href="<?= base_url('seller/orders/paymentreceipt/') . $order_detls[0]['id'] . "/view" ?>" target="_blank" class="btn btn-primary btn-sm btn-block ">View Payment Receipt</a>
+                                                                <a href="<?= base_url('seller/orders/paymentreceipt/') . $order_detls[0]['id'] . "/view" ?>" target="_blank" class="btn btn-primary btn-sm btn-block ">View Payment Receipt</a>
 
                                                             </div>
                                                             <?php
@@ -1528,12 +1527,12 @@
                                                                         foreach ($order_item_mfg_payment_acks as $order_item_mfg_payment_ack) {
                                                                             if (file_exists($order_item_mfg_payment_ack['attachments']) && $order_item_mfg_payment_ack['attachments']) {
                                                             ?><a class="btn btn-sm col-md-3 btn-primary mb-1" href="<?php echo base_url() . $order_item_mfg_payment_ack['attachments']; ?>" target="_blank">Download transaction details</a><?php
-                                                                                                                                                                                                                                        $i_count++;
+                                                                                                                                                                                                                                            $i_count++;
+                                                                                                                                                                                                                                        }
                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                             }
-                                                                                                                                                                                                                        }
-                                                                                                                                                                                                                                        ?>
+                                                                                                                                                                                                                                            ?>
                                                         </div>
                                                         <?php
                                                                 if (count($order_item_stages) == $_count) {
@@ -1902,7 +1901,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="bg-gray-light">
+                            <div class="bg-gray-light h-100">
                                 <table class="table border-none">
                                     <tbody>
                                         <tr class="p-2">
@@ -1930,7 +1929,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="bg-gray-light">
+                            <div class="bg-gray-light h-100">
                                 <table class="table h-100 border-none">
                                     <tbody>
                                         <tr class="p-2 ">

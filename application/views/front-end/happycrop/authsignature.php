@@ -1,7 +1,8 @@
 <style>
     .signatureimg{
-        width: 300px;
-        height: 200px;
+        width: 228px;
+        height: 143px;
+        margin-left: 100px;
     }
 </style>
 <div class="col-lg-12  mt-5">

@@ -17,10 +17,10 @@
             <div class="col-lg-12 py-4">
                 <h2 class="text-center font-weight-bold">Payment Receipt</h2>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="bg-gray-light">
                     <table class="table border-none">
-                        <p class="font-weight-bold p-2 m-0">Happycrop Name</p>
+                        <p class="font-weight-bold p-2 m-0"><?= $this->config->item('happycrop_name'); ?></p>
 
                         <tbody>
                             <tr class="p-2">
@@ -45,7 +45,7 @@
             </div>
            
             <div class="col-lg-6 pb-2">
-                <div class="bg-gray-light">
+                <div class="bg-gray-light h-100">
                     <table class="table border-none">
                         <tbody>
                             <tr>
@@ -88,8 +88,8 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="bg-gray-light">
-                    <table class="table h-100 border-none">
+                <div class="bg-gray-light h-100">
+                    <table class="table  border-none">
                         <tbody>
                             <tr class="p-2 ">
                                 <td class="border-top-0 py-2 w-50 font-weight-bold">Receipt Number : -</td>
@@ -100,10 +100,6 @@
                                 <td class="border-top-0 py-2 w-50 pl-2"><?= date('d M Y H:i', strtotime($order[0]['date_added'])); ?></td>
                             </tr>
 
-                            <tr class="p-2">
-                                <td class="border-top-0 py-2 w-50 font-weight-bold">State : -</td>
-                                <td class="border-top-0 py-2 w-50 pl-2"><?= $order[0]['state'] ?></td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -119,7 +115,7 @@
                     </div>
                     <div class="col-lg-6 py-2">
                         <div class="form-group ">
-                            <label for="receipt"> <strong>Received</strong> </label>
+                            <label for="receipt"> <strong>Amount</strong> </label>
                             <div class="bg-gray-light p-2 w-100"><?php echo number_format($order[0]["total_payable"], 2); ?></div>
                         </div>
                     </div>
