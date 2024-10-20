@@ -5,13 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo ($dchallan != "" && $dchallan == "1" ? "Delivery Challan" : "Tax Invoice"); ?></title>
-    <?php $this->load->view('admin/include-head.php'); ?>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <?php $this->load->view('admin/headcustom.php'); ?>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script> -->
+
     <style>
         .signatureimg {
             width: 228px;
             height: 143px;
             margin-left: 100px;
+            position: absolute;
+            right: 0;
         }
     </style>
 </head>
@@ -221,7 +228,7 @@
                             </table>
                         </div>
                         <p class="pb-2 text-right pr-5"><?= $this->config->item('happycrop_name'); ?></p>
-                        <div>
+                        <div class="position-relative">
                             <img src="<?= base_url('assets/signature-img.jpeg') ?>" class="signatureimg">
                         </div>
                         <p class="py-2 text-right pr-5">Authorized Signatory</p>
@@ -236,48 +243,97 @@
 
     </div>
     <?php if ($view == "view") { ?>
-        <div class="row justify-content-center">
+        <!-- <div class="row justify-content-center">
             <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
-        </div>
+        </div> -->
     <?php } ?>
     </div>
     <?php $this->load->view('admin/include-script.php'); ?>
     <script>
+        baseUrl = '<?php echo base_url(); ?>';
         $(document).ready(function() {
             <?php if ($view != "view") { ?>
-                generatePDF();
-                s
+                // generatePDF();
             <?php } ?>
+            printDiv();
         });
 
-        function printDiv(divId) {
+        function printDiv() {
             var printContents = document.getElementById('generatePDf').innerHTML;
             var originalContents = document.body.innerHTML;
 
             document.body.innerHTML = printContents;
+
             window.print();
-            document.body.innerHTML = originalContents; 
+
+            document.body.innerHTML = originalContents;
         }
 
 
+        function downloadpdf() {
+            const element = $('#generatePDf').html();
+            htmlData = {
+                "html": element
+            };
+
+            $.ajax({
+                url: baseUrl + 'my_account/generatepdf',
+                method: "POST",
+                data: {
+                    json_data: JSON.stringify(htmlData)
+                },
+                dataType: 'text',
+                success: function(encodedPdfData) {
+                    if (encodedPdfData.trim() === "") {
+                        alert("No records found");
+                    } else {
+                        var byteCharacters = atob(encodedPdfData);
+                        var byteNumbers = new Uint8Array(byteCharacters.length);
+                        for (var i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                        }
+                        var pdfBlob = new Blob([byteNumbers], {
+                            type: 'application/pdf'
+                        });
+                        var timestamp = new Date().getTime();
+                        var pdfFileName = 'tax_invoice_' + timestamp + '.pdf';
+                        saveAs(pdfBlob, pdfFileName);
+                    }
+                }
+            })
+        }
+
         function generatePDF() {
+            // const element = document.getElementById('generatePDf');
+            // html2pdf().from(element).set({
+            //     margin: [5, 5],
+            //     filename: 'Invoice.pdf',
+            //     html2canvas: {
+            //         scale: 2
+            //     },
+            //     jsPDF: {
+            //         unit: 'mm',
+            //         format: 'legal',
+            //         orientation: 'portrait'
+            //     }
+            // }).save().then(function() {
+            //     history.back();
+
+            // });
             const element = document.getElementById('generatePDf');
+            console.log(element.innerHTML);
             html2pdf().from(element).set({
-                margin: [5, 5],
-                filename: 'Invoice.pdf',
+                margin: 0,
+                filename: 'Proposal.pdf',
                 html2canvas: {
-                    scale: 2
+                    scale: 2,
                 },
                 jsPDF: {
                     unit: 'mm',
-                    format: 'legal',
+                    format: 'A4',
                     orientation: 'portrait'
                 }
-            }).save().then(function() {
-                history.back();
-
-            });
-            // window.print();
+            }).save();
 
         }
     </script>

@@ -1272,6 +1272,11 @@
                                                                     }
                                                                 }
                                                             ?>
+                                                            <div class="form-group mb-0 col-md-2">
+                                                                <a href="<?php echo base_url('my-account/tax-invoice/') . $order_detls[0]['id'] . "/view" ?>" target="_blank" type="button" class="btn btn-primary btn-sm btn-block">View Invoice</a>
+                                                            </div>
+                                                        </div>
+                
                                                         </div>
 
                                                         <?php /* ?>

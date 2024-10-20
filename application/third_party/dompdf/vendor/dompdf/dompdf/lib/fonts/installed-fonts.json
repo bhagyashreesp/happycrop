@@ -1,0 +1,27 @@
+{
+    "glyphicons halflings": {
+        "normal": "glyphicons_halflings_normal_4ced20531a4f462a8c5c535d4debd2eb"
+    },
+    "roboto": {
+        "300": "D:\\xampp\\htdocs\\silocloud\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/roboto_300_df773601d5a6fcddad9dff522fe8b048",
+        "normal": "D:\\xampp\\htdocs\\silocloud\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/roboto_normal_359d1b5b901efbd8f40bf045d7586af1",
+        "500": "D:\\xampp\\htdocs\\silocloud\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/roboto_500_bcad1c9ae054da1117eeb65122fc06af",
+        "bold": "roboto_bold_b6c6f7253d2c4ba38ec845da7d8bdfdb"
+    },
+    "nioicon": {
+        "normal": "nioicon_normal_732ebcd2e43ba99bbb521cf54c4d8e27"
+    },
+    "font awesome 5 brands": {
+        "normal": "font_awesome_5_brands_normal_13d045b550fe47f4add1094be6c99280"
+    },
+    "font awesome 5 free": {
+        "normal": "C:\\xampp\\htdocs\\happy_crop\\application\\third_party\\dompdf\\vendor\\dompdf\\dompdf\/lib\/fonts\/font_awesome_5_free_normal_f81c4d63b1daf3f6193f24baafc8daa7",
+        "900": "font_awesome_5_free_900_53a5acfce58c6bd78655c503be9f922e"
+    },
+    "ionicons": {
+        "normal": "ionicons_normal_40746fcad79a8a83c294647d6114a67a"
+    },
+    "summernote": {
+        "normal": "summernote_normal_cf7b6601b570d0529d56b28b873abc29"
+    }
+}

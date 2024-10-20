@@ -1016,7 +1016,7 @@
                                                     <?php } else if ($order_item_stage['status'] == 'payment_demand') { ?>
                                                         <h3 class="tmln-title mb-0">Confirmed quantity, scheduled delivery and payment request sent to retailer. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
                                                         <small class="mb-0">-Waiting for retailer response.</small>
-                                                            <a href="#" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block py-2 mb-2' data-toggle="modal" data-target="#purchase-modal">View Sale Order</a>
+                                                        <a href="#" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block py-2 mb-2' data-toggle="modal" data-target="#purchase-modal">View Sale Order</a>
                                                     <?php } else if ($order_item_stage['status'] == 'payment_ack') { ?>
                                                         <h3 class="tmln-title">Retailer shared transaction details with Happycrop. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
                                                         <small class="mb-0">- Waiting for confirmation.</small>
@@ -1129,7 +1129,7 @@
                                                         ?>
                                                     <?php } else if ($order_item_stage['status'] == 'send_payment_confirmation') { ?>
                                                         <h3 class="tmln-title">Payment confirmation sent to retailer by Happycrop. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
-                                                        
+
                                                         <?php
                                                                 //         $ids = explode(',', $order_item_stage['ids']);
                                                                 //         if ($ids) {
@@ -1242,7 +1242,7 @@
                                                                     <div class="form-group mb-0 col-md-2">
                                                                         <label class="btn btn-warning btn-sm btn-block" for="invoice">Select Invoice</label>
                                                                         <div class="custom-file-input" style="margin-top: -30px;">
-                                                                            <input type="file" class="form-control" name="attachments[]" id="invoice" style="padding:0px;min-height: 28px;" required="" onchange="$('#f3_text').html(this.value.replace('C:\\fakepath\\', ''));" />
+                                                                            <input type="file" class="form-control" name="attachments[]" id="invoice" style="padding:0px;min-height: 28px;" onchange="$('#f3_text').html(this.value.replace('C:\\fakepath\\', ''));" />
                                                                         </div>
                                                                         <p class=""><span id="f3_text"></span></p>
                                                                     </div>
@@ -1256,6 +1256,8 @@
                                                                     </div>
                                                                 </div>
                                                             </form>
+                                                            <p><small class="text-danger-- p-1 bg-red-- orange_msg font-weight-bold">Note – If you do not select the external invoice, the system-generated invoice will be shown to the retailer.</small></p>
+
                                                         <?php
                                                                 }
                                                         ?>
@@ -1316,6 +1318,9 @@
                                                                     }
                                                                 }
                                                             ?>
+                                                            <div class="form-group mb-0 col-md-2">
+                                                                <a href="<?php echo base_url('my-account/tax-invoice/') . $order_detls[0]['id'] . "/view" ?>" target="_blank" type="button" class="btn btn-primary btn-sm btn-block">View Invoice</a>
+                                                            </div>
                                                         </div>
                                                         <p><small class="text-danger-- p-1 bg-red-- orange_msg font-weight-bold">Note – In case of incomplete order, damaged products or incorrect order, manufacturer bound to resolve the issue / refund the amount against particular concern.</small></p>
                                                         <?php /* ?>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Receipt</title>
-    <?php $this->load->view('admin/include-head.php'); ?>
+    <?php $this->load->view('admin/headcustom.php'); ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
@@ -136,17 +136,19 @@
         </div>
         <?php if ($view == "view") { ?>
 
-            <div class="row justify-content-center">
+            <!-- <div class="row justify-content-center">
                 <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
-            </div>
+            </div> -->
         <?php } ?>
     </div>
     <?php $this->load->view('admin/include-script.php'); ?>
     <script>
         $(document).ready(function() {
             <?php if ($view != "view") { ?>
-                generatePDF();
+                // generatePDF();
             <?php } ?>
+            window.print();
+
         });
 
         function generatePDF() {
