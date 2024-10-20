@@ -334,7 +334,7 @@
                 margin: [5, 5],
                 filename: 'Invoice.pdf',
                 html2canvas: {
-                    scale: 4,
+                    scale: 2,
                     scrollY: 0
                 },
                 jsPDF: {
