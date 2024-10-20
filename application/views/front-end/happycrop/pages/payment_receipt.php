@@ -8,7 +8,13 @@
     <?php $this->load->view('admin/headcustom.php'); ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
+    <style>
+        .pagebreak {
+            display: block;
+            clear: both;
+            page-break-after: always;
+        }
+    </style>
 </head>
 
 <body>
@@ -23,7 +29,7 @@
                         <tbody>
                             <tr>
                                 <td colspan="2">
-                                    <p class="font-weight-bold p-2 m-0">Retail Shop Name</p>
+                                    <p class="font-weight-bold p-2 m-0">Retail Shop Name : <?php echo $order[0]["retailer_company_name"] ?></p>
 
                                 </td>
                             </tr>
@@ -57,7 +63,7 @@
                         <tbody>
                             <tr>
                                 <td colspan="2">
-                                    <p class="font-weight-bold p-2 m-0">Manufacturer/ Service Provider Name</p>
+                                    <p class="font-weight-bold p-2 m-0">Manufacturer/ Service Provider </p>
 
                                 </td>
                             </tr>
@@ -68,12 +74,12 @@
                             <tr class="p-2">
                                 <td class="border-top-0 py-1 text-left font-weight-bold w-25">Address : -</td>
                                 <td class="border-top-0 py-1 text-left pl-2 w-75"> <?php
-                                                                                if (isset($manufacture['address'])) {
-                                                                                    echo $manufacture['addresss'];
-                                                                                } else {
-                                                                                    echo $manufacture['plot_no'] . ' ' . $manufacture['street_locality'] . ' ' . $manufacture['landmark'] . ' ' . $manufacture['city'] . ' ' . $manufacture['state'] . ' ' . $manufacture['pin'];
-                                                                                }
-                                                                                ?></td>
+                                                                                    if (isset($manufacture['address'])) {
+                                                                                        echo $manufacture['addresss'];
+                                                                                    } else {
+                                                                                        echo $manufacture['plot_no'] . ' ' . $manufacture['street_locality'] . ' ' . $manufacture['landmark'] . ' ' . $manufacture['city'] . ' ' . $manufacture['state'] . ' ' . $manufacture['pin'];
+                                                                                    }
+                                                                                    ?></td>
                             </tr>
                             <tr class="p-2">
                                 <td class="border-top-0 py-1 text-left font-weight-bold w-25">Contact : -</td>
@@ -102,7 +108,7 @@
             <div class="col-lg-6">
                 <div class="bg-gray-light h-100">
                     <table class="table border-none">
-                        <p class="font-weight-bold p-2 m-0">Happycrop Name</p>
+                        <p class="font-weight-bold p-2 m-0"><?= $this->config->item('happycrop_name'); ?></p>
 
                         <tbody>
                             <tr class="p-2">
@@ -167,6 +173,8 @@
                             <div class="bg-gray-light p-2 w-100"><?php echo convertNumberToWords($order[0]["total_payable"]) ?></div>
                         </div>
                     </div>
+                    <div class="pagebreak pb-5"></div>
+
                     <?php include(APPPATH . 'views/front-end/happycrop/authsignature.php'); ?>
                     <div class="col-lg-12 pt-5">
 
@@ -177,10 +185,11 @@
             </div>
         </div>
         <?php if ($view == "view") { ?>
-<!-- 
+
             <div class="row justify-content-center">
                 <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
-            </div> -->
+                <button class="btn btn-primary my-3 ml-2" onclick="printDiv();">Print</button>
+            </div>
         <?php } ?>
     </div>
     <?php $this->load->view('admin/include-script.php'); ?>
@@ -189,9 +198,19 @@
             <?php if ($view != "view") { ?>
                 // generatePDF();
             <?php } ?>
-            window.print();
 
         });
+
+        function printDiv() {
+            var printContents = document.getElementById('generatePDf').innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
+        }
 
         function generatePDF() {
             const element = document.getElementById('generatePDf');
@@ -199,11 +218,12 @@
                 margin: [5, 5],
                 filename: 'Invoice.pdf',
                 html2canvas: {
-                    scale: 2
+                    scale: 2,
+                    scrollY: 0
                 },
                 jsPDF: {
                     unit: 'mm',
-                    format: 'legal',
+                    format: 'a4',
                     orientation: 'portrait'
                 }
             }).save().then(function() {

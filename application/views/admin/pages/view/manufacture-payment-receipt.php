@@ -9,6 +9,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
+    <style>
+        .pagebreak {
+            display: block;
+            clear: both;
+            page-break-after: always;
+        }
+    </style>
 </head>
 
 <body>
@@ -50,7 +57,7 @@
                         <tbody>
                             <tr>
                                 <td colspan="2">
-                                    <p class="font-weight-bold p-2 m-0">Manufacturer/ Service Provider Name</p>
+                                    <p class="font-weight-bold p-2 m-0">Manufacturer/ Service Provider</p>
                                 </td>
                             </tr>
                             <tr class="p-2">
@@ -125,6 +132,8 @@
                             <div class="bg-gray-light p-2 w-100"><?php echo convertNumberToWords($order[0]["total_payable"]) ?></div>
                         </div>
                     </div>
+                <div class="pagebreak pb-5"></div>
+
                     <?php include(APPPATH . 'views/front-end/happycrop/authsignature.php'); ?>
                     <div class="col-lg-12 pt-5">
 
@@ -136,9 +145,11 @@
         </div>
         <?php if ($view == "view") { ?>
 
-            <!-- <div class="row justify-content-center">
+            <div class="row justify-content-center">
                 <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
-            </div> -->
+                <button class="btn btn-primary my-3 ml-2" onclick="printDiv();">Print</button>
+
+            </div>
         <?php } ?>
     </div>
     <?php $this->load->view('admin/include-script.php'); ?>
@@ -147,9 +158,20 @@
             <?php if ($view != "view") { ?>
                 // generatePDF();
             <?php } ?>
-            window.print();
+            // window.print();
 
         });
+
+        function printDiv() {
+            var printContents = document.getElementById('generatePDf').innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
+        }
 
         function generatePDF() {
             const element = document.getElementById('generatePDf');
@@ -157,11 +179,12 @@
                 margin: [5, 5],
                 filename: 'Invoice.pdf',
                 html2canvas: {
-                    scale: 2
+                    scale: 2,
+                    scrollY: 0
                 },
                 jsPDF: {
                     unit: 'mm',
-                    format: 'legal',
+                    format: 'a4',
                     orientation: 'portrait'
                 }
             }).save().then(function() {

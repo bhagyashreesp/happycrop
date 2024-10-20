@@ -20,6 +20,12 @@
             position: absolute;
             right: 0;
         }
+        .pagebreak {
+            display: block;
+            clear: both;
+            page-break-after: always;
+        }
+
     </style>
 </head>
 
@@ -70,12 +76,29 @@
             </div>
             <!-- <div class="col-lg-4 pb-2">
             </div> -->
-            <div class="col-lg-4">
+            <div class="col-lg-12 py-2">
                 <div class="bg-gray-light h-100">
+                    <table class="table  border-none">
+                        <p class="font-weight-bold p-2 m-0">Place to supply : <?php echo ($order[0]['state'] ? $order[0]['state'] : "Maharashtra") ?></p>
+                        <tbody>
+                            <tr class="p-2 ">
+                                <td class="border-top-0 py-2 w-25 font-weight-bold">Invoice No : -</td>
+                                <td class="border-top-0 py-2 w-75 pl-2"><?php echo $order[0]["id"]; ?></td>
+                            </tr>
+                            <tr class="p-2 ">
+                                <td class="border-top-0 py-2 w-25 font-weight-bold">Date : -</td>
+                                <td class="border-top-0 py-2 w-75 pl-2"><?= (!empty($order_item_stages) && $order_item_stages[0]["status"] === "send_invoice" ? date('d M Y ', strtotime($order_item_stages[0]["created_date"])) : date('d M Y', strtotime(date('d-m-y')))); ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="bg-gray-light h-100">
+                    
                     <table class="table border-none">
 
-                        <p class="font-weight-bold p-2 m-0">Bill To:</p>
-                        <p class="font-weight-bold p-2 m-0"><?php echo $order[0]['retailer_company_name']; ?></p>
+                        <p class="font-weight-bold p-2 m-0">Bill To : <?php echo $order[0]['retailer_company_name']; ?></p>
 
                         <tbody>
                             <tr class="p-2">
@@ -99,7 +122,7 @@
                     </table>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <div class="bg-gray-light h-100">
                     <table class="table border-none">
                         <p class="font-weight-bold p-2 m-0">Ship To:</p>
@@ -127,23 +150,7 @@
                     </table>
                 </div>
             </div>
-            <div class="col-lg-4">
-                <div class="bg-gray-light h-100">
-                    <table class="table  border-none">
-                        <p class="font-weight-bold p-2 m-0">Place to supply : <?php echo ($order[0]['state'] ? $order[0]['state'] : "Maharashtra") ?></p>
-                        <tbody>
-                            <tr class="p-2 ">
-                                <td class="border-top-0 py-2 w-50 font-weight-bold">Invoice No : -</td>
-                                <td class="border-top-0 py-2 w-50 pl-2"><?php echo $order[0]["id"]; ?></td>
-                            </tr>
-                            <tr class="p-2 ">
-                                <td class="border-top-0 py-2 w-50 font-weight-bold">Date : -</td>
-                                <td class="border-top-0 py-2 w-50 pl-2"><?= (!empty($order_item_stages) && $order_item_stages[0]["status"] === "send_invoice" ? date('d M Y h:i a', strtotime($order_item_stages[0]["created_date"])) : date('d M Y h:i a', strtotime(date('d-m-y')))); ?></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            
             <div class="col-lg-12 py-3">
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -195,6 +202,7 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="pagebreak"></div>
                 <div class="row justify-content-between">
                     <div class="col-lg-6 py-2">
                         <div class="form-group ">
@@ -243,9 +251,10 @@
 
     </div>
     <?php if ($view == "view") { ?>
-        <!-- <div class="row justify-content-center">
+        <div class="row justify-content-center">
             <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
-        </div> -->
+            <button class="btn btn-primary my-3 ml-2" onclick="printDiv();">Print</button>
+        </div>
     <?php } ?>
     </div>
     <?php $this->load->view('admin/include-script.php'); ?>
@@ -255,7 +264,6 @@
             <?php if ($view != "view") { ?>
                 // generatePDF();
             <?php } ?>
-            printDiv();
         });
 
         function printDiv() {
@@ -323,10 +331,11 @@
             const element = document.getElementById('generatePDf');
             console.log(element.innerHTML);
             html2pdf().from(element).set({
-                margin: 0,
-                filename: 'Proposal.pdf',
+                margin: [5, 5],
+                filename: 'Invoice.pdf',
                 html2canvas: {
-                    scale: 2,
+                    scale: 4,
+                    scrollY: 0
                 },
                 jsPDF: {
                     unit: 'mm',
