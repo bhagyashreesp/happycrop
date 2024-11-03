@@ -3,8 +3,10 @@
 .list-none{
   list-style: none!important;
 }
+
+
 </style>
-<div class="col-lg-12 bg-gray-light mt-5">
+<div class="col-lg-12 bg-gray-light mt-5" id="pdffooter">
     <div class="row">
         <div class="col-lg-6 py-3">
             <ul class="list-none pl-1">

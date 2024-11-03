@@ -4802,8 +4802,8 @@ class My_account extends CI_Controller
     {
         $this->load->library('pdf');
 
-        $order_id ="100300";
-        
+        $order_id = "100300";
+
         $order = fetch_orders($order_id, NULL, false, false, 1, NULL, NULL, NULL, NULL);
         $this->db->distinct();
         $this->db->select('a.seller_id, b.username, b.mobile, b.email, b.mfg_no, c.company_name, c.gst_no, c.fertilizer_license_no, c.pesticide_license_no, c.seeds_license_no, c.account_name, c.account_number, c.bank_name, c.bank_code, c.bank_city, c.bank_branch, c.bank_state, c.plot_no, c.street_locality, c.landmark, cc.name, city, s.name as state, c.pin');
@@ -4840,13 +4840,13 @@ class My_account extends CI_Controller
         $pdfdata['order_item_stages'] = $order_item_stages;
 
 
-        $jsonhtml= $this->load->view('front-end/happycrop/pages/tax-invoice.php', $pdfdata,true);
+        $jsonhtml = $this->load->view('front-end/happycrop/pages/tax-invoice.php', $pdfdata, true);
         // $jsonhtml = $this->tax_invoice("100298", "view");
-        
-        
+
+
         // $jsonhtml = json_decode($this->input->post('json_data'))->html;
         // $html = 
-       
+
 
 
         $this->pdf->set_option('isHtml5ParserEnabled', true);
@@ -4868,6 +4868,52 @@ class My_account extends CI_Controller
         // $this->load->library('pdf');
         // $pdf = $this->pdf->createPDF($html, "invoice", true, '', TRUE, $folder_path);
 
+    }
+    public function purchase_invoice($order_id, $purchase_order = "")
+    {
+
+        $order = fetch_orders($order_id, NULL, false, false, 1, NULL, NULL, NULL, NULL);
+        $this->db->distinct();
+        $this->db->select('a.seller_id, b.username, b.mobile, b.email, b.mfg_no, c.company_name, c.gst_no, c.fertilizer_license_no, c.pesticide_license_no, c.seeds_license_no, c.account_name, c.account_number, c.bank_name, c.bank_code, c.bank_city, c.bank_branch, c.bank_state, c.plot_no, c.street_locality, c.landmark, cc.name, city, s.name as state, c.pin');
+        $this->db->from('order_items as a');
+        $this->db->join('users as b', 'a.seller_id = b.id', 'left');
+        $this->db->join('seller_data as c', 'a.seller_id = c.user_id', 'left');
+        $this->db->join('states as s', 'c.state_id = s.id', 'left');
+        $this->db->join('cities as cc', 'c.city_id = cc.id', 'left');
+        $this->db->where('a.order_id', $order_id);
+        $query = $this->db->get();
+
+        $manufactures = $query->result_array();
+
+
+        if (!empty($order)) {
+            $orderState = fetch_details(["id" => $order["order_data"][0]["address_id"]], "addresses");
+            $userdetails = fetch_details(["id" => $order["order_data"][0]["user_id"]], "users");
+            if (!empty($orderState)) {
+                $order["order_data"][0]["state"] = $orderState[0]["state"];
+            }
+            if (!empty($userdetails)) {
+                $order["order_data"][0]["email"] = $userdetails[0]["email"];
+            }
+            $getterms = $this->common_model->getRecords('terms_conditions', '*', array("user_id" => $order["order_data"][0]["seller_id"]));
+            $productDetails = $this->common_model->getRecords('products', '*', array("id" => $order["order_data"][0]["product_id"]));
+            if (!empty($productDetails)) {
+
+                $order["order_data"][0]["hsn_no"] = $userdetails[0]["hsn_no"];
+            }
+        }
+        $getterms = $this->common_model->getRecords('terms_conditions', '*', array("user_id" => $order["order_data"][0]["seller_id"]));
+        $order_item_stages = $this->common_model->getRecords('order_item_stages', '*', array("order_id" => $order_id), "id desc", 1);
+
+        $pdfdata['manufacture'] = $manufactures[0];
+        $pdfdata['order'] = $order['order_data'][0];
+        $pdfdata['getterms'] = $getterms;
+        $pdfdata['view'] = $view;
+        $pdfdata['purchase_order'] = $purchase_order;
+        $pdfdata['order_item_stages'] = $order_item_stages;
+
+
+        return $this->load->view('front-end/happycrop/pages/purchase-order.php', $pdfdata);
     }
     public function tax_invoice($order_id, $view = "", $dchallan = "")
     {
@@ -4894,6 +4940,11 @@ class My_account extends CI_Controller
             }
             if (!empty($userdetails)) {
                 $order["order_data"][0]["email"] = $userdetails[0]["email"];
+            }
+            $productDetails = $this->common_model->getRecords('products', '*', array("id" => $order["order_data"][0]["product_id"]));
+            if (!empty($productDetails)) {
+
+                $order["order_data"][0]["hsn_no"] = $userdetails[0]["hsn_no"];
             }
         }
         $getterms = $this->common_model->getRecords('terms_conditions', '*', array("user_id" => $order["order_data"][0]["seller_id"]));

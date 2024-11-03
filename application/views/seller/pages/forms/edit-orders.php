@@ -796,6 +796,8 @@
                                                         </ul>
                                                     </small>
                                                     <div><small class="text-danger- p-1 bg-red- orange_msg font-weight-bold">Note - Action needs to be taken within 5 days from date of order or else order will be auto canceled.</small></div>
+                                                    <a target="_blank" href="<?php echo base_url('my-account/purchase-invoice/') . $order_detls[0]['id'] . "/1"; ?>" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block '>View Purchase Invoice</a>
+
                                                     <?php
                                                     //}
                                                     ?>
@@ -1016,10 +1018,13 @@
                                                     <?php } else if ($order_item_stage['status'] == 'payment_demand') { ?>
                                                         <h3 class="tmln-title mb-0">Confirmed quantity, scheduled delivery and payment request sent to retailer. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
                                                         <small class="mb-0">-Waiting for retailer response.</small>
-                                                        <a href="#" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block py-2 mb-2' data-toggle="modal" data-target="#purchase-modal">View Sale Order</a>
+                                                        <!-- <a href="#" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block py-2 mb-2' data-toggle="modal" data-target="#purchase-modal">View Sale Order</a> -->
+                                                    <a target="_blank" href="<?php echo base_url('my-account/purchase-invoice/') . $order_detls[0]['id'] ?>" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block '>View Sale Order</a>
+
                                                     <?php } else if ($order_item_stage['status'] == 'payment_ack') { ?>
                                                         <h3 class="tmln-title">Retailer shared transaction details with Happycrop. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
                                                         <small class="mb-0">- Waiting for confirmation.</small>
+                                                        <a target="_blank" href="<?php echo base_url('my-account/purchase-invoice/') . $order_detls[0]['id'] ?>" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block '>View Sale Order</a>
                                                         <?php /* ?>
                                                         <h3 class="tmln-title">Transaction details are received from retailer. <small class="float-right"><?php echo date('l d M Y h:i A',strtotime($order_item_stage['created_date'])); ?></small></h3>
                                                         <?php
@@ -1129,6 +1134,7 @@
                                                         ?>
                                                     <?php } else if ($order_item_stage['status'] == 'send_payment_confirmation') { ?>
                                                         <h3 class="tmln-title">Payment confirmation sent to retailer by Happycrop. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                        <a target="_blank" class=' w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block ' href="<?php echo base_url().'my-account/payment-receipt/' . $order_item_stage['order_id'].'/view' ; ?>">View Payment Receipt</a>
 
                                                         <?php
                                                                 //         $ids = explode(',', $order_item_stage['ids']);

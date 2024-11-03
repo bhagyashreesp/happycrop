@@ -672,7 +672,7 @@
                                                             //}
                                                             ?>
                                                         </p>
-                                                        <a href="#" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3' data-toggle="modal" data-target="#purchase-modal">View Purchase Invoice</a>
+                                                        <a target="_blank" href="<?php echo base_url('my-account/purchase-invoice/').$this->uri->segment(3)."/1"; ?>" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3' >View Purchase Invoice</a>
 
 
                                                     </div>
@@ -859,6 +859,7 @@
                                                                             <li>- Payment requested by manufacturer is <?php echo $settings['currency'] . ' ' . number_format($total_amt, 2); ?>/-</li>
                                                                         </ul>
                                                                     </small>
+
                                                                     <?php /* ?>
                                                     <p>Payment demand request by manufacturer and your order total amount is <?php echo $settings['currency'] . ' ' . number_format($total_amt, 2); ?></p>
                                                     <?php */ ?>
@@ -924,6 +925,7 @@
                                                                         </div> -->
                                                                         <div class="row">
                                                                             <div class="col-md-5">
+                                                                                <a target="_blank" href="<?php echo base_url('my-account/purchase-invoice/') . $this->uri->segment(3) ?>" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block '>View Sale Order</a>
                                                                                 <a href="#" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3' data-toggle="modal" data-target="#send-payment-request">Send Transaction Receipt</a>
 
                                                                             </div>

@@ -24,23 +24,23 @@
             <div class="col-lg-12 py-4">
                 <h2 class="text-center font-weight-bold">Payment Receipt</h2>
             </div>
-            <div class="col-lg-12">
+            <div class="col-lg-10">
                 <div class="bg-gray-light">
                     <table class="table border-none">
                         <p class="font-weight-bold p-2 m-0"><?= $this->config->item('happycrop_name'); ?></p>
 
                         <tbody>
                             <tr class="p-2">
-                                <td class="border-top-0 py-2 w-50 font-weight-bold">Address : -</td>
-                                <td class="border-top-0 py-2 w-50 pl-2"><?= $this->config->item('address'); ?></td>
+                                <td class="border-top-0 py-1 font-weight-bold">Address : -</td>
+                                <td class="border-top-0 py-1 pl-2"><?= $this->config->item('address'); ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-2 w-50 font-weight-bold">Contact : -</td>
-                                <td class="border-top-0 py-2 w-50 pl-2"><?= $this->config->item('mobile'); ?></td>
+                                <td class="border-top-0 py-1 font-weight-bold">Contact : -</td>
+                                <td class="border-top-0 py-1 pl-2"><?= $this->config->item('mobile'); ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-2 w-50 font-weight-bold">Email : -</td>
-                                <td class="border-top-0 py-2 w-50 pl-2"><?= $this->config->item('support'); ?></td>
+                                <td class="border-top-0 py-1 font-weight-bold">Email : -</td>
+                                <td class="border-top-0 py-1 pl-2"><?= $this->config->item('support'); ?></td>
                             </tr>
                         </tbody>
                     </table>
@@ -99,12 +99,16 @@
                     <table class="table  border-none">
                         <tbody>
                             <tr class="p-2 ">
-                                <td class="border-top-0 py-2 w-50 font-weight-bold">Receipt Number : -</td>
-                                <td class="border-top-0 py-2 w-50 pl-2"><?php echo $order[0]['order_items'][0]["receipt_no"]; ?></td>
+                                <td class="border-top-0 py-1 w-50 font-weight-bold">Receipt Number : -</td>
+                                <td class="border-top-0 py-1 w-50 pl-2"><?php echo $order[0]['order_items'][0]["receipt_no"]; ?></td>
                             </tr>
                             <tr class="p-2 ">
-                                <td class="border-top-0 py-2 w-50 font-weight-bold">Date : -</td>
-                                <td class="border-top-0 py-2 w-50 pl-2"><?= date('d M Y H:i', strtotime($order[0]['date_added'])); ?></td>
+                                <td class="border-top-0 py-1 w-25 font-weight-bold">Order Id : -</td>
+                                <td class="border-top-0 py-1 w-75 pl-2"><?php echo $order[0]['order_items'][0]["order_id"]; ?></td>
+                            </tr>
+                            <tr class="p-2 ">
+                                <td class="border-top-0 py-1 w-50 font-weight-bold">Date : -</td>
+                                <td class="border-top-0 py-1 w-50 pl-2"><?= date('d M Y H:i', strtotime($order[0]['date_added'])); ?></td>
                             </tr>
 
                         </tbody>
@@ -173,9 +177,33 @@
             document.body.innerHTML = originalContents;
         }
 
-        function generatePDF() {
+        // function generatePDF() {
+        //     const element = document.getElementById('generatePDf');
+        //     html2pdf().from(element).set({
+        //         margin: [5, 5],
+        //         filename: 'Invoice.pdf',
+        //         html2canvas: {
+        //             scale: 2,
+        //             scrollY: 0
+        //         },
+        //         jsPDF: {
+        //             unit: 'mm',
+        //             format: 'a4',
+        //             orientation: 'portrait'
+        //         }
+        //     }).save().then(function() {
+        //         history.back();
+
+        //     });
+
+        // }
+        async function generatePDF() {
             const element = document.getElementById('generatePDf');
-            html2pdf().from(element).set({
+            const footer = document.getElementById('pdffooter');
+            footer.style.display = 'none';
+            const imageURL = baseUrl + 'assets/footer_img.png'; 
+
+            const options = {
                 margin: [5, 5],
                 filename: 'Invoice.pdf',
                 html2canvas: {
@@ -184,14 +212,41 @@
                 },
                 jsPDF: {
                     unit: 'mm',
-                    format: 'a4',
+                    format: 'A4',
                     orientation: 'portrait'
                 }
-            }).save().then(function() {
-                history.back();
+            };
 
-            });
+            try {
+                const pdfInstance = await html2pdf().from(element).set(options).toPdf().get('pdf');
 
+                const totalPages = pdfInstance.internal.getNumberOfPages();
+                const pageWidth = pdfInstance.internal.pageSize.getWidth();
+                const pageHeight = pdfInstance.internal.pageSize.getHeight();
+
+                const img = new Image();
+                img.src = imageURL;
+
+                img.onload = () => {
+                    const imgWidth = pageWidth * 0.9; 
+                    const imgHeight = (img.height / img.width) * imgWidth;
+                    const x = (pageWidth - imgWidth) / 2; 
+                    const y = pageHeight - imgHeight - 10; 
+
+                    pdfInstance.setPage(totalPages);
+                    pdfInstance.addImage(img, 'PNG', x, y, imgWidth, imgHeight);
+
+                    pdfInstance.save('Invoice_with_Footer.pdf');
+                };
+
+                img.onerror = () => {
+                    console.error('Failed to load footer image.');
+                    pdfInstance.save('Invoice_without_Footer.pdf'); 
+                };
+
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+            }
         }
     </script>
 </body>

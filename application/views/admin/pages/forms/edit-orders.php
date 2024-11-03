@@ -748,7 +748,9 @@
                                                 <div class="tmln-info">
                                                     <h3 class="tmln-title mb-0">Order placed. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_detls[0]['date_added'])); ?></small></h3>
                                                     <small class="mb-0">- Waiting for updates from manufacturer.</small>
-                                                    <a href="#" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block ' data-toggle="modal" data-target="#purchase-modal">View Purchase Invoice</a>
+                                                    <!-- <a href="#" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block ' data-toggle="modal" data-target="#purchase-modal">View Purchase Invoice</a> -->
+                                                    <a target="_blank" href="<?php echo base_url('my-account/purchase-invoice/') . $order_detls[0]['id'] . "/1";   ?>" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block '>View Purchase Invoice</a>
+
 
                                                 </div>
                                             </div>
@@ -973,8 +975,11 @@
                                                                 <li>Waiting for retailer response.</li>
                                                             </ul>
                                                         </small>
+                                                        <a target="_blank" href="<?php echo base_url('my-account/purchase-invoice/') . $order_detls[0]['id'];   ?>" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block '>View Sale Order</a>
+
                                                     <?php } else if ($order_item_stage['status'] == 'payment_ack') { ?>
                                                         <h3 class="tmln-title">Transaction details received from retailer. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                        <a target="_blank" href="<?php echo base_url('my-account/purchase-invoice/') . $order_detls[0]['id'];   ?>" class='w-25 button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block '>View Sale Order</a>
                                                         <?php
                                                                 $ids = explode(',', $order_item_stage['ids']);
                                                                 if ($ids) {
@@ -1053,6 +1058,7 @@
                                                                 <div class="tmln-card">
                                                                     <div class="tmln-info">-->
                                                             <p>Please send confirmation of payment.</p>
+
                                                             <a href="<?= base_url('my-account/payment-receipt/') . $order_detls[0]['id'] . "/view" ?>" target="_blank" class="btn btn-primary btn-sm btn-block w-25">View Payment Receipt</a>
                                                             <form class="form-horizontal " id="send_payment_confirmation_form" action="<?= base_url('admin/orders/send_payment_confirmation/'); ?>" method="POST" enctype="multipart/form-data">
                                                                 <div class="row">
@@ -1093,6 +1099,8 @@
                                                         ?>
                                                     <?php } else if ($order_item_stage['status'] == 'send_payment_confirmation') { ?>
                                                         <h3 class="tmln-title">Payment confirmation sent to retailer and manufacturer. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
+                                                        <a href="<?= base_url('seller/orders/paymentreceipt/') . $order_detls[0]['id'] . "/view" ?>" target="_blank" class="btn btn-primary btn-sm btn-block w-25">View Payment Receipt</a>
+                                                        
                                                         <?php
                                                                 $ids = explode(',', $order_item_stage['ids']);
                                                                 if ($ids) {
@@ -1276,7 +1284,7 @@
                                                                 <a href="<?php echo base_url('my-account/tax-invoice/') . $order_detls[0]['id'] . "/view" ?>" target="_blank" type="button" class="btn btn-primary btn-sm btn-block">View Invoice</a>
                                                             </div>
                                                         </div>
-                
+
                                                         </div>
 
                                                         <?php /* ?>
@@ -1498,12 +1506,12 @@
                                                                         foreach ($order_item_mfg_payment_acks as $order_item_mfg_payment_ack) {
                                                                             if (file_exists($order_item_mfg_payment_ack['attachments']) && $order_item_mfg_payment_ack['attachments']) {
                                                             ?><a class="btn btn-sm col-md-3 btn-primary mb-1" href="<?php echo base_url() . $order_item_mfg_payment_ack['attachments']; ?>" target="_blank">Download the transaction details</a><?php
-                                                                                                                                                                                                                                            $i_count++;
+                                                                                                                                                                                                                                                $i_count++;
+                                                                                                                                                                                                                                            }
                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                 }
-                                                                                                                                                                                                                            }
-                                                                                                                                                                                                                                            ?>
+                                                                                                                                                                                                                                                ?>
                                                         </div>
                                                     <?php } else if ($order_item_stage['status'] == 'send_mfg_payment_confirmation') { ?>
                                                         <h3 class="tmln-title">Payment receipt received. <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
@@ -1534,26 +1542,26 @@
                                                     <?php } else { ?>
                                                         <h3 class="tmln-title"><?php echo $order_item_stage['status']; ?> <small class="float-right"><?php echo date('l d M Y h:i A', strtotime($order_item_stage['created_date'])); ?></small></h3>
                                                     <?php } ?>
-                                                        </div>
                                                     </div>
-                                            <?php
+                                        </div>
+                                <?php
 
                                                 }
                                             }
-                                            ?>
-                                        </div>
+                                ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    <?php
-                    }
-                    ?>
                 </div>
+            <?php
+                    }
+            ?>
+            </div>
 
 
 
-                <?php /* ?>
+            <?php /* ?>
                 <div class="col-md-12 ">
                     <div class="shadow p-3 mb-3 bg-white rounded">
                         <table class="table table-borderless">
@@ -1640,8 +1648,8 @@
 
 
 
-                <?php
-                /*
+            <?php
+            /*
                                             $total = 0;
                                             $tax_amount = 0;
                                             echo '<div class="container-fluid row">';
@@ -1754,7 +1762,7 @@
                                 </tr>
                                 <?php */ ?>
 
-                <?php /* ?>
+            <?php /* ?>
                                 <tr>
                                     <th class="w-10px">Wallet Balance(<?= $settings['currency'] ?>)</th>
                                     <td><?php echo $order_detls[0]['wallet_balance'];
@@ -1820,11 +1828,11 @@
                 </div>
                 <!--/.col-md-12-->
                  <?php */ ?>
-            </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+        </div>
+        <!-- /.row -->
+</div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
 </div>
 <div class="modal fade" id="send-payment-request" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -2052,8 +2060,8 @@
                                         $total_amt = 0;
                                         $total_qty = 0;
                                         $total_gst = 0;
-                                      
-                                        
+
+
                                         foreach ($order['order_items'] as $key => $item) {
                                             $total_amt += $item["price"] * (($item['quantity']) ? $item['quantity'] : $item['quantity']);
                                             $total_qty += (($item['quantity']) ? $item['quantity'] : $item['quantity']);
