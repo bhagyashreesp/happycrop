@@ -10,7 +10,7 @@ class My_account extends CI_Controller
         $this->load->database();
         $this->load->library(['ion_auth', 'form_validation', 'pagination', 'upload']);
         $this->load->helper(['url', 'language', 'file']);
-        $this->load->model(['cart_model', 'category_model', 'address_model', 'order_model', 'Transaction_model']);
+        $this->load->model(['cart_model', 'category_model', 'address_model', 'order_model', 'Transaction_model', 'Account_model']);
         $this->lang->load('auth');
         $this->data['is_logged_in'] = ($this->ion_auth->logged_in()) ? 1 : 0;
         $this->data['user'] = ($this->ion_auth->logged_in()) ? $this->ion_auth->user()->row() : array();
@@ -4889,11 +4889,15 @@ class My_account extends CI_Controller
         if (!empty($order)) {
             $orderState = fetch_details(["id" => $order["order_data"][0]["address_id"]], "addresses");
             $userdetails = fetch_details(["id" => $order["order_data"][0]["user_id"]], "users");
+            $sellerdetails = fetch_details(["user_id" => $order["order_data"][0]["seller_id"]], "seller_data");
             if (!empty($orderState)) {
                 $order["order_data"][0]["state"] = $orderState[0]["state"];
             }
             if (!empty($userdetails)) {
                 $order["order_data"][0]["email"] = $userdetails[0]["email"];
+            }
+            if (!empty($sellerdetails)) {
+                $order["order_data"][0]["logo"] = $sellerdetails[0]["logo"];
             }
             $getterms = $this->common_model->getRecords('terms_conditions', '*', array("user_id" => $order["order_data"][0]["seller_id"]));
             $productDetails = $this->common_model->getRecords('products', '*', array("id" => $order["order_data"][0]["product_id"]));
@@ -4935,11 +4939,16 @@ class My_account extends CI_Controller
         if (!empty($order)) {
             $orderState = fetch_details(["id" => $order["order_data"][0]["address_id"]], "addresses");
             $userdetails = fetch_details(["id" => $order["order_data"][0]["user_id"]], "users");
+            $sellerdetails = fetch_details(["user_id" => $order["order_data"][0]["seller_id"]], "seller_data");
+
             if (!empty($orderState)) {
                 $order["order_data"][0]["state"] = $orderState[0]["state"];
             }
             if (!empty($userdetails)) {
                 $order["order_data"][0]["email"] = $userdetails[0]["email"];
+            }
+            if (!empty($sellerdetails)) {
+                $order["order_data"][0]["logo"] = $sellerdetails[0]["logo"];
             }
             $productDetails = $this->common_model->getRecords('products', '*', array("id" => $order["order_data"][0]["product_id"]));
             if (!empty($productDetails)) {
@@ -5938,6 +5947,7 @@ class My_account extends CI_Controller
         }
     }
 
+
     public function get_order_account_list()
     {
         if ($this->ion_auth->logged_in()) {
@@ -5966,6 +5976,7 @@ class My_account extends CI_Controller
     public function get_order_statement_list()
     {
         if ($this->ion_auth->logged_in()) {
+
             return $this->order_model->get_order_statement_list($this->data['user']->id);
         } else {
             $this->response['error'] = true;
@@ -5974,7 +5985,41 @@ class My_account extends CI_Controller
             return false;
         }
     }
-
+    public function items()
+    {
+        if ($this->ion_auth->logged_in()) {
+            $this->data['main_page'] = 'items';
+            $this->data['title'] = 'Items | ' . $this->data['web_settings']['site_title'];
+            $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
+            $this->data['description'] = $this->data['web_settings']['meta_description'];
+            $this->load->view('front-end/' . THEME . '/template', $this->data);
+        } else {
+            redirect(base_url(), 'refresh');
+        }
+    }
+    public function get_items_account_list()
+    {
+        if ($this->ion_auth->logged_in()) {
+            return $this->order_model->get_items_account_list($this->data['user']->id);
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
+        }
+    }
+    public function expenses()
+    {
+        if ($this->ion_auth->logged_in()) {
+            $this->data['main_page'] = 'expenses';
+            $this->data['title'] = 'Expenses | ' . $this->data['web_settings']['site_title'];
+            $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
+            $this->data['description'] = $this->data['web_settings']['meta_description'];
+            $this->load->view('front-end/' . THEME . '/template', $this->data);
+        } else {
+            redirect(base_url(), 'refresh');
+        }
+    }
     public function statement_detail()
     {
         if ($this->ion_auth->logged_in()) {
@@ -6151,5 +6196,149 @@ class My_account extends CI_Controller
             }
         }
         */
+    }
+    public function addexpense()
+    {
+        $expenseData["user_id"] = $this->session->userdata('user_id');
+        $expenseData["created_by"] = $this->session->userdata('user_id');
+        $expenseData["expense_category"] = $this->input->post('expense_category');
+        $expenseData["expense_number"] = $this->input->post('expense_number');
+        $expenseData["date"] = $this->input->post('date');
+        $expenseData["payment_type"] = $this->input->post('payment_type');
+        $expenseData["total"] = $this->input->post('total');
+        $expenseData["paid_amount"] = $this->input->post('paid_amount');
+        $expenseData["description"] = $this->input->post('descritpion');
+
+        $upload_path = 'uploads/expense/';
+        if (!is_dir($upload_path)) {
+            mkdir($upload_path, 0777, TRUE);
+        }
+        $config = [
+            'upload_path' =>  FCPATH . $upload_path,
+            'allowed_types' => 'jpg|png|jpeg|gif',
+            'max_size' => 8000,
+        ];
+        if (isset($_FILES['add_image']) && !empty($_FILES['add_image']['name']) && isset($_FILES['add_image']['name'])) {
+            $other_img = $this->upload;
+            $other_img->initialize($config);
+            if (!empty($_FILES['add_image']['name'])) {
+
+                $_FILES['temp_image']['name'] = $_FILES['add_image']['name'];
+                $_FILES['temp_image']['type'] = $_FILES['add_image']['type'];
+                $_FILES['temp_image']['tmp_name'] = $_FILES['add_image']['tmp_name'];
+                $_FILES['temp_image']['error'] = $_FILES['add_image']['error'];
+                $_FILES['temp_image']['size'] = $_FILES['add_image']['size'];
+                if (!$other_img->do_upload('temp_image')) {
+                    $avatar_error = 'Images :' . $avatar_error . ' ' . $other_img->display_errors();
+                } else {
+                    $temp_array_avatar = $other_img->data();
+                    resize_review_images($temp_array_avatar, FCPATH . $upload_path);
+                    $avatar_doc  = $upload_path . $temp_array_avatar['file_name'];
+                    $expenseData["image"] = $avatar_doc;
+                }
+            } else {
+                $_FILES['temp_image']['name'] = $_FILES['add_image']['name'];
+                $_FILES['temp_image']['type'] = $_FILES['add_image']['type'];
+                $_FILES['temp_image']['tmp_name'] = $_FILES['add_image']['tmp_name'];
+                $_FILES['temp_image']['error'] = $_FILES['add_image']['error'];
+                $_FILES['temp_image']['size'] = $_FILES['add_image']['size'];
+                if (!$other_img->do_upload('temp_image')) {
+                    $avatar_error = $other_img->display_errors();
+                }
+            }
+        }
+        $config1 = [
+            'upload_path' =>  FCPATH . $upload_path,
+            'allowed_types' => '*',
+            'max_size' => 8000,
+        ];
+        if (isset($_FILES['add_document']) && !empty($_FILES['add_document']['name']) && isset($_FILES['add_document']['name'])) {
+            $other_img = $this->upload;
+            $other_img->initialize($config1);
+            if (!empty($_FILES['add_document']['name'])) {
+
+                $_FILES['temp_image']['name'] = $_FILES['add_document']['name'];
+                $_FILES['temp_image']['type'] = $_FILES['add_document']['type'];
+                $_FILES['temp_image']['tmp_name'] = $_FILES['add_document']['tmp_name'];
+                $_FILES['temp_image']['error'] = $_FILES['add_document']['error'];
+                $_FILES['temp_image']['size'] = $_FILES['add_document']['size'];
+                if (!$other_img->do_upload('temp_image')) {
+                    $avatar_error = 'Images :' . $avatar_error . ' ' . $other_img->display_errors();
+                } else {
+                    $temp_array_avatar = $other_img->data();
+                    resize_review_images($temp_array_avatar, FCPATH . $upload_path);
+                    $document  = $upload_path . $temp_array_avatar['file_name'];
+                    $expenseData["document"] = $document;
+                }
+            } else {
+                $_FILES['temp_image']['name'] = $_FILES['add_document']['name'];
+                $_FILES['temp_image']['type'] = $_FILES['add_document']['type'];
+                $_FILES['temp_image']['tmp_name'] = $_FILES['add_document']['tmp_name'];
+                $_FILES['temp_image']['error'] = $_FILES['add_document']['error'];
+                $_FILES['temp_image']['size'] = $_FILES['add_document']['size'];
+                if (!$other_img->do_upload('temp_image')) {
+                    $avatar_error = $other_img->display_errors();
+                }
+            }
+        }
+
+
+        $this->db->insert('expenses', $expenseData);
+        $expensed_id = $this->db->insert_id();
+        $item_count = $this->input->post('item_count');
+        if ($item_count) {
+
+            for ($i = 0; $i <= $this->input->post('item_count'); $i++) {
+                $namestring = "name_" . $i;
+                $quantity = "quantity_" . $i;
+                $price = "price_" . $i;
+                $amount = "amount_" . $i;
+                if ($this->input->post($namestring) != "") {
+                    $expenseitems["expense_id"] = $expensed_id;
+                    $expenseitems["name"] = $this->input->post($namestring);
+                    $expenseitems["quantity"] = $this->input->post($quantity);
+                    $expenseitems["price_unit"] = $this->input->post($price);
+                    $expenseitems["amount"] = $this->input->post($amount);
+                    $expenseitems["created_by"] = $this->session->userdata('user_id');
+                    $this->db->insert('expenses_items', $expenseitems);
+                }
+            }
+        }
+
+        redirect('my-account/expenses');
+    }
+    public function get_expense_list()
+    {
+        $user_id = $this->session->userdata('user_id');
+        if ($this->ion_auth->logged_in()) {
+            return $this->Account_model->get_expense_list($user_id);
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
+        }
+    }
+    public function expense_details($expense_id)
+    {
+       
+        $expenseDetails = $this->common_model->getRecords("expenses", '*', array('id' => $expense_id));
+        if (!empty($expenseDetails)) {
+            $expenseItems = $this->common_model->getRecords("expenses_items", '*', array('expense_id' => $expense_id));
+            $retailerData = $this->common_model->getRecords("retailer_data", '*', array('user_id' => $expenseDetails[0]["user_id"]));
+            if(!empty($expenseItems)) {
+                $expenseDetails[0]['items'] = $expenseItems;
+            }else {
+                $expenseDetails[0]['items'] = array();
+            }
+            if(!empty($retailerData)) {
+                $expenseDetails[0]['retailer'] = $retailerData[0];
+            }
+        }
+
+        $pdfdata['expenseDetails'] = $expenseDetails;
+        $pdfdata['settings'] = $this->data['settings'];
+      
+        return $this->load->view('front-end/happycrop/pages/expense_view.php', $pdfdata);
     }
 }

@@ -111,3 +111,12 @@ function convertNumberToWords($number) {
 
     return $string;
 }
+
+function isFileExists($image_path = '')
+{
+	if (is_file($image_path) && !empty ($image_path) && file_exists(FCPATH . $image_path)) {
+		return base_url($image_path);
+	} else {
+		return base_url('uploads/user_avatar/default.jpg');
+	}
+}

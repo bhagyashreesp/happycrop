@@ -15,6 +15,9 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script> -->
 
     <style>
+        body{
+            font-size: 13px;
+        }
         .signatureimg {
             width: 228px;
             height: 143px;
@@ -67,7 +70,9 @@
                 </div>
             </div>
             <div class="col-lg-4 pb-2">
-                <!-- <img src="http://localhost/happy_crop/uploads/media/2023/happycrop-logo1.png"> -->
+                <?php if(isset($order["logo"])) { ?>
+                <img src="<?php echo base_url().$order["logo"]; ?>" class="h-100 w-100">
+                <?php } ?>
 
             </div>
             <div class="col-lg-6">
@@ -169,7 +174,7 @@
                             }
                             ?>
                             <tr>
-                                <th class="text-left" colspan="2">Total Amount</th>
+                                <th class="text-left" colspan="3">Total Amount</th>
                                 <th class="text-left"><?= $total_qty; ?></th>
                                 <th class="text-left" colspan="2"></th>
                                 <th class="text-left"><?= $settings['currency'] . '' . number_format($total_gst, 2); ?></th>

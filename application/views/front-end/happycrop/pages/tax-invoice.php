@@ -13,6 +13,10 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script> -->
 
     <style>
+        body {
+            font-size: 13px;
+        }
+
         .signatureimg {
             width: 228px;
             height: 143px;
@@ -20,12 +24,12 @@
             position: absolute;
             right: 0;
         }
+
         .pagebreak {
             display: block;
             clear: both;
             page-break-after: always;
         }
-
     </style>
 </head>
 
@@ -35,7 +39,7 @@
             <div class="col-lg-12 py-4">
                 <h2 class="text-center font-weight-bold"><?php echo ($dchallan != "" && $dchallan == "1" ? "Delivery Challan" : "Tax Invoice"); ?></h2>
             </div>
-            <div class="col-lg-12 pb-2">
+            <div class="col-lg-8 pb-2">
                 <div class="bg-gray-light">
                     <table class="table border-none">
                         <tbody>
@@ -74,8 +78,11 @@
                     </table>
                 </div>
             </div>
-            <!-- <div class="col-lg-4 pb-2">
-            </div> -->
+            <div class="col-lg-4 pb-2">
+                <?php if (isset($order[0]["logo"])) { ?>
+                    <img src="<?php echo base_url() . $order[0]["logo"]; ?>" class="h-100 w-100">
+                <?php } ?>
+            </div>
             <div class="col-lg-12 py-2">
                 <div class="bg-gray-light h-100">
                     <table class="table  border-none">
@@ -95,7 +102,7 @@
             </div>
             <div class="col-lg-6">
                 <div class="bg-gray-light h-100">
-                    
+
                     <table class="table border-none">
 
                         <p class="font-weight-bold p-2 m-0">Bill To : <?php echo $order[0]['retailer_company_name']; ?></p>
@@ -150,7 +157,7 @@
                     </table>
                 </div>
             </div>
-            
+
             <div class="col-lg-12 py-3">
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -195,7 +202,7 @@
                             }
                             ?>
                             <tr>
-                                <th class="text-left" colspan="2">Total Amount</th>
+                                <th class="text-left" colspan="3">Total Amount</th>
                                 <th class="text-left"><?= $total_qty; ?></th>
                                 <th class="text-left" colspan="2"></th>
                                 <th class="text-left"><?= $settings['currency'] . '' . number_format($total_gst, 2); ?></th>
@@ -225,6 +232,19 @@
                             </ul>
 
                         </div>
+                        <?php if($dchallan == ""){ ?>
+                        <div class=" p-2 mb-3">
+                            <h6 class="mb-1">Pay To</h6>
+                            <span>Acct Name: HAPPYCROP AGRI AND BIOTECH LLP<?php //echo $manufacture['company_name'] 
+                                                                            ?></span> <br />
+                            <span>Acct No: 40616444587<?php //echo $manufacture['account_number'] 
+                                                        ?></span> <br />
+                            <span>Bank Name: State Bank Of India<?php //echo $manufacture['bank_name'] 
+                                                                ?></span> <br />
+                            <span>Bank IFSC: SBIN0000570<?php //echo $manufacture['bank_code'] 
+                                                        ?></span> <br />
+                        </div>
+                        <?php } ?>
                     </div>
                     <div class="col-lg-4 pt-2 mt-4">
                         <div class="bg-gray-light">
@@ -351,7 +371,7 @@
             const element = document.getElementById('generatePDf');
             const footer = document.getElementById('pdffooter');
             footer.style.display = 'none';
-            const imageURL = baseUrl + 'assets/footer_img.png'; 
+            const imageURL = baseUrl + 'assets/footer_img.png';
 
             const options = {
                 margin: [5, 5],
@@ -378,10 +398,10 @@
                 img.src = imageURL;
 
                 img.onload = () => {
-                    const imgWidth = pageWidth * 0.9; 
+                    const imgWidth = pageWidth * 0.9;
                     const imgHeight = (img.height / img.width) * imgWidth;
-                    const x = (pageWidth - imgWidth) / 2; 
-                    const y = pageHeight - imgHeight - 10; 
+                    const x = (pageWidth - imgWidth) / 2;
+                    const y = pageHeight - imgHeight - 10;
 
                     pdfInstance.setPage(totalPages);
                     pdfInstance.addImage(img, 'PNG', x, y, imgWidth, imgHeight);
@@ -391,7 +411,7 @@
 
                 img.onerror = () => {
                     console.error('Failed to load footer image.');
-                    pdfInstance.save('Invoice.pdf'); 
+                    pdfInstance.save('Invoice.pdf');
                 };
 
             } catch (error) {

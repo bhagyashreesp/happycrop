@@ -26,15 +26,8 @@
 
             <div class="col-md-10 col-12">
                 <div class="">
-                    <ul class="nav prof-nav">
-                        <li class="nav-item active">
-                            <a href="<?php echo base_url('my-account/accounts/') ?>" class="nav-link2 btn mr-2">Invoices</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?php echo base_url('my-account/statements/') ?>" class="nav-link2 btn btn-primary text-white">Statements</a>
-                        </li>
-                       </li>
-                    </ul>
+                <?php $this->load->view('front-end/' . THEME . '/pages/account_subheader') ?>
+
                 </div>
                 <div class="pt-4 pr-lg-2">
                     <div class="row">

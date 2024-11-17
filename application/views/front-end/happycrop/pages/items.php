@@ -35,7 +35,7 @@
                             <div class="row ">
                                 <div class="col-md-6">&nbsp;</div>
                                 <div class="col-md-4">
-                                    <label>Search by Mfg Name / Order ID</label>
+                                    <label>Search by Name / Category</label>
                                     <input type="text" id="search_field" name="search_field" class="form-control" />
                                 </div>
                                 <div class="col-md-2 mt-2">
@@ -45,16 +45,18 @@
                         </div>
                     </div>
                     <style>.fixed-table-toolbar {display: none;}</style>
-                    <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('my-account/get_order_account_list/') ?>" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["txt","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["state"] }' data-query-params="orders_query_params">
+                    <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('my-account/get_items_account_list/') ?>" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["txt","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["state"] }' data-query-params="orders_query_params">
                         <thead>
                             <tr class="dark-blue-bg">
-                                <th data-field="id" data-sortable='false' data-footer-formatter="totalFormatter">Invoice #</th>
-                                <th data-field="sellers" data-sortable='false'>MFG Name</th>
-                                <th data-field="date_added" data-sortable='false'>Order Date</th>
-                                <th data-field="final_total" data-sortable='false'>Amount INR</th>
-                                <th data-field="order_status" data-sortable='false' data-visible='true'>Status</th>
-                                <th data-field="payment_receipt" data-sortable='false' data-visible='true'>Payment Receipt</th>
-                                <th data-field="invoice_receipt" data-sortable='false' data-visible='true'>Invoice</th>
+                                <th data-field="id" data-sortable='false' data-footer-formatter="totalFormatter"> ID</th>
+                                <th data-field="product_id" data-sortable='false' data-footer-formatter="totalFormatter">Product ID</th>
+                                <th data-field="product_name" data-sortable='false'>Product Name</th>
+                                <th data-field="hsn_no" data-sortable='false'>HSN </th>
+                                <th data-field="category_name" data-sortable='false'>Category</th>
+                                <th data-field="price" data-sortable='false' >HC Price</th>
+                                <th data-field="mrp" data-sortable='false' >MRP</th>
+                                <th data-field="gst" data-sortable='false' >GST</th>
+                                <th data-field="product_view_url" data-sortable='false' >View</th>
                             </tr>
                         </thead>
                     </table>    
