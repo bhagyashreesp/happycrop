@@ -11,6 +11,7 @@ class Orders extends CI_Controller
         $this->load->database();
         $this->load->helper(['url', 'language', 'timezone_helper']);
         $this->load->model('Order_model');
+        $this->load->model('Account_model');
     }
 
     public function index()
@@ -1842,7 +1843,6 @@ class Orders extends CI_Controller
 
             $this->data['title'] = 'Accounts | ' . $settings['app_name'];
             $this->data['meta_description'] = 'Accounts  | ' . $settings['app_name'];
-
             $this->load->view('seller/template', $this->data);
         } else {
             redirect('seller/login', 'refresh');
@@ -1854,7 +1854,8 @@ class Orders extends CI_Controller
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
             $seller_id = $this->ion_auth->get_user_id();
           
-            return $this->Order_model->get_seller_account_orders_list($seller_id);
+            // return $this->Order_model->get_seller_account_orders_list($seller_id);
+            return $this->Account_model->get_seller_account_orders_list($seller_id);
         } else {
             redirect('admin/login', 'refresh');
         }
@@ -2075,6 +2076,42 @@ class Orders extends CI_Controller
                 }
                 print_r(json_encode($this->response));
             }
+        } else {
+            redirect('seller/login', 'refresh');
+        }
+    }
+    public function items()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            $this->data['page_title'] = 'Items';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-items';
+            $this->data['title'] = 'Items | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Accounts  | ' . $settings['app_name'];
+            $this->load->view('seller/template', $this->data);
+        } else {
+            redirect('seller/login', 'refresh');
+        }
+    }
+    public function view_seller_account_items()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            $seller_id = $this->ion_auth->get_user_id();
+          
+            return $this->Account_model->view_seller_account_items($seller_id);
+        } else {
+            redirect('admin/login', 'refresh');
+        }
+    }
+    public function expenses()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            $this->data['page_title'] = 'Expenses';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-expenses';
+            $this->data['title'] = 'Expenses | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Expenses  | ' . $settings['app_name'];
+            $this->load->view('seller/template', $this->data);
         } else {
             redirect('seller/login', 'refresh');
         }

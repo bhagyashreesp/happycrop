@@ -22,7 +22,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 main-content">
-                    <div class="content-area">
+                    <div class="content-area">  
                         <div class="row">
                         <?php
                         if($super_categories)

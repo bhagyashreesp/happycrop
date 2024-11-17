@@ -6305,7 +6305,14 @@ class My_account extends CI_Controller
             }
         }
 
-        redirect('my-account/expenses');
+        // Redirect to the previous page
+if (isset($_SERVER['HTTP_REFERER'])) {
+    redirect($_SERVER['HTTP_REFERER']);
+} else {
+    // Fallback to a default page if HTTP_REFERER is not set
+    redirect('my-account/expenses');
+}
+
     }
     public function get_expense_list()
     {
