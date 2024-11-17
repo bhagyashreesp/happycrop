@@ -14,6 +14,9 @@
             clear: both;
             page-break-after: always;
         }
+        body{
+            font-size: 13px !important;
+        }
     </style>
 </head>
 
