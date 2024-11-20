@@ -207,7 +207,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="row">
+                <div class="row justify-content-between">
                     <div class="col-lg-6 py-2">
                         <div class="form-group ">
                             <label for="receipt"> <strong>Invoice Amount in Words</strong> </label>
@@ -228,7 +228,7 @@
 
                         </div>
                     </div>
-                    <div class="col-lg-6 pt-4 mt-3">
+                    <div class="col-lg-3 pt-4 mt-3">
                         <div class="bg-gray-light h-100">
                             <table class="table  border-none">
                                 <tbody>

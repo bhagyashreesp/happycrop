@@ -5,12 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <?php $this->load->view('admin/headcustom.php'); ?>
-
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script> -->
 
     <style>
         body {
@@ -20,8 +19,8 @@
         .signatureimg {
             width: 228px;
             height: 143px;
-            margin-left: 100px;
-            position: absolute;
+            /* margin-left: 75px; */
+            /* position: absolute; */
             right: 0;
         }
 
@@ -30,6 +29,38 @@
             clear: both;
             page-break-after: always;
         }
+
+        .text-head {
+            color: #78ab37;
+        }
+
+        .bg-primary {
+            background-color: #78ab37 !important;
+        }
+
+        .border-top-green {
+            border-top: 4px solid #78ab37;
+            padding-bottom: 1rem;
+        }
+
+        .image-border {
+            border: 4px solid #78ab37;
+            border-radius: 12px;
+            padding: 0.5rem;
+        }
+
+        tbody,
+        td,
+        tfoot,
+        th,
+        thead,
+        tr {
+            border-color: #5c9513 !important;
+        }
+
+        .w-17 {
+            width: 17% !important;
+        }
     </style>
 </head>
 
@@ -37,39 +68,39 @@
     <div class="container mt-5">
         <div class="row justify-content-center border border-black p-2" id="generatePDf">
             <div class="col-lg-12 py-4">
-                <h2 class="text-center font-weight-bold">Expense</h2>
+                <h2 class="text-center fw-bold">Expense</h2>
             </div>
-            <div class="col-lg-12 pb-2">
+            <div class="border-top-green"></div>
+
+            <div class="col-lg-8 pb-2">
                 <div class="bg-gray-light">
                     <table class="table border-none">
                         <tbody>
                             <tr>
-                                <td colspan="2">
-                                    <p class="font-weight-bold p-2 m-0"> <?php echo $expenseDetails[0]['retailer']["company_name"]; ?></p>
+                                <td colspan="2" class="border-0">
+                                    <p class="fw-bold p-2 m-0 border-0"> <?php echo $expenseDetails[0]['retailer']["company_name"]; ?></p>
 
                                 </td>
                             </tr>
-
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold w-25">Address : -</td>
-                                <td class="border-top-0 py-1 text-left pl-2"> <?php echo $expenseDetails[0]['retailer']['plot_no'] . ' ' . $expenseDetails[0]['retailer']['street_locality'] . ' ' . $expenseDetails[0]['retailer']['landmark'] . ' ' . $expenseDetails[0]['retailer']['city'] . ' ' . $expenseDetails[0]['retailer']['state'] . ' ' . $expenseDetails[0]['retailer']['pin']; ?></td>
+                                <td class="border-0 py-0 text-left w-100"><b>Address : </b> <?php echo $expenseDetails[0]['retailer']['plot_no'] . ' ' . $expenseDetails[0]['retailer']['street_locality'] . ' ' . $expenseDetails[0]['retailer']['landmark'] . ' ' . $expenseDetails[0]['retailer']['city'] . ' ' . $expenseDetails[0]['retailer']['state'] . ' ' . $expenseDetails[0]['retailer']['pin']; ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold w-25">Contact : -</td>
-                                <td class="border-top-0 py-1 text-left pl-2"><?= $this->session->userdata('mobile') ?></td>
+                                <td class="border-0 py-0 text-left w-100"><b>Contact : </b><?= $this->session->userdata('mobile') ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold w-25">Email : -</td>
-                                <td class="border-top-0 py-1 text-left pl-2"><?= $this->session->userdata('email') ?></td>
+                                <td class="border-0 py-0 text-left  w-100"><b>Email : </b><?= $this->session->userdata('email') ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold w-25">GSTIN : -</td>
-                                <td class="border-top-0 py-1 text-left pl-2"><?= $expenseDetails[0]['retailer']['gst_no'] ?></td>
+                                <td class="border-0 py-0 text-left  w-100"><b>GSTIN : </b><?= $expenseDetails[0]['retailer']['gst_no'] ?></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+            <div class="col-lg-4"></div>
+            <div class="border-top-green"></div>
+
             <div class="col-lg-12 py-3">
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -91,18 +122,18 @@
                             foreach ($expenseDetails[0]['items'] as $key => $item) {
                                 $total_amt += $item["amount"];
                                 $total_price += $item["price_unit"];
-                                $total_qty += ($item['quantity']) ;
+                                $total_qty += ($item['quantity']);
 
                             ?>
-                                    <tr>
-                                        <td><?= $i; ?></td>
-                                        <td><?php echo $item['name']; ?></td>
-                                        <td><?php echo $item['quantity']; ?></td>
-                                        <td><?php echo $item["price_unit"] ?></td>
-                                        <td><?php echo $item["amount"] ?></td>
-                                    </tr>
+                                <tr>
+                                    <td><?= $i; ?></td>
+                                    <td><?php echo $item['name']; ?></td>
+                                    <td><?php echo $item['quantity']; ?></td>
+                                    <td><?php echo $item["price_unit"] ?></td>
+                                    <td><?php echo $item["amount"] ?></td>
+                                </tr>
                             <?php
-                                
+
                                 $i++;
                             }
                             ?>
@@ -122,27 +153,27 @@
                             <div class="bg-gray-light p-2 w-100"><?php echo convertNumberToWords($total_amt) ?></div>
                         </div>
                         <div class="border border-dark p-2">
-                            <h5 class="font-weight-bold">Description</h5>
+                            <h5 class="fw-bold">Description</h5>
                             <div>
                                 <?php echo $expenseDetails[0]['description']; ?>
                             </div>
-                            
+
 
                         </div>
-                        
+
                     </div>
-                    <div class="col-lg-4 pt-2 mt-4">
+                    <div class="col-lg-3 pt-2 mt-4">
                         <div class="bg-gray-light">
                             <table class="table h-100 border-none">
                                 <tbody>
-                                    <tr class="p-2 pt-2 ">
-                                        <td class="border-top-0 w-50 font-weight-bold">Total : -</td>
-                                        <td class="border-top-0 w-50 pl-2"><?php echo $settings['currency'] . ' ' . number_format(($total_amt), 2); ?></td>
+                                    <tr class="p-2 pt-2 bg-primary text-white">
+                                        <td class="border-0 w-50 fw-bold">Total : -</td>
+                                        <td class="border-0 w-50 pl-2"><?php echo $settings['currency'] . ' ' . number_format(($total_amt), 2); ?></td>
                                     </tr>
                                     <hr>
                                     <tr class="p-2 pt-2 border-top">
-                                        <td class="border-top-0 w-50 font-weight-bold">Paid : -</td>
-                                        <td class="border-top-0 w-50 pl-2"><?php echo $settings['currency'] . ' ' . number_format(($expenseDetails[0]["paid_amount"]), 2); ?></td>
+                                        <td class="border-0 w-50 fw-bold">Paid : -</td>
+                                        <td class="border-0 w-50 pl-2"><?php echo $settings['currency'] . ' ' . number_format(($expenseDetails[0]["paid_amount"]), 2); ?></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -162,12 +193,13 @@
         </div>
 
     </div>
-        <div class="row justify-content-center">
+    <div class="row justify-content-center">
+        <div class="col-lg-2 align-content-center">
             <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
             <button class="btn btn-primary my-3 ml-2" onclick="printDiv();">Print</button>
         </div>
     </div>
-    <?php $this->load->view('admin/include-script.php'); ?>
+    </div>
     <script>
         baseUrl = '<?php echo base_url(); ?>';
         $(document).ready(function() {
@@ -188,7 +220,7 @@
         }
 
 
-      
+
         async function generatePDF() {
             const element = document.getElementById('generatePDf');
             const footer = document.getElementById('pdffooter');
@@ -196,7 +228,7 @@
             const imageURL = baseUrl + 'assets/footer_img.png';
 
             const options = {
-                margin: [5, 5],
+                margin: [2, 2],
                 filename: 'Invoice.pdf',
                 html2canvas: {
                     scale: 2,
