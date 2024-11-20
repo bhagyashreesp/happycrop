@@ -5,18 +5,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Receipt</title>
-    <?php $this->load->view('admin/headcustom.php'); ?>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <style>
+        body {
+            font-size: 13px;
+        }
+
+        .signatureimg {
+            width: 228px;
+            height: 143px;
+            margin-left: 100px;
+            position: absolute;
+            right: 0;
+        }
+
         .pagebreak {
             display: block;
             clear: both;
             page-break-after: always;
         }
-        body{
-            font-size: 13px !important;
+
+        .text-head {
+            color: #78ab37;
+        }
+
+        .bg-primary {
+            background-color: #78ab37 !important;
+        }
+
+        .border-top-green {
+            border-top: 4px solid #78ab37;
+            padding-bottom: 1rem;
+        }
+
+        .image-border {
+            border: 4px solid #78ab37;
+            border-radius: 12px;
+            padding: 0.5rem;
+        }
+
+        tbody,
+        td,
+        tfoot,
+        th,
+        thead,
+        tr {
+            border-color: #5c9513 !important;
         }
     </style>
 </head>
@@ -25,51 +64,50 @@
     <div class="container mt-5">
         <div class="row  border border-black p-2" id="generatePDf">
             <div class="col-lg-12 py-4">
-                <h2 class="text-center font-weight-bold">Payment Receipt</h2>
+                <h2 class="text-center fw-bold">Payment Receipt</h2>
             </div>
-            <div class="col-lg-10">
+            <div class="border-top-green"></div>
+
+            <div class="col-lg-8">
                 <div class="bg-gray-light">
                     <table class="table border-none">
-                        <p class="font-weight-bold p-2 m-0"><?= $this->config->item('happycrop_name'); ?></p>
+                        <p class="fw-bold p-2 m-0"><?= $this->config->item('happycrop_name'); ?></p>
 
                         <tbody>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 font-weight-bold">Address : -</td>
-                                <td class="border-top-0 py-1 pl-2"><?= $this->config->item('address'); ?></td>
+                                <td class="border-0 py-0 w-100"><b>Address : </b><?= $this->config->item('address'); ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 font-weight-bold">Contact : -</td>
-                                <td class="border-top-0 py-1 pl-2"><?= $this->config->item('mobile'); ?></td>
+                                <td class="border-0 py-0 w-100"><b>Contact : </b><?= $this->config->item('mobile'); ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 font-weight-bold">Email : -</td>
-                                <td class="border-top-0 py-1 pl-2"><?= $this->config->item('support'); ?></td>
+                                <td class="border-0 py-0 w-100"><b>Email :  </b><?= $this->config->item('support'); ?></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+            <div class="border-top-green"></div>
+
             <div class="col-lg-12">
-                <p class="font-weight-bold p-2 m-0">Paid To</p>
+                <p class="fw-bold p-2 m-0">Paid To</p>
 
             </div>
-           
-            <div class="col-lg-6 pb-2">
+
+            <div class="col-lg-8 pb-2">
                 <div class="bg-gray-light h-100">
                     <table class="table border-none">
                         <tbody>
                             <tr>
-                                <td colspan="2">
-                                    <p class="font-weight-bold p-2 m-0">Manufacturer/ Service Provider</p>
+                                <td colspan="2" class="border-0">
+                                    <p class="fw-bold p-2 m-0">Manufacturer/ Service Provider</p>
                                 </td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold">Company Name : -</td>
-                                <td class="border-top-0 py-1 text-left pl-2"><?= $manufacture['company_name'] ?></td>
+                                <td class="border-0 py-0 text-left w-100"><b>Company Name : </b><?= $manufacture['company_name'] ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold">Address : -</td>
-                                <td class="border-top-0 py-1 text-left pl-2"> <?php
+                                <td class="border-0 py-0 text-left w-100"><b>Address : </b><?php
                                                                                 if (isset($manufacture['address'])) {
                                                                                     echo $manufacture['addresss'];
                                                                                 } else {
@@ -78,40 +116,33 @@
                                                                                 ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold">Contact : -</td>
-                                <td class="border-top-0 py-1 text-left pl-2"><?= $manufacture['mobile'] ?></td>
+                                <td class="border-0 py-0 text-left w-100"><b>Contact : </b><?= $manufacture['mobile'] ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold">Email : -</td>
-                                <td class="border-top-0 py-1 text-left pl-2"><?= $manufacture['email'] ?></td>
+                                <td class="border-0 py-0 text-left w-100"><b>Email : </b><?= $manufacture['email'] ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold">GSTIN : -</td>
-                                <td class="border-top-0 py-1 text-left pl-2"><?= $manufacture['gst_no'] ?></td>
+                                <td class="border-0 py-0 text-left w-100"><b>GSTIN : </b><?= $manufacture['gst_no'] ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-top-0 py-1 text-left font-weight-bold">State : -</td>
-                                <td class="border-top-0 py-1 text-left pl-2"><?= $manufacture['state'] ?></td>
+                                <td class="border-0 py-0 text-left w-100"><b>State : </b><?= $manufacture['state'] ?></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <div class="bg-gray-light h-100">
                     <table class="table  border-none">
                         <tbody>
                             <tr class="p-2 ">
-                                <td class="border-top-0 py-1 w-50 font-weight-bold">Receipt Number : -</td>
-                                <td class="border-top-0 py-1 w-50 pl-2"><?php echo $order[0]['order_items'][0]["receipt_no"]; ?></td>
+                                <td class="border-0 py-0 w-50 w-100"><b>Receipt Number : </b><?php echo $order[0]['order_items'][0]["receipt_no"]; ?></td>
                             </tr>
                             <tr class="p-2 ">
-                                <td class="border-top-0 py-1 w-25 font-weight-bold">Order Id : -</td>
-                                <td class="border-top-0 py-1 w-75 pl-2"><?php echo $order[0]['order_items'][0]["order_id"]; ?></td>
+                                <td class="border-0 py-0 w-25 w-100"><b>Order Id : </b><?php echo $order[0]['order_items'][0]["order_id"]; ?></td>
                             </tr>
                             <tr class="p-2 ">
-                                <td class="border-top-0 py-1 w-50 font-weight-bold">Date : -</td>
-                                <td class="border-top-0 py-1 w-50 pl-2"><?= date('d M Y H:i', strtotime($order[0]['date_added'])); ?></td>
+                                <td class="border-0 py-0 w-50 w-100"><b>Date : </b><?= date('d M Y H:i', strtotime($order[0]['date_added'])); ?></td>
                             </tr>
 
                         </tbody>
@@ -130,7 +161,7 @@
                     <div class="col-lg-6 py-2">
                         <div class="form-group ">
                             <label for="receipt"> <strong>Amount</strong> </label>
-                            <div class="bg-gray-light p-2 w-100"><?php echo number_format($order[0]["total_payable"], 2); ?></div>
+                            <div class="bg-gray-light p-2 w-100"><?php echo $settings['currency'] . '' . number_format($order[0]["total_payable"], 2); ?></div>
                         </div>
                     </div>
                     <div class="col-lg-12 py-2">
@@ -139,7 +170,6 @@
                             <div class="bg-gray-light p-2 w-100"><?php echo convertNumberToWords($order[0]["total_payable"]) ?></div>
                         </div>
                     </div>
-                <div class="pagebreak pb-5"></div>
 
                     <?php include(APPPATH . 'views/front-end/happycrop/authsignature.php'); ?>
                     <div class="col-lg-12 pt-5">
@@ -153,13 +183,14 @@
         <?php if ($view == "view") { ?>
 
             <div class="row justify-content-center">
-                <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
-                <button class="btn btn-primary my-3 ml-2" onclick="printDiv();">Print</button>
+                <div class="col-lg-2">
 
+                    <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
+                    <button class="btn btn-primary my-3 ml-2" onclick="printDiv();">Print</button>
+                </div>
             </div>
         <?php } ?>
     </div>
-    <?php $this->load->view('admin/include-script.php'); ?>
     <script>
         $(document).ready(function() {
             <?php if ($view != "view") { ?>
@@ -204,10 +235,10 @@
             const element = document.getElementById('generatePDf');
             const footer = document.getElementById('pdffooter');
             footer.style.display = 'none';
-            const imageURL = baseUrl + 'assets/footer_img.png'; 
+            const imageURL = baseUrl + 'assets/footer_img.png';
 
             const options = {
-                margin: [5, 5],
+                margin: [2, 2],
                 filename: 'Invoice.pdf',
                 html2canvas: {
                     scale: 2,
@@ -231,10 +262,10 @@
                 img.src = imageURL;
 
                 img.onload = () => {
-                    const imgWidth = pageWidth * 0.9; 
+                    const imgWidth = pageWidth * 0.9;
                     const imgHeight = (img.height / img.width) * imgWidth;
-                    const x = (pageWidth - imgWidth) / 2; 
-                    const y = pageHeight - imgHeight - 10; 
+                    const x = (pageWidth - imgWidth) / 2;
+                    const y = pageHeight - imgHeight - 10;
 
                     pdfInstance.setPage(totalPages);
                     pdfInstance.addImage(img, 'PNG', x, y, imgWidth, imgHeight);
@@ -244,7 +275,7 @@
 
                 img.onerror = () => {
                     console.error('Failed to load footer image.');
-                    pdfInstance.save('Invoice_without_Footer.pdf'); 
+                    pdfInstance.save('Invoice_without_Footer.pdf');
                 };
 
             } catch (error) {

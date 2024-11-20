@@ -12,6 +12,8 @@ class Orders extends CI_Controller
         $this->load->helper(['url', 'language', 'timezone_helper']);
         $this->load->model('Order_model');
         $this->load->model('Account_model');
+        $this->data['settings'] = get_settings('system_settings', true);
+
     }
 
     public function index()
@@ -316,6 +318,8 @@ class Orders extends CI_Controller
             $pdfdata['manufacture'] = $manufactures[0];
             $pdfdata['order'] = $order['order_data'];
             $pdfdata['view'] = $view;
+            $pdfdata['settings'] = $this->data['settings'];
+
 
 
             return $this->load->view('admin/pages/view/manufacture-payment-receipt.php', $pdfdata);

@@ -4794,6 +4794,7 @@ class My_account extends CI_Controller
         $pdfdata['manufacture'] = $manufactures[0];
         $pdfdata['order'] = $order['order_data'];
         $pdfdata['view'] = $view;
+        $pdfdata['settings'] = $this->data['settings'];
 
 
         return $this->load->view('front-end/happycrop/pages/payment_receipt.php', $pdfdata);
@@ -4915,6 +4916,7 @@ class My_account extends CI_Controller
         $pdfdata['view'] = $view;
         $pdfdata['purchase_order'] = $purchase_order;
         $pdfdata['order_item_stages'] = $order_item_stages;
+        $pdfdata['settings'] = $this->data['settings'];
 
 
         return $this->load->view('front-end/happycrop/pages/purchase-order.php', $pdfdata);
@@ -4966,6 +4968,7 @@ class My_account extends CI_Controller
         $pdfdata['view'] = $view;
         $pdfdata['dchallan'] = $dchallan;
         $pdfdata['order_item_stages'] = $order_item_stages;
+        $pdfdata['settings'] = $this->data['settings'];
 
 
         return $this->load->view('front-end/happycrop/pages/tax-invoice.php', $pdfdata);
