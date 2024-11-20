@@ -468,7 +468,7 @@
                     pdfInstance.setPage(totalPages);
                     pdfInstance.addImage(img, 'PNG', x, y, imgWidth, imgHeight);
 
-                    pdfInstance.save('Invoice_with_Footer.pdf');
+                    pdfInstance.save('Invoice.pdf');
                 };
 
                 img.onerror = () => {
