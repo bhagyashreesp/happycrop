@@ -5962,6 +5962,17 @@ class My_account extends CI_Controller
             return false;
         }
     }
+    public function get_order_account_list_filter()
+    {
+        if ($this->ion_auth->logged_in()) {
+            return $this->order_model->get_order_account_list_filter($this->data['user']->id, $status);
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
+        }
+    }
 
     public function statements()
     {
@@ -6309,13 +6320,12 @@ class My_account extends CI_Controller
         }
 
         // Redirect to the previous page
-if (isset($_SERVER['HTTP_REFERER'])) {
-    redirect($_SERVER['HTTP_REFERER']);
-} else {
-    // Fallback to a default page if HTTP_REFERER is not set
-    redirect('my-account/expenses');
-}
-
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            redirect($_SERVER['HTTP_REFERER']);
+        } else {
+            // Fallback to a default page if HTTP_REFERER is not set
+            redirect('my-account/expenses');
+        }
     }
     public function get_expense_list()
     {
@@ -6331,24 +6341,195 @@ if (isset($_SERVER['HTTP_REFERER'])) {
     }
     public function expense_details($expense_id)
     {
-       
+
         $expenseDetails = $this->common_model->getRecords("expenses", '*', array('id' => $expense_id));
         if (!empty($expenseDetails)) {
             $expenseItems = $this->common_model->getRecords("expenses_items", '*', array('expense_id' => $expense_id));
             $retailerData = $this->common_model->getRecords("retailer_data", '*', array('user_id' => $expenseDetails[0]["user_id"]));
-            if(!empty($expenseItems)) {
+            if (!empty($expenseItems)) {
                 $expenseDetails[0]['items'] = $expenseItems;
-            }else {
+            } else {
                 $expenseDetails[0]['items'] = array();
             }
-            if(!empty($retailerData)) {
+            if (!empty($retailerData)) {
                 $expenseDetails[0]['retailer'] = $retailerData[0];
             }
         }
 
         $pdfdata['expenseDetails'] = $expenseDetails;
         $pdfdata['settings'] = $this->data['settings'];
-      
+
         return $this->load->view('front-end/happycrop/pages/expense_view.php', $pdfdata);
+    }
+    public function purchasebill()
+    {
+        if ($this->ion_auth->logged_in()) {
+            $this->data['main_page'] = 'purchasebill';
+            $this->data['title'] = 'purchasebill | ' . $this->data['web_settings']['site_title'];
+            $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
+            $this->data['description'] = $this->data['web_settings']['meta_description'];
+            $this->load->view('front-end/' . THEME . '/template', $this->data);
+        } else {
+            redirect(base_url(), 'refresh');
+        }
+    }
+    public function purchaseout()
+    {
+        if ($this->ion_auth->logged_in()) {
+            $this->data['main_page'] = 'purchaseout';
+            $this->data['title'] = 'purchaseout | ' . $this->data['web_settings']['site_title'];
+            $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
+            $this->data['description'] = $this->data['web_settings']['meta_description'];
+            $this->load->view('front-end/' . THEME . '/template', $this->data);
+        } else {
+            redirect(base_url(), 'refresh');
+        }
+    }
+    public function purchaseorder()
+    {
+        if ($this->ion_auth->logged_in()) {
+            $this->data['main_page'] = 'purchaseorder';
+            $this->data['title'] = 'purchaseorder | ' . $this->data['web_settings']['site_title'];
+            $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
+            $this->data['description'] = $this->data['web_settings']['meta_description'];
+            $this->load->view('front-end/' . THEME . '/template', $this->data);
+        } else {
+            redirect(base_url(), 'refresh');
+        }
+    }
+    public function addcustomer()
+    {
+        if ($this->ion_auth->logged_in()) {
+            $this->data['main_page'] = 'addcustomer';
+            $this->data['title'] = 'addcustomer | ' . $this->data['web_settings']['site_title'];
+            $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
+            $this->data['description'] = $this->data['web_settings']['meta_description'];
+            $this->load->view('front-end/' . THEME . '/template', $this->data);
+        } else {
+            redirect(base_url(), 'refresh');
+        }
+    }
+    public function addquickbillcustomer()
+    {
+        $postData = $this->input->post();
+        $customerData["customer_name"] = $postData["name"];
+        $customerData["biiling_address"] = $postData["billing_address"];
+        $customerData["phone_number"] = $postData["phone_number"];
+        $customerData["shipping_address"] = $postData["shipping_address"];
+        $customerData["user_id"] = $this->session->userdata('user_id');
+        $this->db->insert('tbl_quick_bill_customers', $customerData);
+        $customer_id = $this->db->insert_id();
+        redirect('my-account/quickbill');
+    }
+    public function add_quickbill()
+    {
+        if ($this->ion_auth->logged_in()) {
+            $this->data['getcustomerlist'] = $this->common_model->getRecords("tbl_quick_bill_customers",'*', array('user_id'=>$this->session->userdata('user_id')));
+            $this->data['main_page'] = 'add_quickbill';
+            $this->data['title'] = 'add_quickbill | ' . $this->data['web_settings']['site_title'];
+            $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
+            $this->data['description'] = $this->data['web_settings']['meta_description'];
+            $this->load->view('front-end/' . THEME . '/template', $this->data);
+        } else {
+            redirect(base_url(), 'refresh');
+        }
+    }
+    public function save_quickbill(){
+        $postData = $this->input->post();
+        $quickbillData["user_id"] = $this->session->userdata('user_id');
+        $quickbillData["customer_id"] = $postData["customer_id"];
+        $quickbillData["payment_mode"] = $postData["payment_mode"];
+        $quickbillData["subtotal"] = $postData["subtotal"];
+        $quickbillData["amount_received"] = $postData["amount_received"];
+        $quickbillData["balance"] = $postData["balance"];
+        $quickbillData["discount"] = $postData["discount_total"];
+        $quickbillData["tax_applied"] = $postData["tax_applied_total"];
+        $quickbillData["remark"] = $postData["remark"];
+        $quickbillData["total_amt"] = $postData["total_amt"];
+        $quickbillData["user_id"] = $this->session->userdata('user_id');
+        $this->db->insert('quick_bill_products', $quickbillData);
+        $bill_id = $this->db->insert_id();
+        
+        $item_count = $this->input->post('item_count');
+        if ($item_count) {
+
+            for ($i = 1; $i <= $this->input->post('item_count'); $i++) {
+                $item_code = "item_code_" . $i;
+                $namestring = "item_name_" . $i;
+                $quantity = "quantity_" . $i;
+                $price = "price_" . $i;
+                $discount = "discount_" . $i;
+                $tax_applied = "tax_applied_". $i;
+                $amount = "total_" . $i;
+                if ($this->input->post($namestring) != "") {
+                    $expenseitems["bill_id"] = $bill_id;
+                    $expenseitems["item_code"] = $this->input->post($item_code);
+                    $expenseitems["item_name"] = $this->input->post($namestring);
+                    $expenseitems["quantity"] = $this->input->post($quantity);
+                    $expenseitems["price"] = $this->input->post($price);
+                    $expenseitems["discount"] = $this->input->post($discount);
+                    $expenseitems["tax_applied"] = $this->input->post($tax_applied);
+                    $expenseitems["total"] = $this->input->post($amount);
+                    $expenseitems["user_id"] = $this->session->userdata('user_id');
+                    $this->db->insert('tbl_quick_bill_products', $expenseitems);
+                  
+                }
+            }
+        }
+        redirect('my-account/quickbill');
+    }
+    public function quickbill()
+    {
+        if ($this->ion_auth->logged_in()) {
+            $this->data['getcustomerlist'] = $this->common_model->getRecords("tbl_quick_bill_customers",'*', array('user_id'=>$this->session->userdata('user_id')));
+            $this->data['main_page'] = 'quickbill';
+            $this->data['title'] = 'quickbill | ' . $this->data['web_settings']['site_title'];
+            $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
+            $this->data['description'] = $this->data['web_settings']['meta_description'];
+            $this->load->view('front-end/' . THEME . '/template', $this->data);
+        } else {
+            redirect(base_url(), 'refresh');
+        }
+    }
+    public function get_quick_list()
+    {
+        $user_id = $this->session->userdata('user_id');
+        if ($this->ion_auth->logged_in()) {
+            return $this->Account_model->get_quick_list($user_id);
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
+        }
+    }
+    public function quickbill_details($bill_id)
+    {
+        $this->db->select('e.*,cust.customer_name,cust.phone_number,cust.biiling_address,cust.shipping_address');
+        $this->db->where('e.id',$bill_id);
+        $this->db->from('quick_bill_products e');
+        $this->db->join('tbl_quick_bill_customers cust', 'cust.id = e.customer_id', 'left');
+        $result = $this->db->get()->result_array();
+
+        if (!empty($result)) {
+            if ($result[0]["payment_mode"] == "1") {
+                $result[0]["payment_mode"] = "cash";
+            } else if ($result[0]["payment_mode"] == "1") {
+                $result[0]["payment_mode"] = "UPI";
+            } else {
+                $result[0]["payment_mode"] = "Bank Transfer";
+            }
+            $expenseItems = $this->common_model->getRecords("tbl_quick_bill_products", '*', array('bill_id' => $bill_id));
+            if (!empty($expenseItems)) {
+                $result[0]['items'] = $expenseItems;
+            } else {
+                $result[0]['items'] = array();
+            }
+        }
+
+        $pdfdata['result'] = $result;
+        $pdfdata['settings'] = $this->data['settings'];
+
+        return $this->load->view('front-end/happycrop/pages/quickbillview.php', $pdfdata);
     }
 }

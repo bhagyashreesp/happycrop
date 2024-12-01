@@ -1864,6 +1864,17 @@ class Orders extends CI_Controller
             redirect('admin/login', 'refresh');
         }
     }
+    public function view_seller_account_orders_filter()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            $seller_id = $this->ion_auth->get_user_id();
+          
+            // return $this->Order_model->get_seller_account_orders_list($seller_id);
+            return $this->Account_model->get_seller_account_orders_list_filter($seller_id);
+        } else {
+            redirect('admin/login', 'refresh');
+        }
+    }
 
     public function statements()
     {
@@ -2115,6 +2126,60 @@ class Orders extends CI_Controller
             $this->data['main_page'] = TABLES . 'manage-expenses';
             $this->data['title'] = 'Expenses | ' . $settings['app_name'];
             $this->data['meta_description'] = 'Expenses  | ' . $settings['app_name'];
+            $this->load->view('seller/template', $this->data);
+        } else {
+            redirect('seller/login', 'refresh');
+        }
+    }
+    public function Purchasebill()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            $this->data['page_title'] = 'Purchase Bill';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-purchasebill';
+            $this->data['title'] = 'Purchase Bill | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Purchase Bill  | ' . $settings['app_name'];
+            $this->data['delivery_challan'] = "";
+            $this->load->view('seller/template', $this->data);
+        } else {
+            redirect('seller/login', 'refresh');
+        }
+    }
+    public function purchasein()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            $this->data['page_title'] = 'Purchase In';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-purchasein';
+            $this->data['title'] = 'Purchase In | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Purchase In  | ' . $settings['app_name'];
+            $this->load->view('seller/template', $this->data);
+        } else {
+            redirect('seller/login', 'refresh');
+        }
+    }
+    public function purchaseorder()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            $this->data['page_title'] = 'Purchase Order';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-purchaseorder';
+            $this->data['title'] = 'Purchase Order | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Purchase Order  | ' . $settings['app_name'];
+            $this->load->view('seller/template', $this->data);
+        } else {
+            redirect('seller/login', 'refresh');
+        }
+    }
+    public function deliverychallan()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            $this->data['page_title'] = 'Delivery Challan';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-purchasebill';
+            $this->data['title'] = 'Delivery Challan | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Delivery Challan  | ' . $settings['app_name'];
+            $this->data['delivery_challan'] = 1;
             $this->load->view('seller/template', $this->data);
         } else {
             redirect('seller/login', 'refresh');

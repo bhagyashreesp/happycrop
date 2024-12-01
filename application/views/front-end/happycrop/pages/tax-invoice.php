@@ -49,6 +49,9 @@
             border: 4px solid #78ab37;
             border-radius: 12px;
             padding: 0.5rem;
+            height: 250px!important;
+            width: 400px!important;
+            object-fit: contain;
         }
 
         tbody,
@@ -59,8 +62,9 @@
         tr {
             border-color: #5c9513 !important;
         }
-        .w-17{
-            width: 17%!important;
+
+        .w-17 {
+            width: 17% !important;
         }
     </style>
 </head>
@@ -167,7 +171,7 @@
 
                         <tbody>
                             <tr class="p-2 ">
-                                <td class="border-0 py-0  w-100"><b>Invoice No  : </b><?php echo $order[0]["id"]; ?></td>
+                                <td class="border-0 py-0  w-100"><b>Invoice No : </b><?php echo $order[0]["id"]; ?></td>
                             </tr>
                             <tr class="p-2 ">
                                 <td class="border-0 py-0  w-100"><b>Date :</b> <?= (!empty($order_item_stages) && $order_item_stages[0]["status"] === "send_invoice" ? date('d M Y ', strtotime($order_item_stages[0]["created_date"])) : date('d M Y', strtotime(date('d-m-y')))); ?></td>
@@ -331,7 +335,7 @@
 
 
             </div>
-            
+
         </div>
 
     </div>
@@ -358,7 +362,7 @@
             document.body.innerHTML = printContents;
             window.print();
             document.body.innerHTML = originalContents;
-           
+
         }
 
 

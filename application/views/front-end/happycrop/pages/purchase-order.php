@@ -51,6 +51,9 @@
             border: 4px solid #78ab37;
             border-radius: 12px;
             padding: 0.5rem;
+            height: 250px!important;
+            width: 400px!important;
+            object-fit: contain;
         }
 
         tbody,

@@ -212,18 +212,18 @@
     </div>
 </div>
 <script>
-    var index=1;
-    function addrow() {
-        index++;
-        html = '<tr>\
-                <td>' + index + '</td>\
-                <td><input type="text" class="form-control" name="name_'+index+'" value="" placeholder="Name" required/></td>\
-                <td><input type="number" step="0.01" class="form-control quantity" name="quantity_'+index+'" placeholder="Quantity" required/></td>\
-                <td><input type="number" step="0.01" class="form-control price" name="price_'+index+'" placeholder="Price/Unit" required/></td>\
-                <td><input type="number" step="0.01" class="form-control amount" name="amount_'+index+'" placeholder="Amount" required/></td>\
-                </tr>';
-            $("#item_data").append(html);
-            $("#item_count").val(index);
+var index=1;
+function addrow() {
+    index++;
+    html = '<tr>\
+            <td>' + index + '</td>\
+            <td><input type="text" class="form-control" name="name_'+index+'" value="" placeholder="Name" required/></td>\
+            <td><input type="number" step="0.01" class="form-control quantity" name="quantity_'+index+'" placeholder="Quantity" required/></td>\
+            <td><input type="number" step="0.01" class="form-control price" name="price_'+index+'" placeholder="Price/Unit" required/></td>\
+            <td><input type="number" step="0.01" class="form-control amount" name="amount_'+index+'" placeholder="Amount" required/></td>\
+            </tr>';
+        $("#item_data").append(html);
+        $("#item_count").val(index);
 
-    }
+}
 </script>
