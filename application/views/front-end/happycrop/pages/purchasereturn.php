@@ -41,7 +41,6 @@
                                 <div class="col-md-6">
                                 <a href="<?php echo base_url() . 'my-account/external-purchase-return'; ?>" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3'>Add Debit Note</a>
                                 </div>
-                                
                                 <div class="col-md-4">
                                     <label>Search by Mfg Name / Order ID</label>
                                     <input type="text" id="search_field" name="search_field" class="form-control" />

@@ -96,7 +96,7 @@
             <div class="border-top-green"></div>
 
             <div class="col-lg-12">
-                <p class="fw-bold p-2 m-0">Paid To</p>
+                <!-- <p class="fw-bold p-2 m-0">Paid To</p> -->
 
             </div>
             <div class="col-lg-6">

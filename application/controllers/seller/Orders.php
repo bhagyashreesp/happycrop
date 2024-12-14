@@ -2185,4 +2185,44 @@ class Orders extends CI_Controller
             redirect('seller/login', 'refresh');
         }
     }
+    public function external_purchase_bill()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            $this->data['page_title'] = 'Purchase Bill';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-external-bill';
+            $this->data['title'] = 'Purchase Bill | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Purchase Bill  | ' . $settings['app_name'];
+            $this->load->view('seller/template', $this->data);
+        } else {
+            redirect('seller/login', 'refresh');
+        }
+    }
+    public function external_purchase_in()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            $this->data['page_title'] = 'Purchase Bill';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-external-paymentin';
+            $this->data['title'] = 'Purchase Bill | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Purchase Bill  | ' . $settings['app_name'];
+            $this->load->view('seller/template', $this->data);
+        } else {
+            redirect('seller/login', 'refresh');
+        }
+    }
+    public function external_sale_order()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            $this->data['page_title'] = 'Sale Order';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-external-saleorder';
+            $this->data['title'] = 'Sale Order | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Sale Order  | ' . $settings['app_name'];
+            $this->load->view('seller/template', $this->data);
+        } else {
+            redirect('seller/login', 'refresh');
+        }
+    }
+    
 }

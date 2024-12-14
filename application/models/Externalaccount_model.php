@@ -70,7 +70,9 @@ class Externalaccount_model extends CI_Model
                 $document = "-";
             }
             $invoice_receipt = '<a href="' . base_url("my-account/ext-tax-invoice/") . $row['id'] . "/view" . '" target="_blank">View</a>';
+            $delivery_challan = '<a href="' . base_url("my-account/ext-tax-invoice/") . $row['id'] . "/view/1" . '" target="_blank">View</a>';
             $purchase_order = '<a href="' . base_url("my-account/ext-purchase-order/") . $row['id'] . "/1" . '" target="_blank">View</a>';
+            $sale_order = '<a href="' . base_url("my-account/ext-purchase-order/") . $row['id']  . '" target="_blank">View</a>';
             $this->db->select_sum('amount');  
             $this->db->from('external_products');  
             $this->db->where('purchase_id', $row["id"]); 
@@ -89,6 +91,8 @@ class Externalaccount_model extends CI_Model
                 'amount' => get_settings('currency')." ".$total_amount,
                 'invoice_receipt' => $invoice_receipt,
                 'purchase_order' => $purchase_order,
+                'delivery_challan' => $delivery_challan,
+                'sale_order' => $sale_order,
 
             );
         }

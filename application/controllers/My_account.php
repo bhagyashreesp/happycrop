@@ -6782,7 +6782,12 @@ class My_account extends CI_Controller
 
         $this->db->insert('external_payment_out', $expenseData);
 
-        redirect('my-account/purchaseout');
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            redirect($_SERVER['HTTP_REFERER']);
+        } else {
+            // Fallback to a default page if HTTP_REFERER is not set
+            redirect('my-account/purchasebill');
+        }
     }
     public function get_external_purchaseout_list()
     {
