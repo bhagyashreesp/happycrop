@@ -73,7 +73,7 @@
     <div class="container mt-5">
         <div class="row justify-content-center border border-black p-2" id="generatePDf">
             <div class="col-lg-12 py-4">
-                <h2 class="text-center fw-bold text-head"><?php echo ($dchallan != "" && $dchallan == "1" ? "Delivery Challan" : "Tax Invoice"); ?></h2>
+                <h2 class="text-center fw-bold text-head">Debit Note</h2>
             </div>
             <div class="border-top-green"></div>
 
@@ -84,11 +84,11 @@
 
                     <table class="table border-none">
 
-                        <p class="fw-bold p-2 m-0">Purchased From : </p>
+                        <p class="fw-bold p-2 m-0">Return  : </p>
 
                         <tbody>
                             <tr class="p-2">
-                                <td class="border-0 py-0   w-100"><b>Party Name : </b> <?php echo $purchaseDetails[0]['party_name']; ?></td>
+                                <td class="border-0 py-0   w-100"><b>Party Name : </b> <?php echo $purchaseDetails[0]['seller_name']; ?></td>
                             </tr>
                             <tr class="p-2">
                                 <td class="border-0 py-0   w-100"><b>Address : </b> <?= $purchaseDetails[0]["address"] ?></td>
@@ -102,6 +102,7 @@
                             <tr class="p-2">
                                 <td class="border-0 py-0 w-100"><b>GSTIN : </b> <?= $purchaseDetails[0]['gstn'] ?></td>
                             </tr>
+                            
 
                         </tbody>
                     </table>
@@ -114,7 +115,7 @@
 
                         <tbody>
                             <tr class="p-2 ">
-                                <td class="border-0 py-0  w-100"><b>Invoice No : </b><?php echo $purchaseDetails[0]["invoice_number"]; ?></td>
+                                <td class="border-0 py-0  w-100"><b>Return No : </b><?php echo $purchaseDetails[0]["return_number"]; ?></td>
                             </tr>
                             <tr class="p-2 ">
                                 <td class="border-0 py-0  w-100"><b>Order No : </b><?php echo $purchaseDetails[0]["order_number"]; ?></td>
@@ -123,7 +124,7 @@
                                 <td class="border-0 py-0  w-100"><b>Date :</b> <?= (isset($purchaseDetails[0]["date"]) ? date('d M Y ', strtotime( $purchaseDetails[0]["date"])) : date('d M Y', strtotime(date('d-m-y')))); ?></td>
                             </tr>
                             <tr class="p-2 ">
-                                <td class="border-0 py-0  w-100"><b>Place to Supply :</b> <?php echo $purchaseDetails[0]["place_supply"]; ?></td>
+                                <td class="border-0 py-0  w-100"><b>State to Supply :</b> <?php echo $purchaseDetails[0]["state_supply"]; ?></td>
                             </tr>
 
                         </tbody>
@@ -188,6 +189,16 @@
                         <div class="form-group ">
                             <label for="receipt"> <strong>Invoice Amount in Words</strong> </label>
                             <div class="bg-gray-light p-2 w-100"><?php echo convertNumberToWords($total_amt) ?></div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="receipt"> <strong>Payment Type</strong> </label>
+                            <div class="bg-gray-light p-2 w-100"><?php echo $purchaseDetails[0]["payment_type"]; ?></div>
+                        </div>
+                        <div class="border border-dark p-2">
+                            <h5 class="fw-bold">Description</h5>
+                            <div>
+                            <?php echo $purchaseDetails[0]["description"]; ?>
+                            </div>
                         </div>
                         
                        

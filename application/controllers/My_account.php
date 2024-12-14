@@ -10,7 +10,7 @@ class My_account extends CI_Controller
         $this->load->database();
         $this->load->library(['ion_auth', 'form_validation', 'pagination', 'upload']);
         $this->load->helper(['url', 'language', 'file']);
-        $this->load->model(['cart_model', 'category_model', 'address_model', 'order_model', 'Transaction_model', 'Account_model','Externalaccount_model']);
+        $this->load->model(['cart_model', 'category_model', 'address_model', 'order_model', 'Transaction_model', 'Account_model', 'Externalaccount_model']);
         $this->lang->load('auth');
         $this->data['is_logged_in'] = ($this->ion_auth->logged_in()) ? 1 : 0;
         $this->data['user'] = ($this->ion_auth->logged_in()) ? $this->ion_auth->user()->row() : array();
@@ -6424,7 +6424,7 @@ class My_account extends CI_Controller
     public function add_quickbill()
     {
         if ($this->ion_auth->logged_in()) {
-            $this->data['getcustomerlist'] = $this->common_model->getRecords("tbl_quick_bill_customers",'*', array('user_id'=>$this->session->userdata('user_id')));
+            $this->data['getcustomerlist'] = $this->common_model->getRecords("tbl_quick_bill_customers", '*', array('user_id' => $this->session->userdata('user_id')));
             $this->data['main_page'] = 'add_quickbill';
             $this->data['title'] = 'add_quickbill | ' . $this->data['web_settings']['site_title'];
             $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
@@ -6434,7 +6434,8 @@ class My_account extends CI_Controller
             redirect(base_url(), 'refresh');
         }
     }
-    public function save_quickbill(){
+    public function save_quickbill()
+    {
         $postData = $this->input->post();
         $quickbillData["user_id"] = $this->session->userdata('user_id');
         $quickbillData["customer_id"] = $postData["customer_id"];
@@ -6449,7 +6450,7 @@ class My_account extends CI_Controller
         $quickbillData["user_id"] = $this->session->userdata('user_id');
         $this->db->insert('quick_bill_products', $quickbillData);
         $bill_id = $this->db->insert_id();
-        
+
         $item_count = $this->input->post('item_count');
         if ($item_count) {
 
@@ -6459,7 +6460,7 @@ class My_account extends CI_Controller
                 $quantity = "quantity_" . $i;
                 $price = "price_" . $i;
                 $discount = "discount_" . $i;
-                $tax_applied = "tax_applied_". $i;
+                $tax_applied = "tax_applied_" . $i;
                 $amount = "total_" . $i;
                 if ($this->input->post($namestring) != "") {
                     $expenseitems["bill_id"] = $bill_id;
@@ -6472,7 +6473,6 @@ class My_account extends CI_Controller
                     $expenseitems["total"] = $this->input->post($amount);
                     $expenseitems["user_id"] = $this->session->userdata('user_id');
                     $this->db->insert('tbl_quick_bill_products', $expenseitems);
-                  
                 }
             }
         }
@@ -6481,7 +6481,7 @@ class My_account extends CI_Controller
     public function quickbill()
     {
         if ($this->ion_auth->logged_in()) {
-            $this->data['getcustomerlist'] = $this->common_model->getRecords("tbl_quick_bill_customers",'*', array('user_id'=>$this->session->userdata('user_id')));
+            $this->data['getcustomerlist'] = $this->common_model->getRecords("tbl_quick_bill_customers", '*', array('user_id' => $this->session->userdata('user_id')));
             $this->data['main_page'] = 'quickbill';
             $this->data['title'] = 'quickbill | ' . $this->data['web_settings']['site_title'];
             $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
@@ -6506,7 +6506,7 @@ class My_account extends CI_Controller
     public function quickbill_details($bill_id)
     {
         $this->db->select('e.*,cust.customer_name,cust.phone_number,cust.biiling_address,cust.shipping_address');
-        $this->db->where('e.id',$bill_id);
+        $this->db->where('e.id', $bill_id);
         $this->db->from('quick_bill_products e');
         $this->db->join('tbl_quick_bill_customers cust', 'cust.id = e.customer_id', 'left');
         $result = $this->db->get()->result_array();
@@ -6546,9 +6546,9 @@ class My_account extends CI_Controller
     }
     public function addexternalpurchasebill()
     {
+        $postData = $this->input->post();
         $expenseData["user_id"] = $this->session->userdata('user_id');
         $expenseData["party_name"] = $this->input->post('party_name');
-        $expenseData["invoice_number"] = $this->input->post('invoice_number');
         $expenseData["address"] = $this->input->post('address');
         $expenseData["order_number"] = $this->input->post('order_number');
         $expenseData["email_id"] = $this->input->post('email_id');
@@ -6557,7 +6557,16 @@ class My_account extends CI_Controller
         $expenseData["gstn"] = $this->input->post('gstn');
         $expenseData["date"] = $this->input->post('date');
         $expenseData["in_words"] = $this->input->post('in_words');
-
+        $expenseData["type"] = $this->input->post('type');
+        if (isset($postData["due_date"])) {
+            $expenseData["due_date"] = $this->input->post('due_date');
+        }
+        if (isset($postData["description"])) {
+            $expenseData["description"] = $this->input->post('description');
+        }
+        if (isset($postData["invoice_number"])) {
+            $expenseData["invoice_number"] = $this->input->post('invoice_number');
+        }
         $upload_path = 'uploads/externalpurchase/';
         if (!is_dir($upload_path)) {
             mkdir($upload_path, 0777, TRUE);
@@ -6631,10 +6640,10 @@ class My_account extends CI_Controller
             }
         }
 
-        
-        
+
+
         $this->db->insert('external_purchase_bill', $expenseData);
-       
+
 
         $expensed_id = $this->db->insert_id();
         $item_count = $this->input->post('item_count');
@@ -6655,13 +6664,19 @@ class My_account extends CI_Controller
                     $expenseitems["price"] = $this->input->post($price);
                     $expenseitems["gst"] = $this->input->post($gst);
                     $expenseitems["amount"] = $this->input->post($amount);
+                    $expenseitems["type"] = "1";
                     $this->db->insert('external_products', $expenseitems);
                 }
             }
         }
 
-    
-        redirect('my-account/purchasebill');
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            redirect($_SERVER['HTTP_REFERER']);
+        } else {
+            // Fallback to a default page if HTTP_REFERER is not set
+            redirect('my-account/purchasebill');
+        }
+        // redirect('my-account/purchasebill');
     }
     public function get_external_purchasebill_ist()
     {
@@ -6677,9 +6692,9 @@ class My_account extends CI_Controller
     public function ext_tax_invoice($purchase_id, $view = "", $dchallan = "")
     {
 
-        $purchaseDetails = $this->common_model->getRecords("external_purchase_bill", '*', array('id' => $expense_id));
+        $purchaseDetails = $this->common_model->getRecords("external_purchase_bill", '*', array('id' => $purchase_id));
         if (!empty($purchaseDetails)) {
-            $expenseItems = $this->common_model->getRecords("external_products", '*', array('purchase_id' => $expense_id));
+            $expenseItems = $this->common_model->getRecords("external_products", '*', array('purchase_id' => $purchase_id, 'type' => '1'));
             $retailerData = $this->common_model->getRecords("retailer_data", '*', array('user_id' => $purchaseDetails[0]["user_id"]));
             if (!empty($expenseItems)) {
                 $purchaseDetails[0]['items'] = $expenseItems;
@@ -6729,7 +6744,7 @@ class My_account extends CI_Controller
         if (!is_dir($upload_path)) {
             mkdir($upload_path, 0777, TRUE);
         }
-        
+
         $config1 = [
             'upload_path' =>  FCPATH . $upload_path,
             'allowed_types' => '*',
@@ -6766,7 +6781,7 @@ class My_account extends CI_Controller
         }
 
         $this->db->insert('external_payment_out', $expenseData);
-       
+
         redirect('my-account/purchaseout');
     }
     public function get_external_purchaseout_list()
@@ -6782,10 +6797,10 @@ class My_account extends CI_Controller
     }
     public function ext_payment_receipt($order_id, $view = "")
     {
-        $getPaymentData = $this->common_model->getRecords('external_payment_out','*',array('id'=>$order_id));
+        $getPaymentData = $this->common_model->getRecords('external_payment_out', '*', array('id' => $order_id));
         $userdetails = fetch_details(["id" => $getPaymentData[0]["user_id"]], "users");
-        
-        
+
+
         $pdfdata['paymentData'] = $getPaymentData;
         $pdfdata['userdetails'] = $userdetails;
         $pdfdata['view'] = $view;
@@ -6793,5 +6808,228 @@ class My_account extends CI_Controller
 
 
         return $this->load->view('front-end/happycrop/pages/ext_payment_receipt.php', $pdfdata);
+    }
+    public function external_purchase_order()
+    {
+        if ($this->ion_auth->logged_in()) {
+            $this->data['main_page'] = 'external_purchase_order';
+            $this->data['title'] = 'external_purchase_order | ' . $this->data['web_settings']['site_title'];
+            $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
+            $this->data['description'] = $this->data['web_settings']['meta_description'];
+            $this->load->view('front-end/' . THEME . '/template', $this->data);
+        } else {
+            redirect(base_url(), 'refresh');
+        }
+    }
+    public function ext_purchase_order($purchase_id, $purchase_order = "")
+    {
+
+        $purchaseDetails = $this->common_model->getRecords("external_purchase_bill", '*', array('id' => $purchase_id));
+        if (!empty($purchaseDetails)) {
+            $expenseItems = $this->common_model->getRecords("external_products", '*', array('purchase_id' => $purchase_id, 'type' => '1'));
+            $retailerData = $this->common_model->getRecords("retailer_data", '*', array('user_id' => $purchaseDetails[0]["user_id"]));
+            if (!empty($expenseItems)) {
+                $purchaseDetails[0]['items'] = $expenseItems;
+            } else {
+                $purchaseDetails[0]['items'] = array();
+            }
+            if (!empty($retailerData)) {
+                $purchaseDetails[0]['retailer'] = $retailerData[0];
+            }
+        }
+
+        $pdfdata['purchaseDetails'] = $purchaseDetails;
+        $pdfdata['settings'] = $this->data['settings'];
+        $pdfdata['purchase_order'] = $purchase_order;
+
+        return $this->load->view('front-end/happycrop/pages/ext_purchase_order.php', $pdfdata);
+    }
+    public function purchasereturn()
+    {
+      
+        if ($this->ion_auth->logged_in()) {
+            $this->data['main_page'] = 'purchasereturn';
+            $this->data['title'] = 'purchasereturn | ' . $this->data['web_settings']['site_title'];
+            $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
+            $this->data['description'] = $this->data['web_settings']['meta_description'];
+            $this->load->view('front-end/' . THEME . '/template', $this->data);
+        } else {
+            redirect(base_url(), 'refresh');
+        }
+    }
+    public function external_purchase_return()
+    {
+        if ($this->ion_auth->logged_in()) {
+            $this->data['main_page'] = 'add_purchase_return';
+            $this->data['title'] = 'add_purchase_return | ' . $this->data['web_settings']['site_title'];
+            $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
+            $this->data['description'] = $this->data['web_settings']['meta_description'];
+            $this->load->view('front-end/' . THEME . '/template', $this->data);
+        } else {
+            redirect(base_url(), 'refresh');
+        }
+    }
+    public function addexternalpurchasereturn()
+    {
+        $postData = $this->input->post();
+        $expenseData["user_id"] = $this->session->userdata('user_id');
+        $expenseData["seller_name"] = $this->input->post('party_name');
+        $expenseData["address"] = $this->input->post('address');
+        $expenseData["email_id"] = $this->input->post('email_id');
+        $expenseData["phone_no"] = $this->input->post('phone_no');
+        $expenseData["state_supply"] = $this->input->post('state_supply');
+        $expenseData["gstn"] = $this->input->post('gstn');
+        $expenseData["invoice_date"] = $this->input->post('invoice_date');
+        $expenseData["date"] = $this->input->post('date');
+        $expenseData["payment_type"] = $this->input->post('payment_type');
+        $expenseData["paid_amount"] = $this->input->post('paid_amount');
+        $expenseData["order_number"] = $this->input->post('order_number');
+
+        if (isset($postData["description"])) {
+            $expenseData["description"] = $this->input->post('description');
+        }
+        $expenseData["return_number"] = $this->input->post('return_number');
+        $upload_path = 'uploads/externalpurchase/';
+        if (!is_dir($upload_path)) {
+            mkdir($upload_path, 0777, TRUE);
+        }
+        $config = [
+            'upload_path' =>  FCPATH . $upload_path,
+            'allowed_types' => 'jpg|png|jpeg|gif',
+            'max_size' => 8000,
+        ];
+        if (isset($_FILES['add_image']) && !empty($_FILES['add_image']['name']) && isset($_FILES['add_image']['name'])) {
+            $other_img = $this->upload;
+            $other_img->initialize($config);
+            if (!empty($_FILES['add_image']['name'])) {
+
+                $_FILES['temp_image']['name'] = $_FILES['add_image']['name'];
+                $_FILES['temp_image']['type'] = $_FILES['add_image']['type'];
+                $_FILES['temp_image']['tmp_name'] = $_FILES['add_image']['tmp_name'];
+                $_FILES['temp_image']['error'] = $_FILES['add_image']['error'];
+                $_FILES['temp_image']['size'] = $_FILES['add_image']['size'];
+                if (!$other_img->do_upload('temp_image')) {
+                    $avatar_error = 'Images :' . $avatar_error . ' ' . $other_img->display_errors();
+                } else {
+                    $temp_array_avatar = $other_img->data();
+                    resize_review_images($temp_array_avatar, FCPATH . $upload_path);
+                    $avatar_doc  = $upload_path . $temp_array_avatar['file_name'];
+                    $expenseData["image"] = $avatar_doc;
+                }
+            } else {
+                $_FILES['temp_image']['name'] = $_FILES['add_image']['name'];
+                $_FILES['temp_image']['type'] = $_FILES['add_image']['type'];
+                $_FILES['temp_image']['tmp_name'] = $_FILES['add_image']['tmp_name'];
+                $_FILES['temp_image']['error'] = $_FILES['add_image']['error'];
+                $_FILES['temp_image']['size'] = $_FILES['add_image']['size'];
+                if (!$other_img->do_upload('temp_image')) {
+                    $avatar_error = $other_img->display_errors();
+                }
+            }
+        }
+        $config1 = [
+            'upload_path' =>  FCPATH . $upload_path,
+            'allowed_types' => '*',
+            'max_size' => 8000,
+        ];
+        if (isset($_FILES['add_document']) && !empty($_FILES['add_document']['name']) && isset($_FILES['add_document']['name'])) {
+            $other_img = $this->upload;
+            $other_img->initialize($config1);
+            if (!empty($_FILES['add_document']['name'])) {
+
+                $_FILES['temp_image']['name'] = $_FILES['add_document']['name'];
+                $_FILES['temp_image']['type'] = $_FILES['add_document']['type'];
+                $_FILES['temp_image']['tmp_name'] = $_FILES['add_document']['tmp_name'];
+                $_FILES['temp_image']['error'] = $_FILES['add_document']['error'];
+                $_FILES['temp_image']['size'] = $_FILES['add_document']['size'];
+                if (!$other_img->do_upload('temp_image')) {
+                    $avatar_error = 'Images :' . $avatar_error . ' ' . $other_img->display_errors();
+                } else {
+                    $temp_array_avatar = $other_img->data();
+                    resize_review_images($temp_array_avatar, FCPATH . $upload_path);
+                    $document  = $upload_path . $temp_array_avatar['file_name'];
+                    $expenseData["document"] = $document;
+                }
+            } else {
+                $_FILES['temp_image']['name'] = $_FILES['add_document']['name'];
+                $_FILES['temp_image']['type'] = $_FILES['add_document']['type'];
+                $_FILES['temp_image']['tmp_name'] = $_FILES['add_document']['tmp_name'];
+                $_FILES['temp_image']['error'] = $_FILES['add_document']['error'];
+                $_FILES['temp_image']['size'] = $_FILES['add_document']['size'];
+                if (!$other_img->do_upload('temp_image')) {
+                    $avatar_error = $other_img->display_errors();
+                }
+            }
+        }
+
+
+
+        $this->db->insert('external_purchase_return', $expenseData);
+        $expensed_id = $this->db->insert_id();
+        $item_count = $this->input->post('item_count');
+        if ($item_count) {
+
+            for ($i = 0; $i <= $this->input->post('item_count'); $i++) {
+                $namestring = "name_" . $i;
+                $quantity = "quantity_" . $i;
+                $hsn = "hsn_" . $i;
+                $gst = "gst_" . $i;
+                $price = "price_" . $i;
+                $amount = "amount_" . $i;
+                if ($this->input->post($namestring) != "") {
+                    $expenseitems["purchase_id"] = $expensed_id;
+                    $expenseitems["product_name"] = $this->input->post($namestring);
+                    $expenseitems["hsn"] = $this->input->post($hsn);
+                    $expenseitems["quantity"] = $this->input->post($quantity);
+                    $expenseitems["price"] = $this->input->post($price);
+                    $expenseitems["gst"] = $this->input->post($gst);
+                    $expenseitems["amount"] = $this->input->post($amount);
+                    $expenseitems["type"] = "2";
+                    $this->db->insert('external_products', $expenseitems);
+                }
+            }
+        }
+
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            redirect($_SERVER['HTTP_REFERER']);
+        } else {
+            // Fallback to a default page if HTTP_REFERER is not set
+            redirect('my-account/purchasereturn');
+        }
+        // redirect('my-account/purchasebill');
+    }
+    public function get_external_purchasereturn_list()
+    {
+        if ($this->ion_auth->logged_in()) {
+            return $this->Externalaccount_model->get_external_purchasereturn_list($this->data['user']->id, $status);
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
+        }
+    }
+    public function ext_debit_note($purchase_id, $view = "")
+    {
+
+        $purchaseDetails = $this->common_model->getRecords("external_purchase_return", '*', array('id' => $purchase_id));
+        if (!empty($purchaseDetails)) {
+            $expenseItems = $this->common_model->getRecords("external_products", '*', array('purchase_id' => $purchase_id, 'type' => '2'));
+            $retailerData = $this->common_model->getRecords("retailer_data", '*', array('user_id' => $purchaseDetails[0]["user_id"]));
+            if (!empty($expenseItems)) {
+                $purchaseDetails[0]['items'] = $expenseItems;
+            } else {
+                $purchaseDetails[0]['items'] = array();
+            }
+            if (!empty($retailerData)) {
+                $purchaseDetails[0]['retailer'] = $retailerData[0];
+            }
+        }
+
+        $pdfdata['purchaseDetails'] = $purchaseDetails;
+        $pdfdata['settings'] = $this->data['settings'];
+        $pdfdata['view'] = $view;
+
+        return $this->load->view('front-end/happycrop/pages/ext_debit_note.php', $pdfdata);
     }
 }

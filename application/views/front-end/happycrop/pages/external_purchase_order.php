@@ -25,13 +25,11 @@
 
                 </div>
                 <div class="pt-2">
-                <h2>Add Purchase Bill</h2>
-
                     <form class="form-horizontal " action="<?= base_url('my-account/addexternalpurchasebill'); ?>" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <div class="my-2">
-                                    <label>Party Name</label>
+                                    <label>Seller Name</label>
                                     <input type="text" class="form-control" name="party_name" value="" required />
                                 </div>
                                 <div class="my-2">
@@ -46,27 +44,29 @@
                                     <label>Email ID</label>
                                     <input type="email" class="form-control" name="email_id" value="" required />
                                 </div>
+                                
                                 <div class="my-2">
-                                    <label>GSTN</label>
-                                    <input type="text" class="form-control" name="gstn" value="" required />
+                                    <label>Place of Supply</label>
+                                    <input type="text" class="form-control" name="place_supply" value="" required />
                                 </div>
                             </div>
-                            <div class="form-group col-md-6">
-                                <div class="my-2">
-                                    <label>Invoice Number</label>
-                                    <input type="text" class="form-control" name="invoice_number" value="" required />
-                                </div>
+                            <div class="form-group col-md-6">       
                                 <div class="my-2">
                                     <label>Order Number</label>
                                     <input type="text" class="form-control" name="order_number" value="" required />
                                 </div>
                                 <div class="my-2">
-                                    <label>Date</label>
+                                    <label>Order Date</label>
                                     <input type="date" class="form-control" name="date" value="" required />
                                 </div>
                                 <div class="my-2">
-                                    <label>Place of Supply</label>
-                                    <input type="text" class="form-control" name="place_supply" value="" required />
+                                    <label>Due Date</label>
+                                    <input type="date" class="form-control" name="due_date" value="" required />
+                                </div>
+                                
+                                <div class="my-2">
+                                    <label>GSTN</label>
+                                    <input type="text" class="form-control" name="gstn" value="" required />
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -99,8 +99,8 @@
                             </div>
                             <div class="form-group col-md-12 mt-2">
                                 <div class="">
-                                    <label>In words</label>
-                                    <input type="text"  class="form-control" name="in_words" value="" required />
+                                    <label>Description</label>
+                                    <textarea name="description" class="form-control"></textarea>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
@@ -118,7 +118,7 @@
 
                             <div class="form-group col-md-4 align-content-lg-start pt-3">
                                 <input type="hidden" name="item_count" id="item_count" value="1">
-                                <input type="hidden" name="type" id="type" value="1">
+                                <input type="hidden" name="type" id="type" value="2">
                                 <button type="submit" class="btn btn-primary  btn-block" id="submit_btn">Save</button>
                             </div>
                         </div>

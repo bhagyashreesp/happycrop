@@ -80,7 +80,7 @@
                                 <div class="form-group col-md-12">
                                     <div class="row ">
                                         <div class="col-md-6">
-                                            <a href="<?php echo base_url() . 'my-account/external-purchase-out'; ?>" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3'>Add Purchase</a>
+                                            <a href="<?php echo base_url() . 'my-account/external-purchase-out'; ?>" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3'>Add Payment Out</a>
                                         </div>
                                         <div class="col-md-4">
                                             <label>Search by Mfg Name / Order ID</label>

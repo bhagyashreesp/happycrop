@@ -25,13 +25,12 @@
 
                 </div>
                 <div class="pt-2">
-                <h2>Add Purchase Bill</h2>
-
-                    <form class="form-horizontal " action="<?= base_url('my-account/addexternalpurchasebill'); ?>" method="POST" enctype="multipart/form-data">
+                    <h2>Add Purchase Return</h2>
+                    <form class="form-horizontal " action="<?= base_url('my-account/addexternalpurchasereturn'); ?>" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <div class="my-2">
-                                    <label>Party Name</label>
+                                    <label>Seller Name</label>
                                     <input type="text" class="form-control" name="party_name" value="" required />
                                 </div>
                                 <div class="my-2">
@@ -53,20 +52,24 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <div class="my-2">
-                                    <label>Invoice Number</label>
-                                    <input type="text" class="form-control" name="invoice_number" value="" required />
+                                    <label>Return Number</label>
+                                    <input type="text" class="form-control" name="return_number" value="" required />
                                 </div>
                                 <div class="my-2">
                                     <label>Order Number</label>
                                     <input type="text" class="form-control" name="order_number" value="" required />
                                 </div>
                                 <div class="my-2">
-                                    <label>Date</label>
-                                    <input type="date" class="form-control" name="date" value="" required />
+                                    <label>Invoice Date</label>
+                                    <input type="date" class="form-control" name="invoice_date" value="" required />
                                 </div>
                                 <div class="my-2">
-                                    <label>Place of Supply</label>
-                                    <input type="text" class="form-control" name="place_supply" value="" required />
+                                    <label>State of Supply</label>
+                                    <input type="text" class="form-control" name="state_supply" value="" required />
+                                </div>
+                                <div class="my-2">
+                                    <label>Date(Current)</label>
+                                    <input type="date" class="form-control" name="date" value="<?php echo date('Y-m-d') ?>" required />
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -97,10 +100,22 @@
                                 </table>
                                 <a href="#" class="py-2 btn" onclick="addrow(event);">Add Row</a>
                             </div>
-                            <div class="form-group col-md-12 mt-2">
+                            <div class="form-group col-md-6 mt-2">
                                 <div class="">
-                                    <label>In words</label>
-                                    <input type="text"  class="form-control" name="in_words" value="" required />
+                                    <label>Payment Type</label>
+                                    <input type="text"  class="form-control" name="payment_type" value="" required />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 mt-2">
+                                <div class="">
+                                    <label>Paid Amount</label>
+                                    <input type="number" step="0.01"  class="form-control" name="paid_amount" value="" required />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="">
+                                    <label>Description</label>
+                                    <textarea name="description" class="form-control"></textarea>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">

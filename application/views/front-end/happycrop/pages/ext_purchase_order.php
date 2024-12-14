@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo ($dchallan != "" && $dchallan == "1" ? "Delivery Challan" : "Tax Invoice"); ?></title>
+    <title><?php echo ($purchase_order != "" && $purchase_order == "1" ? "Purchase Order" : "Sale Invoice"); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script> -->
 
@@ -21,8 +23,8 @@
         .signatureimg {
             width: 228px;
             height: 143px;
-            /* margin-left: 75px; */
-            /* position: absolute; */
+            margin-left: 100px;
+            position: absolute;
             right: 0;
         }
 
@@ -49,8 +51,8 @@
             border: 4px solid #78ab37;
             border-radius: 12px;
             padding: 0.5rem;
-            height: 250px !important;
-            width: 400px !important;
+            height: 250px!important;
+            width: 400px!important;
             object-fit: contain;
         }
 
@@ -62,10 +64,6 @@
         tr {
             border-color: #5c9513 !important;
         }
-
-        .w-17 {
-            width: 17% !important;
-        }
     </style>
 </head>
 
@@ -73,57 +71,49 @@
     <div class="container mt-5">
         <div class="row justify-content-center border border-black p-2" id="generatePDf">
             <div class="col-lg-12 py-4">
-                <h2 class="text-center fw-bold text-head"><?php echo ($dchallan != "" && $dchallan == "1" ? "Delivery Challan" : "Tax Invoice"); ?></h2>
+                <h2 class="text-center fw-bold text-head"><?php echo ($purchase_order != "" && $purchase_order == "1" ? "Purchase Order" : "Sale Invoice"); ?></h2>
             </div>
             <div class="border-top-green"></div>
-
             
 
             <div class="col-lg-8">
                 <div class="bg-gray-light h-100">
-
                     <table class="table border-none">
-
-                        <p class="fw-bold p-2 m-0">Purchased From : </p>
-
                         <tbody>
                             <tr class="p-2">
-                                <td class="border-0 py-0   w-100"><b>Party Name : </b> <?php echo $purchaseDetails[0]['party_name']; ?></td>
+                                <td class="border-0 py-0  w-100"><b>Seller Name : </b> <?= $purchaseDetails[0]['party_name'] ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-0 py-0   w-100"><b>Address : </b> <?= $purchaseDetails[0]["address"] ?></td>
+                                <td class="border-0 py-0  w-100"><b>Address : </b> <?= $purchaseDetails[0]['address'] ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-0 py-0 w-100"><b>Contact : </b> <?= $purchaseDetails[0]["phone_no"] ?></td>
+                                <td class="border-0 py-0  w-100"><b>Phone Number : </b><?= $purchaseDetails[0]['phone_no'] ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-0 py-0 w-100"><b>Email : </b> <?= $purchaseDetails[0]["email_id"] ?></td>
+                                <td class="border-0 py-0  w-100"><b>Email : </b> <?= $purchaseDetails[0]['email_id'] ?></td>
                             </tr>
                             <tr class="p-2">
-                                <td class="border-0 py-0 w-100"><b>GSTIN : </b> <?= $purchaseDetails[0]['gstn'] ?></td>
+                                <td class="border-0 py-0  w-100"><b>Place of Supply : </b><?= $purchaseDetails[0]['place_supply'] ?></td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="bg-gray-light h-100">
-                    <table class="table border-none">
-                        <p class="fw-bold p-2 m-0">Invoice Details:</p>
-
+                    <table class="table  border-none">
                         <tbody>
                             <tr class="p-2 ">
-                                <td class="border-0 py-0  w-100"><b>Invoice No : </b><?php echo $purchaseDetails[0]["invoice_number"]; ?></td>
+                                <td class="border-0 py-0  w-100"><b>Order Number : </b> <?php echo 'HC-A' . $purchaseDetails[0]['order_number']; ?></td>
                             </tr>
                             <tr class="p-2 ">
-                                <td class="border-0 py-0  w-100"><b>Order No : </b><?php echo $purchaseDetails[0]["order_number"]; ?></td>
+                                <td class="border-0 py-0  w-100"><b>Order Date : </b><?= date('d M Y H:i', strtotime($purchaseDetails[0]['date'])); ?></td>
                             </tr>
                             <tr class="p-2 ">
-                                <td class="border-0 py-0  w-100"><b>Date :</b> <?= (isset($purchaseDetails[0]["date"]) ? date('d M Y ', strtotime( $purchaseDetails[0]["date"])) : date('d M Y', strtotime(date('d-m-y')))); ?></td>
+                                <td class="border-0 py-0  w-100"><b>Due Date : </b><?= date('d M Y H:i', strtotime($purchaseDetails[0]['due_date'])) ?></td>
                             </tr>
                             <tr class="p-2 ">
-                                <td class="border-0 py-0  w-100"><b>Place to Supply :</b> <?php echo $purchaseDetails[0]["place_supply"]; ?></td>
+                                <td class="border-0 py-0  w-100"><b>GSTIN : </b><?= $purchaseDetails[0]['gstn']; ?></td>
                             </tr>
 
                         </tbody>
@@ -160,13 +150,13 @@
 
                             ?>
                                     <tr>
-                                        <td><?= $i; ?></td>
+                                    <td><?= $i; ?></td>
                                         <td><?php echo $item['product_name']; ?></td>
                                         <td><?php echo $item['hsn']; ?></td>
                                         <td><?php echo (($item['quantity']) ? $item['quantity'] : $item['quantity']) ?></td>
                                         <td><?php echo $item["price"] ?></td>
                                         <td><?= $item['gst'] ;?></td>
-                                        <td><?= ($item["amount"] ) ?></td>
+                                        <td><?= $item["amount"] ?></td>
                                     </tr>
                             <?php
                                 
@@ -189,12 +179,10 @@
                             <label for="receipt"> <strong>Invoice Amount in Words</strong> </label>
                             <div class="bg-gray-light p-2 w-100"><?php echo convertNumberToWords($total_amt) ?></div>
                         </div>
-                        
-                       
                     </div>
-                    <div class="col-lg-3 pt-2 mt-4">
-                        <div class="bg-gray-light">
-                            <table class="table h-100 border-none">
+                    <div class="col-lg-3 pt-4 mt-3">
+                        <div class="bg-gray-light h-100">
+                            <table class="table  border-none">
                                 <tbody>
                                     <tr class="p-2 ">
                                         <td class="border-0 fw-bold">Sub Total : </td>
@@ -215,31 +203,20 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- <div>
-                            <p class="pb-2 text-left pr-5"><?= $this->config->item('happycrop_name'); ?></p>
-                            <div class="position-relative">
-                                <img src="<?= base_url('assets/signature-img.jpeg') ?>" class="signatureimg">
-                            </div>
-                        </div> -->
                     </div>
+                    <?php include(APPPATH . 'views/front-end/happycrop/exportfooter.php'); ?>
+
+
                 </div>
-
-                <?php include(APPPATH . 'views/front-end/happycrop/exportfooter.php'); ?>
-
-
             </div>
-
         </div>
 
-    </div>
-    <?php if ($view == "view") { ?>
         <div class="row justify-content-center">
             <div class="col-lg-2 align-content-center">
                 <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
                 <button class="btn btn-primary my-3 ml-2" onclick="printDiv();">Print</button>
             </div>
         </div>
-    <?php } ?>
     </div>
     <script>
         baseUrl = '<?php echo base_url(); ?>';
@@ -252,10 +229,12 @@
         function printDiv() {
             var printContents = document.getElementById('generatePDf').innerHTML;
             var originalContents = document.body.innerHTML;
-            document.body.innerHTML = printContents;
-            window.print();
-            document.body.innerHTML = originalContents;
 
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
         }
 
 
@@ -291,6 +270,26 @@
                 }
             })
         }
+
+        // function generatePDF() {
+        //     const element = document.getElementById('generatePDf');
+        //     console.log(element.innerHTML);
+        //     html2pdf().from(element).set({
+        //         margin: [5, 5],
+        //         filename: 'Invoice.pdf',
+        //         html2canvas: {
+        //             scale: 2,
+        //             scrollY: 0
+        //         },
+        //         jsPDF: {
+        //             unit: 'mm',
+        //             format: 'A4',
+        //             orientation: 'portrait'
+        //         }
+        //     }).save();
+
+
+        // }
         async function generatePDF() {
             const element = document.getElementById('generatePDf');
             const footer = document.getElementById('pdffooter');
@@ -298,6 +297,7 @@
             const imageURL = baseUrl + 'assets/footer_img.png';
 
             const options = {
+                // margin: [5, 5],
                 margin: [2, 2],
                 filename: 'Invoice.pdf',
                 html2canvas: {
