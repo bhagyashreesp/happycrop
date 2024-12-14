@@ -408,7 +408,12 @@ background-position: right center; /* change the direction of the change here */
 color: #fff;
 text-decoration: none;
 }
-         
+
+
+.extsys li a.active{
+  background-color: #29A22E;
+  color: #fff!important;
+}
 .reg_tab{/*background: #f2f2f2;*/padding: 12px 5px;/*border-radius: 4px;*/text-align: center !important;}
 .tab-with-title .nav {/*border-bottom: 2px solid #CCC;*/width: 100%;}
 .tab-with-title .nav-item{padding: 5px;margin-right: 0rem !important;/*border-radius: 8px 8px 0px 0px;*/border-bottom: 2px solid #CCC;padding-right: 15px;padding-left: 15px;border-top: 2px solid #CCC;min-width: 120px;font-size: 1.5rem;}

@@ -6,7 +6,7 @@
         <a href="<?php echo base_url('my-account/items/') ?>" class="nav-link2 btn mr-2 <?php echo ($this->uri->segment(2) == 'items') ? 'btn btn-primary text-white' : ''; ?>">Items</a>
     </li>
     <li class="nav-item ">
-        <a href="<?php echo base_url('my-account/accounts/') ?>" class="nav-link2 btn mr-2 <?php echo ($this->uri->segment(2) == 'accounts') ? 'btn btn-primary text-white' : ''; ?>">Purchase</a>
+        <a href="<?php echo base_url('my-account/purchasebill') ?>" class="nav-link2 btn mr-2 <?php echo ($this->uri->segment(2) == 'purchasebill') ? 'btn btn-primary text-white' : ''; ?>">Purchase</a>
     </li>
     <!-- <li class="nav-item ">
         <a href="<?php echo base_url('my-account/saleinvoice/') ?>" class="nav-link2 btn mr-2 <?php echo ($this->uri->segment(2) == 'saleinvoice') ? 'btn btn-primary text-white' : ''; ?>">Sale</a>

@@ -64,3 +64,31 @@ CREATE TABLE `tbl_quick_bill_products` (`id` INT(11) NOT NULL AUTO_INCREMENT , `
 ALTER TABLE `quick_bill_products` ADD `balance` DOUBLE NULL DEFAULT NULL AFTER `subtotal`;
 ALTER TABLE `quick_bill_products` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`id`);
 ALTER TABLE `quick_bill_products` ADD `remark` LONGTEXT NULL DEFAULT NULL AFTER `total_amt`;
+
+
+-- 14 Dec 2024
+
+CREATE TABLE `external_products` (`id` INT(11) NOT NULL AUTO_INCREMENT , `user_id` INT(11) NULL DEFAULT NULL , `product_name` VARCHAR(255) NULL DEFAULT NULL , `hsn` VARCHAR(255) NULL DEFAULT NULL , `quantity` INT(11) NULL DEFAULT NULL , `price` DOUBLE NULL DEFAULT NULL , `gst` DOUBLE NULL DEFAULT NULL , `amount` DOUBLE NULL DEFAULT NULL , `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE `external_purchase_bill` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `party_name` varchar(255) DEFAULT NULL,
+  `invoice_number` varchar(255) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `order_number` varchar(255) DEFAULT NULL,
+  `phone_no` int(20) DEFAULT NULL,
+  `email_id` varchar(255) DEFAULT NULL,
+  `place_supply` varchar(255) DEFAULT NULL,
+  `gstn` varchar(255) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `document` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+ALTER TABLE `external_purchase_bill` ADD `in_words` VARCHAR(255) NULL DEFAULT NULL AFTER `document`;
+ALTER TABLE `external_purchase_bill` ADD `user_id` INT(11) NOT NULL AFTER `id`;
+ALTER TABLE `external_products` CHANGE `user_id` `purchase_id` INT(11) NULL DEFAULT NULL;
+CREATE TABLE `external_payment_out` (`id` INT(11) NOT NULL AUTO_INCREMENT , `user_id` INT(11) NULL DEFAULT NULL , `party_name` VARCHAR(255) NULL DEFAULT NULL , `receipt_number` VARCHAR(255) NULL DEFAULT NULL , `order_number` VARCHAR(255) NULL DEFAULT NULL , `address` TEXT NULL DEFAULT NULL , `phone_no` INT(20) NULL DEFAULT NULL , `email_id` VARCHAR(255) NULL DEFAULT NULL , `gstn` VARCHAR(255) NULL DEFAULT NULL , `date` DATE NULL DEFAULT NULL , `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+ALTER TABLE `external_payment_out` ADD `ref_no` VARCHAR(255) NULL DEFAULT NULL AFTER `date`, ADD `received` DOUBLE NULL DEFAULT NULL AFTER `ref_no`, ADD `description` TEXT NULL DEFAULT NULL AFTER `received`, ADD `transaction_receipt` VARCHAR(255) NULL DEFAULT NULL AFTER `description`;

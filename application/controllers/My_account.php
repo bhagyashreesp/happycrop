@@ -10,7 +10,7 @@ class My_account extends CI_Controller
         $this->load->database();
         $this->load->library(['ion_auth', 'form_validation', 'pagination', 'upload']);
         $this->load->helper(['url', 'language', 'file']);
-        $this->load->model(['cart_model', 'category_model', 'address_model', 'order_model', 'Transaction_model', 'Account_model']);
+        $this->load->model(['cart_model', 'category_model', 'address_model', 'order_model', 'Transaction_model', 'Account_model','Externalaccount_model']);
         $this->lang->load('auth');
         $this->data['is_logged_in'] = ($this->ion_auth->logged_in()) ? 1 : 0;
         $this->data['user'] = ($this->ion_auth->logged_in()) ? $this->ion_auth->user()->row() : array();
@@ -6531,5 +6531,267 @@ class My_account extends CI_Controller
         $pdfdata['settings'] = $this->data['settings'];
 
         return $this->load->view('front-end/happycrop/pages/quickbillview.php', $pdfdata);
+    }
+    public function external_purchase()
+    {
+        if ($this->ion_auth->logged_in()) {
+            $this->data['main_page'] = 'add_external_purchase';
+            $this->data['title'] = 'add_external_purchase | ' . $this->data['web_settings']['site_title'];
+            $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
+            $this->data['description'] = $this->data['web_settings']['meta_description'];
+            $this->load->view('front-end/' . THEME . '/template', $this->data);
+        } else {
+            redirect(base_url(), 'refresh');
+        }
+    }
+    public function addexternalpurchasebill()
+    {
+        $expenseData["user_id"] = $this->session->userdata('user_id');
+        $expenseData["party_name"] = $this->input->post('party_name');
+        $expenseData["invoice_number"] = $this->input->post('invoice_number');
+        $expenseData["address"] = $this->input->post('address');
+        $expenseData["order_number"] = $this->input->post('order_number');
+        $expenseData["email_id"] = $this->input->post('email_id');
+        $expenseData["phone_no"] = $this->input->post('phone_no');
+        $expenseData["place_supply"] = $this->input->post('place_supply');
+        $expenseData["gstn"] = $this->input->post('gstn');
+        $expenseData["date"] = $this->input->post('date');
+        $expenseData["in_words"] = $this->input->post('in_words');
+
+        $upload_path = 'uploads/externalpurchase/';
+        if (!is_dir($upload_path)) {
+            mkdir($upload_path, 0777, TRUE);
+        }
+        $config = [
+            'upload_path' =>  FCPATH . $upload_path,
+            'allowed_types' => 'jpg|png|jpeg|gif',
+            'max_size' => 8000,
+        ];
+        if (isset($_FILES['add_image']) && !empty($_FILES['add_image']['name']) && isset($_FILES['add_image']['name'])) {
+            $other_img = $this->upload;
+            $other_img->initialize($config);
+            if (!empty($_FILES['add_image']['name'])) {
+
+                $_FILES['temp_image']['name'] = $_FILES['add_image']['name'];
+                $_FILES['temp_image']['type'] = $_FILES['add_image']['type'];
+                $_FILES['temp_image']['tmp_name'] = $_FILES['add_image']['tmp_name'];
+                $_FILES['temp_image']['error'] = $_FILES['add_image']['error'];
+                $_FILES['temp_image']['size'] = $_FILES['add_image']['size'];
+                if (!$other_img->do_upload('temp_image')) {
+                    $avatar_error = 'Images :' . $avatar_error . ' ' . $other_img->display_errors();
+                } else {
+                    $temp_array_avatar = $other_img->data();
+                    resize_review_images($temp_array_avatar, FCPATH . $upload_path);
+                    $avatar_doc  = $upload_path . $temp_array_avatar['file_name'];
+                    $expenseData["image"] = $avatar_doc;
+                }
+            } else {
+                $_FILES['temp_image']['name'] = $_FILES['add_image']['name'];
+                $_FILES['temp_image']['type'] = $_FILES['add_image']['type'];
+                $_FILES['temp_image']['tmp_name'] = $_FILES['add_image']['tmp_name'];
+                $_FILES['temp_image']['error'] = $_FILES['add_image']['error'];
+                $_FILES['temp_image']['size'] = $_FILES['add_image']['size'];
+                if (!$other_img->do_upload('temp_image')) {
+                    $avatar_error = $other_img->display_errors();
+                }
+            }
+        }
+        $config1 = [
+            'upload_path' =>  FCPATH . $upload_path,
+            'allowed_types' => '*',
+            'max_size' => 8000,
+        ];
+        if (isset($_FILES['add_document']) && !empty($_FILES['add_document']['name']) && isset($_FILES['add_document']['name'])) {
+            $other_img = $this->upload;
+            $other_img->initialize($config1);
+            if (!empty($_FILES['add_document']['name'])) {
+
+                $_FILES['temp_image']['name'] = $_FILES['add_document']['name'];
+                $_FILES['temp_image']['type'] = $_FILES['add_document']['type'];
+                $_FILES['temp_image']['tmp_name'] = $_FILES['add_document']['tmp_name'];
+                $_FILES['temp_image']['error'] = $_FILES['add_document']['error'];
+                $_FILES['temp_image']['size'] = $_FILES['add_document']['size'];
+                if (!$other_img->do_upload('temp_image')) {
+                    $avatar_error = 'Images :' . $avatar_error . ' ' . $other_img->display_errors();
+                } else {
+                    $temp_array_avatar = $other_img->data();
+                    resize_review_images($temp_array_avatar, FCPATH . $upload_path);
+                    $document  = $upload_path . $temp_array_avatar['file_name'];
+                    $expenseData["document"] = $document;
+                }
+            } else {
+                $_FILES['temp_image']['name'] = $_FILES['add_document']['name'];
+                $_FILES['temp_image']['type'] = $_FILES['add_document']['type'];
+                $_FILES['temp_image']['tmp_name'] = $_FILES['add_document']['tmp_name'];
+                $_FILES['temp_image']['error'] = $_FILES['add_document']['error'];
+                $_FILES['temp_image']['size'] = $_FILES['add_document']['size'];
+                if (!$other_img->do_upload('temp_image')) {
+                    $avatar_error = $other_img->display_errors();
+                }
+            }
+        }
+
+        
+        
+        $this->db->insert('external_purchase_bill', $expenseData);
+       
+
+        $expensed_id = $this->db->insert_id();
+        $item_count = $this->input->post('item_count');
+        if ($item_count) {
+
+            for ($i = 0; $i <= $this->input->post('item_count'); $i++) {
+                $namestring = "name_" . $i;
+                $quantity = "quantity_" . $i;
+                $hsn = "hsn_" . $i;
+                $gst = "gst_" . $i;
+                $price = "price_" . $i;
+                $amount = "amount_" . $i;
+                if ($this->input->post($namestring) != "") {
+                    $expenseitems["purchase_id"] = $expensed_id;
+                    $expenseitems["product_name"] = $this->input->post($namestring);
+                    $expenseitems["hsn"] = $this->input->post($hsn);
+                    $expenseitems["quantity"] = $this->input->post($quantity);
+                    $expenseitems["price"] = $this->input->post($price);
+                    $expenseitems["gst"] = $this->input->post($gst);
+                    $expenseitems["amount"] = $this->input->post($amount);
+                    $this->db->insert('external_products', $expenseitems);
+                }
+            }
+        }
+
+    
+        redirect('my-account/purchasebill');
+    }
+    public function get_external_purchasebill_ist()
+    {
+        if ($this->ion_auth->logged_in()) {
+            return $this->Externalaccount_model->get_external_purchasebill_ist($this->data['user']->id, $status);
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
+        }
+    }
+    public function ext_tax_invoice($purchase_id, $view = "", $dchallan = "")
+    {
+
+        $purchaseDetails = $this->common_model->getRecords("external_purchase_bill", '*', array('id' => $expense_id));
+        if (!empty($purchaseDetails)) {
+            $expenseItems = $this->common_model->getRecords("external_products", '*', array('purchase_id' => $expense_id));
+            $retailerData = $this->common_model->getRecords("retailer_data", '*', array('user_id' => $purchaseDetails[0]["user_id"]));
+            if (!empty($expenseItems)) {
+                $purchaseDetails[0]['items'] = $expenseItems;
+            } else {
+                $purchaseDetails[0]['items'] = array();
+            }
+            if (!empty($retailerData)) {
+                $purchaseDetails[0]['retailer'] = $retailerData[0];
+            }
+        }
+
+        $pdfdata['purchaseDetails'] = $purchaseDetails;
+        $pdfdata['settings'] = $this->data['settings'];
+        $pdfdata['view'] = $view;
+        $pdfdata['dchallan'] = $dchallan;
+
+        return $this->load->view('front-end/happycrop/pages/ext_tax_invoice.php', $pdfdata);
+    }
+    public function external_purchase_out()
+    {
+        if ($this->ion_auth->logged_in()) {
+            $this->data['main_page'] = 'add_payment_out';
+            $this->data['title'] = 'add_payment_out | ' . $this->data['web_settings']['site_title'];
+            $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
+            $this->data['description'] = $this->data['web_settings']['meta_description'];
+            $this->load->view('front-end/' . THEME . '/template', $this->data);
+        } else {
+            redirect(base_url(), 'refresh');
+        }
+    }
+    public function addexternalpurchaseout()
+    {
+        $expenseData["user_id"] = $this->session->userdata('user_id');
+        $expenseData["party_name"] = $this->input->post('party_name');
+        $expenseData["receipt_number"] = $this->input->post('receipt_number');
+        $expenseData["order_number"] = $this->input->post('order_number');
+        $expenseData["address"] = $this->input->post('address');
+        $expenseData["email_id"] = $this->input->post('email_id');
+        $expenseData["phone_no"] = $this->input->post('phone_no');
+        $expenseData["gstn"] = $this->input->post('gstn');
+        $expenseData["date"] = $this->input->post('date');
+        $expenseData["ref_no"] = $this->input->post('ref_no');
+        $expenseData["received"] = $this->input->post('received');
+        $expenseData["description"] = $this->input->post('description');
+
+        $upload_path = 'uploads/externalpurchaseout/';
+        if (!is_dir($upload_path)) {
+            mkdir($upload_path, 0777, TRUE);
+        }
+        
+        $config1 = [
+            'upload_path' =>  FCPATH . $upload_path,
+            'allowed_types' => '*',
+            'max_size' => 8000,
+        ];
+        if (isset($_FILES['transaction_receipt']) && !empty($_FILES['transaction_receipt']['name']) && isset($_FILES['transaction_receipt']['name'])) {
+            $other_img = $this->upload;
+            $other_img->initialize($config1);
+            if (!empty($_FILES['transaction_receipt']['name'])) {
+
+                $_FILES['temp_image']['name'] = $_FILES['transaction_receipt']['name'];
+                $_FILES['temp_image']['type'] = $_FILES['transaction_receipt']['type'];
+                $_FILES['temp_image']['tmp_name'] = $_FILES['transaction_receipt']['tmp_name'];
+                $_FILES['temp_image']['error'] = $_FILES['transaction_receipt']['error'];
+                $_FILES['temp_image']['size'] = $_FILES['transaction_receipt']['size'];
+                if (!$other_img->do_upload('temp_image')) {
+                    $avatar_error = 'Images :' . $avatar_error . ' ' . $other_img->display_errors();
+                } else {
+                    $temp_array_avatar = $other_img->data();
+                    resize_review_images($temp_array_avatar, FCPATH . $upload_path);
+                    $document  = $upload_path . $temp_array_avatar['file_name'];
+                    $expenseData["transaction_receipt"] = $document;
+                }
+            } else {
+                $_FILES['temp_image']['name'] = $_FILES['transaction_receipt']['name'];
+                $_FILES['temp_image']['type'] = $_FILES['transaction_receipt']['type'];
+                $_FILES['temp_image']['tmp_name'] = $_FILES['transaction_receipt']['tmp_name'];
+                $_FILES['temp_image']['error'] = $_FILES['transaction_receipt']['error'];
+                $_FILES['temp_image']['size'] = $_FILES['transaction_receipt']['size'];
+                if (!$other_img->do_upload('temp_image')) {
+                    $avatar_error = $other_img->display_errors();
+                }
+            }
+        }
+
+        $this->db->insert('external_payment_out', $expenseData);
+       
+        redirect('my-account/purchaseout');
+    }
+    public function get_external_purchaseout_list()
+    {
+        if ($this->ion_auth->logged_in()) {
+            return $this->Externalaccount_model->get_external_purchaseout_list($this->data['user']->id, $status);
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
+        }
+    }
+    public function ext_payment_receipt($order_id, $view = "")
+    {
+        $getPaymentData = $this->common_model->getRecords('external_payment_out','*',array('id'=>$order_id));
+        $userdetails = fetch_details(["id" => $getPaymentData[0]["user_id"]], "users");
+        
+        
+        $pdfdata['paymentData'] = $getPaymentData;
+        $pdfdata['userdetails'] = $userdetails;
+        $pdfdata['view'] = $view;
+        $pdfdata['settings'] = $this->data['settings'];
+
+
+        return $this->load->view('front-end/happycrop/pages/ext_payment_receipt.php', $pdfdata);
     }
 }
