@@ -111,29 +111,6 @@
                             </table>
                         </div>
                     </div>
-                    <?php /* ?>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped ">
-                            <thead>
-                                <tr class="dark-blue-bg">
-                                    <th>Invoice #</th>
-                                    <th>MFG Name</th>
-                                    <th>Order Date</th>
-                                    <th>Amount INR</th>
-                                    <th>Status</th>
-                                    <th>Payment Receipt</th>
-                                    <th>Invoice</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-center" colspan="7">&nbsp;</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <?php */ ?>
-
                 </div>
             </div>
         </div>
