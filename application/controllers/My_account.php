@@ -7037,4 +7037,48 @@ class My_account extends CI_Controller
 
         return $this->load->view('front-end/happycrop/pages/ext_debit_note.php', $pdfdata);
     }
+    public function external_parties()
+    {
+        if ($this->ion_auth->logged_in()) {
+            $this->data['main_page'] = 'add_external_parties';
+            $this->data['title'] = 'add_external_parties | ' . $this->data['web_settings']['site_title'];
+            $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
+            $this->data['description'] = $this->data['web_settings']['meta_description'];
+            $this->load->view('front-end/' . THEME . '/template', $this->data);
+        } else {
+            redirect(base_url(), 'refresh');
+        }
+    }
+    public function save_external_parties(){
+
+        $postData = $this->input->post();
+        $expenseData["user_id"] = $this->session->userdata('user_id');
+        $expenseData["party_name"] = $this->input->post('party_name');
+        $expenseData["mobile"] = $this->input->post('mobile');
+        $expenseData["email"] = $this->input->post('email');
+        $expenseData["address"] = $this->input->post('address');
+        $expenseData["gst"] = $this->input->post('gst');
+        $expenseData["fertilizer_licence_no"] = $this->input->post('fertilizer_licence_no');
+        $expenseData["pesticide_licence_no"] = $this->input->post('pesticide_licence_no');
+        
+        $this->db->insert('external_parties', $expenseData);
+        
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            redirect($_SERVER['HTTP_REFERER']);
+        } else {
+            redirect('my-account/statements');
+        }
+    }
+    public function get_external_parties_list()
+    {
+        $user_id = $this->session->userdata('user_id');
+        if ($this->ion_auth->logged_in()) {
+            return $this->Externalaccount_model->get_external_parties_list($user_id);
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
+        }
+    }
 }

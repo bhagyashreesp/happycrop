@@ -37,7 +37,7 @@
                 </div>
                 <div class="pt-3 pr-lg-2">
                     <ul class="nav nav-tabs extsys mt-2">
-                        <li class="active mx-2 "><a class="p-3  btn" data-toggle="tab" href="#system">System</a></li>
+                        <li class="active mx-2 "><a class="p-3 active btn" data-toggle="tab" href="#system">System</a></li>
                         <li class="mx-2 "><a class="p-3  btn" data-toggle="tab" href="#external">External</a></li>
                     </ul>
 

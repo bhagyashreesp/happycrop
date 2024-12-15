@@ -253,4 +253,72 @@ class Externalaccount_model extends CI_Model
 
         print_r(json_encode(array('total' => $total, 'rows' => $response)));
     }
+    public function get_external_parties_list($user_id)
+    {
+        $offset = 0;
+        $limit = 10;
+
+        if (isset($_GET['offset'])) {
+            $offset = $_GET['offset'];
+        }
+
+        if (isset($_GET['limit'])) {
+            $limit = $_GET['limit'];
+        }
+
+        $this->db->select('e.*');
+        $this->db->from('external_parties e');
+        // $this->db->join('expenses_items ei', 'e.id = ei.expense_id', 'left');
+
+
+        // Apply filters (e.g., user_id, order status)
+        if (!empty($user_id)) {
+            $this->db->where('e.user_id', $user_id);
+        }
+
+
+        if ($this->input->get('search_field')) {
+            $search = trim($this->input->get('search_field', true));
+            $this->db->group_start();
+            $this->db->or_like('e.id', $search);
+            $this->db->or_like('e.party_name', $search);
+            $this->db->or_like('e.mobile', $search);
+            $this->db->group_end();
+        }
+
+        // Group by product ID
+        $this->db->group_by('e.id');
+        $count_query = clone $this->db;
+        $total = $count_query->get()->num_rows();
+
+
+        // Sorting and limiting
+        $this->db->order_by('e.id', 'DESC'); // Example: order by total quantity sold
+        // $total = $this->db->get()->result_array();
+
+        $this->db->limit($limit, $offset);
+
+        $result = $this->db->get()->result_array();
+
+        // Prepare response
+        $response = array();
+        foreach ($result as $key => $row) {
+            
+            $response[] = array(
+                'id' => $key + 1,
+                'party' => $row["id"],
+                'party_name' => $row['party_name'],
+                'mobile' => $row['mobile'],
+                'email' => $row['email'],
+                'address' => $row['address'],
+                'gst' => $row["gst"],
+                'fertilizer_licence_no' => $row["fertilizer_licence_no"],
+                'pesticide_licence_no' => $row["pesticide_licence_no"],
+
+            );
+        }
+
+
+        print_r(json_encode(array('total' => $total, 'rows' => $response)));
+    }
 }

@@ -101,3 +101,9 @@ ALTER TABLE `external_products` ADD `type` ENUM('1','2') NOT NULL DEFAULT '1' CO
 ALTER TABLE `external_purchase_return` ADD `date` DATE NULL DEFAULT NULL AFTER `document`;
 ALTER TABLE `external_purchase_return` CHANGE `phone_no` `phone_no` INT(40) NULL DEFAULT NULL;
 ALTER TABLE `external_purchase_return` CHANGE `invoice_number` `order_number` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
+
+--15 Dec 2024
+
+CREATE TABLE `external_parties` (`id` INT(11) NOT NULL AUTO_INCREMENT , `user_id` INT(11) NULL DEFAULT NULL , `party_name` VARCHAR(255) NULL DEFAULT NULL , `address` TEXT NULL DEFAULT NULL , `gst` VARCHAR(255) NULL DEFAULT NULL , `fertilizer_licence_no` VARCHAR(255) NULL DEFAULT NULL , `pesticide_licence_no` VARCHAR(255) NULL DEFAULT NULL , `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+ALTER TABLE `external_parties` ADD `mobile` INT(40) NULL DEFAULT NULL AFTER `party_name`;
+ALTER TABLE `external_parties` ADD `email` VARCHAR(255) NOT NULL AFTER `mobile`;
