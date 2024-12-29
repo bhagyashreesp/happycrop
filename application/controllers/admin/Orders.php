@@ -9,7 +9,7 @@ class Orders extends CI_Controller
         parent::__construct();
         $this->load->database();
         $this->load->helper(['url', 'language', 'timezone_helper']);
-        $this->load->model('Order_model');
+        $this->load->model(['Order_model','Externalaccount_model']);
 
         if (!has_permissions('read', 'orders')) {
             $this->session->set_flashdata('authorize_flag', PERMISSION_ERROR_MSG);
@@ -17,6 +17,9 @@ class Orders extends CI_Controller
         } else {
             $this->session->set_flashdata('authorize_flag', "");
         }
+        $this->data['is_logged_in'] = ($this->ion_auth->logged_in()) ? 1 : 0;
+        $this->response['csrfName'] = $this->security->get_csrf_token_name();
+
     }
 
     public function index()
@@ -1548,6 +1551,77 @@ class Orders extends CI_Controller
             $this->load->view('admin/template', $this->data);
         } else {
             redirect('admin/login', 'refresh');
+        }
+    }
+    public function rtl_incoice()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
+            $this->data['page_title'] = 'Retailer Invoices';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-external-rtl-invoice';
+
+            $this->data['title'] = 'Accounts | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Retailer Invoices  | ' . $settings['app_name'];
+
+            $this->load->view('admin/template', $this->data);
+        } else {
+            redirect('admin/login', 'refresh');
+        }
+    }
+    public function mfc_incoice()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
+            $this->data['page_title'] = 'Manufacturer Invoices';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-external-mfg-invoice';
+
+            $this->data['title'] = 'Accounts | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Manufacturer Invoices  | ' . $settings['app_name'];
+
+            $this->load->view('admin/template', $this->data);
+        } else {
+            redirect('admin/login', 'refresh');
+        }
+    }
+    public function get_external_purchasebill_ist()
+    {
+       
+        
+        if ($this->ion_auth->logged_in()) {
+            return $this->Externalaccount_model->get_admin_external_purchasebill_ist();
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
+        }
+    }
+    public function payment_reports()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
+            $this->data['page_title'] = 'Payments Reports';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-payment-reports';
+
+            $this->data['title'] = 'Accounts | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Payments Reports  | ' . $settings['app_name'];
+
+            $this->load->view('admin/template', $this->data);
+        } else {
+            redirect('admin/login', 'refresh');
+        }
+    }
+    public function get_admin_payment_reports()
+    {
+       
+        
+        if ($this->ion_auth->logged_in()) {
+            return $this->Externalaccount_model->get_admin_payment_reports();
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
         }
     }
 }

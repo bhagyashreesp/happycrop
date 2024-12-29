@@ -4785,4 +4785,412 @@ class Order_model extends CI_Model
 
         print_r(json_encode(array('total' => $total, 'rows' => $response)));
     }
+    public function get_admin_account_orders_list(
+        $delivery_boy_id = NULL,
+        $offset = 0,
+        $limit = 10,
+        $sort = " o.id ",
+        $order = 'ASC'
+    ) {
+        $this->db->select('order_id');
+        $this->db->from('order_item_stages');
+        $this->db->where('status', 'issue_resolved');
+        $q              = $this->db->get();
+        $issue_orders   = $q->result_array();
+
+        $issue_order_ids = array();
+        if ($issue_orders) {
+            $issue_order_ids = array_column($issue_orders, 'order_id');
+        }
+
+        $search_field = '';
+
+        if (isset($_GET['search_field'])) {
+            $search_field = $_GET['search_field'];
+        }
+
+        $condition = '';
+        $status = false;
+
+        if (isset($_GET['condition'])) {
+            $condition = $_GET['condition'];
+
+            if ($condition == 1) {
+                $status = array('payment_demand', 'payment_ack', 'schedule_delivery', 'send_payment_confirmation',);
+            } else if ($condition == 2) {
+                $status = array('send_invoice');
+            } else if ($condition == 3) {
+                $status = array("complaint", "complaint_msg");
+            } else if ($condition == 4) {
+                $status = array("cancelled");
+            } else if ($condition == 5) {
+                $status = array("delivered", "send_mfg_payment_ack", "send_mfg_payment_confirmation");
+            } else if ($condition == 6) {
+                $status = array('received');
+            } else if ($condition == 7) {
+                $status = array('payment_ack', 'complaint', 'delivered');
+            }
+        }
+
+        if (isset($_GET['offset'])) {
+            $offset = $_GET['offset'];
+        }
+        if (isset($_GET['limit'])) {
+            $limit = $_GET['limit'];
+        }
+
+        if (isset($_GET['seller_id'])) {
+            $seller_id = $_GET['seller_id'];
+        }
+
+        if (isset($_GET['search']) and $_GET['search'] != '') {
+            $search = $_GET['search'];
+
+            $search = str_replace('HC-A', '', $search);
+
+            $filters = [
+                'u.username' => $search,
+                //'db.username' => $search,
+                'u.email' => $search,
+                'o.id' => $search,
+                'o.mobile' => $search,
+                'o.address' => $search,
+                'o.wallet_balance' => $search,
+                'o.total' => $search,
+                'o.final_total' => $search,
+                'o.total_payable' => $search,
+                'o.payment_method' => $search,
+                'o.delivery_charge' => $search,
+                'o.delivery_time' => $search,
+                'o.order_status' => $search,
+                //'o.status' => $search,
+                //'o.active_status' => $search,
+                'date_added' => $search,
+                'rd.company_name' => $search,
+            ];
+        }
+
+        if ($search_field != '') {
+            $order_id_search = trim(preg_replace('/[^0-9]/', '', $search_field));
+
+            $filters = [
+                'rd.company_name' => trim($search_field),
+                'sd.company_name' => trim($search_field),
+            ];
+
+            if ($order_id_search != '') {
+                $filters = [
+                    'o.id' => $order_id_search
+                ];
+            }
+        }
+
+        $count_res = $this->db->select(' COUNT(o.id) as `total` ')
+            ->join(' `users` u', 'u.id= o.user_id', 'left')
+            ->join(' `order_items` oi', 'oi.order_id= o.id', 'left')
+            ->join('product_variants v ', ' oi.product_variant_id = v.id', 'left')
+            ->join('products p ', ' p.id = v.product_id ', 'left')
+            ->join('users us ', ' us.id = oi.seller_id', 'left')
+            ->join('retailer_data rd ', ' rd.user_id = o.user_id', 'left')
+            ->join('seller_data sd ', ' sd.user_id = oi.seller_id', 'left')
+            ->join('addresses ad ', ' ad.id = o.billing_address_id', 'left')
+            ->join('cities ct ', ' ct.id = ad.city_id', 'left')
+            ->join('order_item_payment_confirmation as op', 'o.id = op.order_id', 'left')
+            ->join('order_item_invoice as inv', 'o.id = inv.order_id', 'left')
+            ->join('order_item_mfg_payment_ack as mfg_ack', 'o.id = mfg_ack.order_id', 'left');
+        //->join('users db ', ' db.id = oi.delivery_boy_id', 'left');
+        if (!empty($_GET['start_date']) && !empty($_GET['end_date'])) {
+
+            $count_res->where(" DATE(o.date_added) >= DATE('" . $_GET['start_date'] . "') ");
+            $count_res->where(" DATE(o.date_added) <= DATE('" . $_GET['end_date'] . "') ");
+        }
+
+        if (isset($filters) && !empty($filters)) {
+            $this->db->group_Start();
+            $count_res->or_like($filters);
+            $this->db->group_End();
+        }
+
+        if (isset($seller_id)) {
+            $count_res->where("oi.seller_id", $seller_id);
+        }
+
+        /*if (isset($delivery_boy_id)) {
+            $count_res->where("oi.delivery_boy_id", $delivery_boy_id);
+        }*/
+
+        if (isset($_GET['user_id']) && $_GET['user_id'] != null) {
+            $count_res->where("o.user_id", $_GET['user_id']);
+        }
+
+        if (isset($_GET['order_status']) && !empty($_GET['order_status'])) {
+            if ($_GET['order_status'] == 'issue_closed') {
+                $count_res->where('o.order_status', 'delivered');
+
+                if ($_GET['order_status'] == 'issue_closed') {
+                    $count_res->where_in("o.id", $issue_order_ids);
+                }
+            } else {
+                $count_res->where('o.order_status', $_GET['order_status']);
+                if ($_GET['order_status'] == 'delivered') {
+                    $count_res->where_not_in("o.id", $issue_order_ids);
+                }
+            }
+        }
+
+        if (isset($status) &&  is_array($status) &&  count($status) > 0) {
+            $status = array_map('trim', $status);
+            $count_res->where_in('oi.active_status', $status);
+        }
+
+        $count_res->where('o.is_service_category', 0);
+
+        $count_res->group_by('o.id');
+
+        $product_count = $count_res->get('`orders` o')->result_array();
+
+        /*foreach ($product_count as $row) {
+            $total = $row['total'];
+        }*/
+
+        $total = count($product_count);
+
+        $search_res = $this->db->select(' o.* , u.username, rd.company_name as retailer_name, sd.company_name as mfg_name, sd.slug as seller_slug, ct.name as city_name, op.attachments as payment_receipt, inv.attachments as invoice_receipt, mfg_ack.attachments as hc_receipt')
+            ->join(' `users` u', 'u.id= o.user_id', 'left')
+            ->join(' `order_items` oi', 'oi.order_id= o.id', 'left')
+            ->join('users us ', ' us.id = oi.seller_id', 'left')
+            ->join('product_variants v ', ' oi.product_variant_id = v.id', 'left')
+            ->join('products p ', ' p.id = v.product_id ', 'left')
+            ->join('retailer_data rd ', ' rd.user_id = o.user_id', 'left')
+            ->join('seller_data sd ', ' sd.user_id = oi.seller_id', 'left')
+            ->join('addresses ad ', ' ad.id = o.billing_address_id', 'left')
+            ->join('cities ct ', ' ct.id = ad.city_id', 'left')
+            ->join('order_item_payment_confirmation as op', 'o.id = op.order_id', 'left')
+            ->join('order_item_invoice as inv', 'o.id = inv.order_id', 'left')
+            ->join('order_item_mfg_payment_ack as mfg_ack', 'o.id = mfg_ack.order_id', 'left');
+        //->join('users db ', ' db.id = oi.delivery_boy_id', 'left');
+
+        if (!empty($_GET['start_date']) && !empty($_GET['end_date'])) {
+            $search_res->where(" DATE(o.date_added) >= DATE('" . $_GET['start_date'] . "') ");
+            $search_res->where(" DATE(o.date_added) <= DATE('" . $_GET['end_date'] . "') ");
+        }
+
+        if (isset($filters) && !empty($filters)) {
+            $search_res->group_Start();
+            $search_res->or_like($filters);
+            $search_res->group_End();
+        }
+
+        if (isset($seller_id)) {
+            $search_res->where("oi.seller_id", $seller_id);
+        }
+
+        /*if (isset($delivery_boy_id)) {
+            $search_res->where("oi.delivery_boy_id", $delivery_boy_id);
+        }*/
+
+        if (isset($_GET['user_id']) && !empty($_GET['user_id'])) {
+            $search_res->where("o.user_id", $_GET['user_id']);
+        }
+
+        if (isset($_GET['order_status']) && !empty($_GET['order_status'])) {
+            if ($_GET['order_status'] == 'issue_closed') {
+                $search_res->where('o.order_status', 'delivered');
+
+                if ($_GET['order_status'] == 'issue_closed') {
+                    $search_res->where_in("o.id", $issue_order_ids);
+                }
+            } else {
+                $search_res->where('o.order_status', $_GET['order_status']);
+
+                if ($_GET['order_status'] == 'delivered') {
+                    $search_res->where_not_in("o.id", $issue_order_ids);
+                }
+            }
+        }
+
+        if (isset($status) &&  is_array($status) &&  count($status) > 0) {
+            $status = array_map('trim', $status);
+            $search_res->where_in('oi.active_status', $status);
+        }
+
+        $search_res->where('o.is_service_category', 0);
+
+        $user_details = $search_res->group_by('o.id')->order_by($sort, "DESC")->limit($limit, $offset)->get('`orders` o')->result_array();
+
+        $i = 0;
+        foreach ($user_details as $row) {
+            $user_details[$i]['items'] = $this->db->select('oi.*,p.name as name,p.id as product_id, u.username as uname, us.username as seller, sd.company_name ')
+                ->join('product_variants v ', ' oi.product_variant_id = v.id', 'left')
+                ->join('products p ', ' p.id = v.product_id ', 'left')
+                ->join('users u ', ' u.id = oi.user_id', 'left')
+                ->join('users us ', ' us.id = oi.seller_id', 'left')
+                ->join('seller_data sd ', ' sd.user_id = oi.seller_id', 'left')
+                ->where('oi.order_id', $row['id'])
+                ->get(' `order_items` oi  ')->result_array();
+            ++$i;
+        }
+
+        $bulkData = array();
+        $bulkData['total'] = $total;
+        $rows = array();
+        $tempRow = array();
+        $tota_amount = 0;
+        $final_tota_amount = 0;
+        $currency_symbol = get_settings('currency');
+
+        //$order_msg = array('received'=>'Order Received','qty_update'=>'Quantity updated and approval request sent.','qty_approved'=>'Quantity approval accepted by retailer.','payment_demand'=>'Payment request sent.','payment_ack'=>'Transaction details Received.','schedule_delivery'=>'Order Scheduled.','shipped'=>'Order shipped.','send_invoice'=>'Invoices sent.','delivered'=>'Order Closed.','cancelled'=>'Order cancelled.');
+        $order_msg = array('received' => 'Order Received', 'qty_update' => 'Quantity updated and approval request sent.', 'qty_approved' => 'Quantity approval accepted by retailer.', 'payment_demand' => 'Payment request sent.', 'payment_ack' => 'Transaction details received from retailer.', 'send_payment_confirmation' => 'Payment confirmation sent to retailer.', 'schedule_delivery' => 'Order Scheduled.', 'shipped' => 'Order shipped.', 'send_invoice' => 'E-way bill and invoices sent to retailer.', 'complaint' => 'Retailer raised his concern.', 'delivered' => 'Order delivered successfully.', 'cancelled' => 'Order cancelled.', 'send_mfg_payment_ack' => 'Transaction details shared with manufacturer.', 'send_mfg_payment_confirmation' => 'Payment receipt received.', 'complaint_msg' => 'Issue details shared by Happycrop', 'service_completed' => 'Service Completed');
+
+        foreach ($user_details as $row) {
+            if (!empty($row['items'])) {
+                $items = $row['items'];
+                $items1 = '';
+                $temp = '';
+                $total_amt = 0;
+                //$seller = implode(",", array_values(array_unique(array_column($items, "seller"))));
+                $company_name = implode(",", array_values(array_unique(array_column($items, "company_name"))));
+
+                foreach ($items as $item) {
+                    $product_variants = get_variants_values_by_id($item['product_variant_id']);
+                    $variants = isset($product_variants[0]['variant_values']) && !empty($product_variants[0]['variant_values']) ? str_replace(',', ' | ', $product_variants[0]['variant_values']) : '-';
+                    $temp .= "<b>ID :</b>" . $item['id'] . "<b> Product Variant Id :</b> " . $item['product_variant_id'] . "<b> Variants :</b> " . $variants . "<b> Name : </b>" . $item['name'] . " <b>Price : </b>" . $item['price'] . " <b>QTY : </b>" . $item['quantity'] . " <b>Subtotal : </b>" . $item['quantity'] * $item['price'] . "<br>------<br>";
+                    $total_amt += $item['sub_total'];
+                }
+
+                $items1 = $temp;
+                $discounted_amount = $row['total'] * $row['items'][0]['discount'] / 100;
+                $final_total = $row['total'] - $discounted_amount;
+                $discount_in_rupees = $row['total'] - $final_total;
+                $discount_in_rupees = floor($discount_in_rupees);
+                $tempRow['id'] = 'HC-A' . $row['id'];
+                $tempRow['user_id'] = $row['user_id'];
+                $tempRow['name'] = $row['retailer_name']; //$row['items'][0]['uname'];
+                /*if (defined('ALLOW_MODIFICATION') && ALLOW_MODIFICATION == 0) {
+                    $tempRow['mobile'] = str_repeat("X", strlen($row['mobile']) - 3) . substr($row['mobile'], -3);
+                } else {*/
+                $tempRow['mobile'] = $row['mobile'];
+                //}
+                $tempRow['delivery_charge'] = $currency_symbol . ' ' . $row['delivery_charge'];
+                $tempRow['items'] = $items1;
+                $tempRow['sellers'] = '<a href="' . base_url('products?seller=' . $row['seller_slug']) . '">' . $company_name . '</a>'; //$seller;
+                $tempRow['total'] = $currency_symbol . ' ' . $row['total'];
+                $tota_amount += intval($row['total']);
+                $tempRow['wallet_balance'] = $currency_symbol . ' ' . $row['wallet_balance'];
+                $tempRow['discount'] = $currency_symbol . ' ' . $discount_in_rupees . '(' . $row['items'][0]['discount'] . '%)';
+                $tempRow['promo_discount'] = $currency_symbol . ' ' . $row['promo_discount'];
+                $tempRow['promo_code'] = $row['promo_code'];
+                $tempRow['notes'] = $row['notes'];
+                $tempRow['qty'] = $row['items'][0]['quantity'];
+                $tempRow['final_total'] = $currency_symbol . ' ' . $row['total_payable'];
+                $final_total = $row['final_total'] - $row['wallet_balance'] - $row['promo_discount'] - $row['discount'];
+                $tempRow['final_total'] = $currency_symbol . ' ' . $final_total;
+                $final_tota_amount += intval($row['final_total']);
+                $tempRow['deliver_by'] = $row['delivery_boy'];
+                $tempRow['payment_method'] = $row['payment_method'];
+                $tempRow['address'] = output_escaping(str_replace('\r\n', '</br>', $row['address']));
+                $tempRow['city_name'] = $row['city_name'];
+                $tempRow['delivery_date'] = $row['delivery_date'];
+                $tempRow['delivery_time'] = $row['delivery_time'];
+                $tempRow['date_added'] = date('d-m-Y', strtotime($row['date_added']));
+
+                $tempRow['schedule_delivery_date'] = ($row['schedule_delivery_date'] != null && $row['schedule_delivery_date'] != '0000-00-00') ?  date('d-m-Y', strtotime($row['schedule_delivery_date'])) : '';
+
+                $this->db->select('id');
+                $this->db->from('order_item_stages');
+                $this->db->where('status', 'issue_resolved');
+                $this->db->where('order_id', $row['id']);
+                $q = $this->db->get();
+                $rw = $q->row_array();
+
+                if ($rw['id'] && $row['order_status'] == 'delivered') {
+                    $order_msg['delivered'] = 'Issue resolved. Make payment.'; //'Order closed.';//$order_msg['send_mfg_payment_ack'] = $order_msg['send_mfg_payment_confirmation'] = 
+                } else {
+                    $order_msg['delivered'] = 'Order delivered.'; //$order_msg['send_mfg_payment_ack'] = $order_msg['send_mfg_payment_confirmation'] = 
+                }
+
+                $tempRow['order_status'] = $order_msg[$row['order_status']];
+
+                // $tempRow['payment_receipt'] = (file_exists($row['payment_receipt']) && $row['payment_receipt']!='') ? '<a href="'.base_url($row['payment_receipt']).'" target="_blank">View / Download</a>' : '';
+                // $tempRow['invoice_receipt'] = (file_exists($row['invoice_receipt']) && $row['invoice_receipt']!='') ? '<a href="'.base_url($row['invoice_receipt']).'" target="_blank">View / Download</a>' : '';
+                // $tempRow['hc_receipt'] = (file_exists($row['hc_receipt']) && $row['hc_receipt']!='') ? '<a href="'.base_url($row['hc_receipt']).'" target="_blank">View / Download</a>' : '';
+                $tempRow['payment_receipt'] = (file_exists($row['payment_receipt']) && $row['payment_receipt'] != '') ? '<a href="' . base_url("my-account/payment-receipt/") . $row['id'] . "/view" . '" target="_blank">View / Download</a>' : '';
+                $tempRow['invoice_receipt'] = (file_exists($row['invoice_receipt']) && $row['invoice_receipt'] != '') ? '<a href="' . base_url("my-account/tax-invoice/") . $row['id'] . "/view" . '" target="_blank">View / Download</a>' : '';
+                $tempRow['hc_receipt'] = (file_exists($row['hc_receipt']) && $row['hc_receipt'] != '') ? '<a href="' . base_url("seller/orders/paymentreceipt/") . $row['id'] . "/view" . '" target="_blank">View / Download</a>' : '';
+
+                /*
+                $tempRow['color_state'] = '';
+                if($row['order_status'] == 'delivered')
+                {
+                    if($rw['id'])
+                    {
+                        $tempRow['color_state'] = '<span class="issue-resolved-state"><i class="fa fa-check"></i></span>';
+                    }
+                    else
+                    {
+                        $tempRow['color_state'] = '<span class="delivered-state"><i class="fa fa-check"></i></span>';
+                    }
+                }
+                else if($row['order_status'] == 'service_completed')
+                {
+                    $tempRow['color_state'] = '<span class="delivered-state"><i class="fa fa-check"></i></span>';
+                }
+                else if($row['order_status'] == 'send_mfg_payment_ack')
+                {
+                    if($rw['id'])
+                    {
+                        $tempRow['color_state'] = '<span class="issue-resolved-state"><i class="fa fa-check"></i></span>';
+                    }
+                    else
+                    {
+                        $tempRow['color_state'] = '<span class="delivered-state"><i class="fa fa-check"></i></span>';
+                    }
+                }
+                else if($row['order_status'] == 'send_mfg_payment_confirmation')
+                {
+                    if($rw['id'])
+                    {
+                        $tempRow['color_state'] = '<span class="issue-resolved-state"><i class="fa fa-check"></i></span>';
+                    }
+                    else
+                    {
+                        $tempRow['color_state'] = '<span class="delivered-state"><i class="fa fa-check"></i></span>';
+                    }
+                }
+                else if($row['order_status'] == 'cancelled')
+                {
+                    $tempRow['color_state'] = '<span class="cancelled-state"><i class="fa fa-circle"></i></span>';
+                }
+                else if($row['order_status'] == 'complaint')
+                {
+                    $tempRow['color_state'] = '<span class="issue-state"><i class="fa fa-circle"></i></span>';
+                }
+                else if($row['order_status'] == 'complaint_msg')
+                {
+                    $tempRow['color_state'] = '<span class="issue-state"><i class="fa fa-circle"></i></span>';
+                }
+                else
+                {
+                    $tempRow['color_state'] = '<span class="active-state"><i class="fa fa-circle"></i></span>';
+                }
+                */
+                $tempRow['last_updated']   = ($row['last_updated'] != null) ? date('d-m-Y', strtotime($row['last_updated'])) : '';
+
+                $operate = '<a href=' . base_url('admin/orders/edit_orders') . '?edit_id=' . $row['id'] . '" class="btn btn-primary btn-xs mr-1 mb-1" title="View" >View Details</a>';
+                if (!$this->ion_auth->is_delivery_boy()) {
+                    $operate = '<a href=' . base_url('admin/orders/edit_orders') . '?edit_id=' . $row['id'] . ' class="btn btn-primary btn-xs mr-1 mb-1" title="View" >View Details</a>';
+                    //$operate .= '<a href="javascript:void(0)" class="delete-orders btn btn-danger btn-xs mr-1 mb-1" data-id=' . $row['id'] . ' title="Delete" ><i class="fa fa-trash"></i></a>';
+                    //$operate .= '<a href="' . base_url() . 'admin/invoice?edit_id=' . $row['id'] . '" class="btn btn-info btn-xs mr-1 mb-1" title="Invoice" ><i class="fa fa-file"></i></a>';
+                    //$operate .= ' <a href="javascript:void(0)" class="edit_order_tracking btn btn-success btn-xs mr-1 mb-1" title="Order Tracking" data-order_id="' . $row['id'] . '"  data-target="#order-tracking-modal" data-toggle="modal"><i class="fa fa-map-marker-alt"></i></a>';
+                } else {
+                    $operate = '<a href=' . base_url('delivery_boy/orders/edit_orders') . '?edit_id=' . $row['id'] . ' class="btn btn-primary btn-xs mr-1 mb-1" title="View">View Details</a>';
+                }
+                $tempRow['operate'] = $operate;
+                $rows[] = $tempRow;
+            }
+        }
+
+        $bulkData['rows'] = $rows;
+        print_r(json_encode($bulkData));
+    }
 }

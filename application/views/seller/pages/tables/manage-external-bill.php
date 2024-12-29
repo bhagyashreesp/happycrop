@@ -150,6 +150,8 @@
                                     <div class="form-group col-md-4 align-content-lg-start pt-3">
                                         <input type="hidden" name="item_count" id="item_count" value="1">
                                         <input type="hidden" name="type" id="type" value="1">
+                                        <input type="hidden" name="retailer_type" id="retailer_type" value="2">
+
                                         <button type="submit" class="btn btn-primary  btn-block" id="submit_btn">Save</button>
                                     </div>
                                 </div>

@@ -114,6 +114,7 @@
                                     </div>
 
                                     <div class="form-group col-md-4 align-content-lg-start pt-5">
+                                        <input type="hidden" name="retailer_type" id="retailer_type" value="2">
                                         <button type="submit" class="btn btn-primary  btn-block" id="submit_btn">Save</button>
                                     </div>
                                 </div>

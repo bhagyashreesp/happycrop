@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1><?php echo $page_title;?></h1>
+                    <h1><?php echo $page_title; ?></h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= base_url('admin/home') ?>">Home</a></li>
-                        <li class="breadcrumb-item active"><?php echo $page_title;?></li>
+                        <li class="breadcrumb-item active"><?php echo $page_title; ?></li>
                     </ol>
                 </div>
             </div>
@@ -21,14 +21,8 @@
             <div class="row">
                 <div class="col-md-12 main-content ">
                     <div class="card- card-info mb-0">
-                        <ul class="nav nav-tabs pb-0" id="myTab" >
-                            <li class="nav-item">
-                                <a class="nav-link" href="<?php echo base_url('admin/orders/accounts/') ?>">Accounts</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link btn btn-primary" href="<?php echo base_url('admin/orders/statements/') ?>">Statements</a>
-                            </li>
-                        </ul>
+                        <?php $this->load->view("admin/pages/tables/admin_subheader"); ?>
+
                     </div>
                     <div class="card content-area p-2 pt-4">
                         <div class="row">
@@ -71,7 +65,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </section>

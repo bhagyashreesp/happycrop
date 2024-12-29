@@ -6558,6 +6558,7 @@ class My_account extends CI_Controller
         $expenseData["date"] = $this->input->post('date');
         $expenseData["in_words"] = $this->input->post('in_words');
         $expenseData["type"] = $this->input->post('type');
+        $expenseData["retailer_type"] = $this->input->post('retailer_type');
         if (isset($postData["due_date"])) {
             $expenseData["due_date"] = $this->input->post('due_date');
         }
@@ -6753,6 +6754,7 @@ class My_account extends CI_Controller
         $expenseData["ref_no"] = $this->input->post('ref_no');
         $expenseData["received"] = $this->input->post('received');
         $expenseData["description"] = $this->input->post('description');
+        $expenseData["retailer_type"] = $this->input->post('retailer_type');
 
         $upload_path = 'uploads/externalpurchaseout/';
         if (!is_dir($upload_path)) {

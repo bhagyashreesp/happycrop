@@ -22,14 +22,7 @@
             <div class="row">
                 <div class="col-md-12 main-content ">
                     <div class="card- card-info mb-0">
-                        <ul class="nav nav-tabs pb-0" id="myTab" >
-                            <li class="nav-item active">
-                                <a class="nav-link btn btn-primary" href="<?php echo base_url('admin/orders/accounts/') ?>">Accounts</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="<?php echo base_url('admin/orders/statements/') ?>">Statements</a>
-                            </li>
-                        </ul>
+                    <?php $this->load->view("admin/pages/tables/admin_subheader"); ?>
                     </div>
                     <div class="card content-area pt-4">
                         <div class="col-md-12">
