@@ -152,6 +152,10 @@
                             <span class="wishlist-label d-lg-show">Profile</span>
                         </a>
                         <?php } ?> 
+                        <a class="wishlist label-down link "  href="<?= base_url('my-account/quickbill') ?>">
+                            <i class="hc-icon-dashboard hc-icon-top-menu"></i>
+                            <span class="wishlist-label d-lg-show">Quick Bill</span>
+                        </a>
                         <a class="wishlist label-down link " data-toggle="dropdown" href="#">
                             <i class="hc-icon-account hc-icon-top-menu"></i>
                             <span class="wishlist-label d-lg-show">Account</span>
@@ -164,7 +168,7 @@
                              <a href="<?= base_url() ?>" class="dropdown-item"> <?= ($this->lang->line('home')!='') ? $this->lang->line('home') : 'Home' ?> </a>
                             <a href="<?= base_url('my-account') ?>" class="dropdown-item"> <?= ($this->lang->line('dashboard')!='') ? $this->lang->line('dashboard') : 'Dashboard' ?> </a>
                             <a href="<?= base_url('my-account/orders') ?>" class="dropdown-item"> <?= ($this->lang->line('orders')!='') ? $this->lang->line('orders') : 'Orders' ?> </a>
-                            <a href="<?= base_url('my-account/accounts') ?>" class="dropdown-item"> <?= ($this->lang->line('accounts')!='') ? $this->lang->line('accounts') : 'Accounts' ?> </a>
+                            <a href="<?= base_url('my-account/purchasebill') ?>" class="dropdown-item"> <?= ($this->lang->line('accounts')!='') ? $this->lang->line('accounts') : 'Accounts' ?> </a>
                             <a href="<?= base_url('my-account/basic-profile') ?>" class="dropdown-item"> <?= ($this->lang->line('profile')!='') ? $this->lang->line('profile') : 'Profile' ?> </a>
                             <!--<a href="#" class="dropdown-item"> <?= ($this->lang->line('messages')!='') ? $this->lang->line('messages') : 'Messages' ?> </a>-->
                             <a href="<?= base_url('my-account/favorites') ?>" class="dropdown-item"> Shortlisted Products</a>

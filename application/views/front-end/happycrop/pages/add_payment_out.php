@@ -1,3 +1,7 @@
+<link rel="stylesheet" href="<?= base_url('assets/front_end/happycrop/css/select2.min.css') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/front_end/happycrop/css/select2-bootstrap4.min.css') ?>">
+<script src="<?= base_url('assets/front_end/happycrop/js/select2.full.min.js') ?>"></script>
+
 <section class="breadcrumb-title-bar colored-breadcrumb">
     <div class="main-content responsive-breadcrumb">
         <h1>Accounts</h1>
@@ -25,14 +29,20 @@
 
                 </div>
                 <div class="pt-2">
-                <h2>Add Purchase Out</h2>
+                    <h2>Add Payment Out</h2>
 
                     <form class="form-horizontal " action="<?= base_url('my-account/addexternalpurchaseout'); ?>" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <div class="my-2">
                                     <label>Party Name</label>
-                                    <input type="text" class="form-control" name="party_name" value="" required />
+                                    <select class="select-control select2 w-100" name="party_name" required>
+                                        <?php foreach ($partieslist as $key => $item) { ?>
+                                            <option value="<?php echo $item['party_name']; ?>"><?php echo $item['party_name']; ?></option>
+                                        <?php } ?>
+
+                                    </select>
+                                    <!-- <input type="text" class="form-control" name="party_name" value="" required /> -->
                                 </div>
                                 <div class="my-2">
                                     <label>Address</label>
@@ -65,7 +75,7 @@
                                     <input type="date" class="form-control" name="date" value="" required />
                                 </div>
                             </div>
-                            
+
                             <div class="form-group col-md-6">
                                 <div class="">
                                     <label>Reference Number </label>
@@ -101,3 +111,8 @@
         </div>
     </div>
 </section>
+<script>
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+</script>

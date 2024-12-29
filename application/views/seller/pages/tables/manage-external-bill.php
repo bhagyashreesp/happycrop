@@ -1,3 +1,7 @@
+<link rel="stylesheet" href="<?= base_url('assets/front_end/happycrop/css/select2.min.css') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/front_end/happycrop/css/select2-bootstrap4.min.css') ?>">
+<script src="<?= base_url('assets/front_end/happycrop/js/select2.full.min.js') ?>"></script>
+
 <style>
     .table td,
     .table th {
@@ -43,7 +47,13 @@
                                     <div class="form-group col-md-6">
                                         <div class="my-2">
                                             <label>Party Name</label>
-                                            <input type="text" class="form-control" name="party_name" value="" required />
+                                            <select class="select-control select2 w-100" name="party_name" required>
+                                                <?php foreach ($partieslist as $key => $item) { ?>
+                                                    <option value="<?php echo $item['party_name']; ?>"><?php echo $item['party_name']; ?></option>
+                                                <?php } ?>
+
+                                            </select>
+                                            <!-- <input type="text" class="form-control" name="party_name" value="" required /> -->
                                         </div>
                                         <div class="my-2">
                                             <label>Address</label>
@@ -87,6 +97,8 @@
                                                     <th>#</th>
                                                     <th>Product Name</th>
                                                     <th>HSN</th>
+                                                    <th>Batch No</th>
+                                                    <th>Expiry Date</th>
                                                     <th>Quantity</th>
                                                     <th>Price/Unit</th>
                                                     <th>GST</th>
@@ -98,8 +110,10 @@
                                                     <td>1</td>
                                                     <td><input type="text" class="form-control" name="name_1" value="" required /></td>
                                                     <td><input type="text" step="0.01" class="form-control hsn" name="hsn_1" required /></td>
-                                                    <td><input type="number" step="0.01" class="form-control quantity" name="quantity_1" required /></td>
-                                                    <td><input type="number" step="0.01" class="form-control price" name="price_1" required /></td>
+                                                    <td><input type="text" step="0.01" class="form-control batch_no" name="batch_no_1" required /></td>
+                                                    <td><input type="date" step="0.01" class="form-control expiry_date" name="expiry_date_1" required /></td>
+                                                    <td><input type="number" step="0.01" class="form-control quantity" name="quantity_1" required onkeyup="calculateAmount(1)" /></td>
+                                                    <td><input type="number" step="0.01" class="form-control price" name="price_1" required onkeyup="calculateAmount(1)" /></td>
                                                     <td><input type="number" step="0.01" class="form-control gst" name="gst_1" required /></td>
                                                     <td><input type="number" step="0.01" class="form-control amount" name="amount_1" required /></td>
                                                 </tr>
@@ -108,10 +122,16 @@
                                         </table>
                                         <a href="#" class="py-2 btn" onclick="addrow(event);">Add Row</a>
                                     </div>
-                                    <div class="form-group col-md-12 mt-2">
+                                    <div class="form-group col-md-10 mt-2">
                                         <div class="">
                                             <label>In words</label>
                                             <input type="text" class="form-control" name="in_words" value="" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-2 mt-2">
+                                        <div class="">
+                                            <label>Total</label>
+                                            <input type="text" readonly="form-control" name="total" id="total" disabled value="" required />
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
@@ -147,6 +167,31 @@
 </div>
 <script>
     var index = 1;
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+    amt = 0;
+
+    function calculateAmount(Index) {
+        quantity = $('input[name="quantity_' + Index + '"]').val();
+        price = $('input[name="price_' + Index + '"]').val();
+        amtTotal = quantity * price;
+        $('input[name="amount_' + Index + '"]').val(amtTotal);
+        calculateSum();
+    }
+
+    function calculateSum() {
+        inputs = document.querySelectorAll(`.amount`);
+        let sum = 0;
+        inputs.forEach(input => {
+            const value = parseFloat(input.value);
+            if (!isNaN(value)) {
+                sum += value;
+            }
+        });
+        $("#total").val(sum);
+
+    }
 
     function addrow(event) {
         event.preventDefault();
@@ -155,8 +200,10 @@
             <td>' + index + '</td>\
             <td><input type="text" class="form-control" name="name_' + index + '" value=""  required/></td>\
             <td><input type="text" step="0.01" class="form-control hsn" name="hsn_' + index + '"  required /></td>\
-            <td><input type="number" step="0.01" class="form-control quantity" name="quantity_' + index + '"  required/></td>\
-            <td><input type="number" step="0.01" class="form-control price" name="price_' + index + '"  required/></td>\
+            <td><input type="text" step="0.01" class="form-control batch_no" name="batch_no_' + index + '" required /></td>\
+            <td><input type="date" step="0.01" class="form-control expiry_date" name="expiry_date_' + index + '" required /></td>\
+            <td><input type="number" step="0.01" class="form-control quantity" name="quantity_' + index + '"  required onkeyup="calculateAmount(' + index + ')"/></td>\
+            <td><input type="number" step="0.01" class="form-control price" name="price_' + index + '"  required onkeyup="calculateAmount(' + index + ')"/></td>\
             <td><input type="number" step="0.01" class="form-control gst" name="gst_' + index + '"  required /></td>\
             <td><input type="number" step="0.01" class="form-control amount" name="amount_' + index + '"  required/></td>\
             </tr>';

@@ -5990,7 +5990,7 @@ class My_account extends CI_Controller
     public function get_order_statement_list()
     {
         if ($this->ion_auth->logged_in()) {
-
+            
             return $this->order_model->get_order_statement_list($this->data['user']->id);
         } else {
             $this->response['error'] = true;
@@ -6318,14 +6318,13 @@ class My_account extends CI_Controller
                 }
             }
         }
-
-        // Redirect to the previous page
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            redirect($_SERVER['HTTP_REFERER']);
-        } else {
-            // Fallback to a default page if HTTP_REFERER is not set
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            redirect('seller/orders/expenses');
+        
+        }else{
             redirect('my-account/expenses');
         }
+
     }
     public function get_expense_list()
     {
@@ -6535,6 +6534,7 @@ class My_account extends CI_Controller
     public function external_purchase()
     {
         if ($this->ion_auth->logged_in()) {
+            $this->data['partieslist'] =$this->common_model->getRecords("external_parties", '*', array('user_id' => $this->session->userdata('user_id')));
             $this->data['main_page'] = 'add_external_purchase';
             $this->data['title'] = 'add_external_purchase | ' . $this->data['web_settings']['site_title'];
             $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
@@ -6656,6 +6656,8 @@ class My_account extends CI_Controller
                 $gst = "gst_" . $i;
                 $price = "price_" . $i;
                 $amount = "amount_" . $i;
+                $batch_no = "batch_no_" . $i;
+                $expiry_date = "expiry_date_" . $i;
                 if ($this->input->post($namestring) != "") {
                     $expenseitems["purchase_id"] = $expensed_id;
                     $expenseitems["product_name"] = $this->input->post($namestring);
@@ -6664,19 +6666,29 @@ class My_account extends CI_Controller
                     $expenseitems["price"] = $this->input->post($price);
                     $expenseitems["gst"] = $this->input->post($gst);
                     $expenseitems["amount"] = $this->input->post($amount);
+                    $expenseitems["batch_no"] = $this->input->post($batch_no);
+                    $expenseitems["expiry_date"] = $this->input->post($expiry_date);
                     $expenseitems["type"] = "1";
                     $this->db->insert('external_products', $expenseitems);
                 }
             }
         }
+        if($this->input->post('type')=="1"){
 
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            redirect($_SERVER['HTTP_REFERER']);
-        } else {
-            // Fallback to a default page if HTTP_REFERER is not set
-            redirect('my-account/purchasebill');
+            if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+                redirect('seller/orders/purchasebill');
+            
+            }else{
+                redirect('my-account/purchasebill');
+            }
+        }else {
+            if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+                redirect('seller/orders/purchaseorder');
+            
+            }else{
+                redirect('my-account/purchaseorder');
+            }
         }
-        // redirect('my-account/purchasebill');
     }
     public function get_external_purchasebill_ist()
     {
@@ -6716,6 +6728,8 @@ class My_account extends CI_Controller
     public function external_purchase_out()
     {
         if ($this->ion_auth->logged_in()) {
+            $this->data['partieslist'] =$this->common_model->getRecords("external_parties", '*', array('user_id' => $this->session->userdata('user_id')));
+
             $this->data['main_page'] = 'add_payment_out';
             $this->data['title'] = 'add_payment_out | ' . $this->data['web_settings']['site_title'];
             $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
@@ -6782,11 +6796,12 @@ class My_account extends CI_Controller
 
         $this->db->insert('external_payment_out', $expenseData);
 
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            redirect($_SERVER['HTTP_REFERER']);
-        } else {
-            // Fallback to a default page if HTTP_REFERER is not set
-            redirect('my-account/purchasebill');
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            redirect('seller/orders/purchasein');
+        
+        }else{
+            redirect('my-account/purchaseout');
+
         }
     }
     public function get_external_purchaseout_list()
@@ -6817,6 +6832,8 @@ class My_account extends CI_Controller
     public function external_purchase_order()
     {
         if ($this->ion_auth->logged_in()) {
+            $this->data['partieslist'] =$this->common_model->getRecords("external_parties", '*', array('user_id' => $this->session->userdata('user_id')));
+
             $this->data['main_page'] = 'external_purchase_order';
             $this->data['title'] = 'external_purchase_order | ' . $this->data['web_settings']['site_title'];
             $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
@@ -7058,21 +7075,31 @@ class My_account extends CI_Controller
         $expenseData["email"] = $this->input->post('email');
         $expenseData["address"] = $this->input->post('address');
         $expenseData["gst"] = $this->input->post('gst');
+        $expenseData["state"] = $this->input->post('state');
         $expenseData["fertilizer_licence_no"] = $this->input->post('fertilizer_licence_no');
         $expenseData["pesticide_licence_no"] = $this->input->post('pesticide_licence_no');
+        $expenseData["seed_license_no"] = $this->input->post('seed_license_no');
         
         $this->db->insert('external_parties', $expenseData);
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            redirect('seller/orders/statements');
         
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            redirect($_SERVER['HTTP_REFERER']);
-        } else {
+        }else{
             redirect('my-account/statements');
+
         }
+        // if (isset($_SERVER['HTTP_REFERER'])) {
+        //     redirect($_SERVER['HTTP_REFERER']);
+        // } else {
+        //     redirect('my-account/statements');
+        // }
     }
     public function get_external_parties_list()
     {
         $user_id = $this->session->userdata('user_id');
         if ($this->ion_auth->logged_in()) {
+          
+            
             return $this->Externalaccount_model->get_external_parties_list($user_id);
         } else {
             $this->response['error'] = true;

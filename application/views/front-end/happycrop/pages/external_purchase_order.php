@@ -1,3 +1,7 @@
+<link rel="stylesheet" href="<?= base_url('assets/front_end/happycrop/css/select2.min.css') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/front_end/happycrop/css/select2-bootstrap4.min.css') ?>">
+<script src="<?= base_url('assets/front_end/happycrop/js/select2.full.min.js') ?>"></script>
+
 <section class="breadcrumb-title-bar colored-breadcrumb">
     <div class="main-content responsive-breadcrumb">
         <h1>Accounts</h1>
@@ -31,7 +35,13 @@
                             <div class="form-group col-md-6">
                                 <div class="my-2">
                                     <label>Seller Name</label>
-                                    <input type="text" class="form-control" name="party_name" value="" required />
+                                    <select class="select-control select2 w-100" name="party_name" required>
+                                        <?php foreach ($partieslist as $key => $item) { ?>
+                                            <option value="<?php echo $item['party_name']; ?>"><?php echo $item['party_name']; ?></option>
+                                        <?php } ?>
+
+                                    </select>
+                                    <!-- <input type="text" class="form-control" name="party_name" value="" required /> -->
                                 </div>
                                 <div class="my-2">
                                     <label>Address</label>
@@ -45,13 +55,13 @@
                                     <label>Email ID</label>
                                     <input type="email" class="form-control" name="email_id" value="" required />
                                 </div>
-                                
+
                                 <div class="my-2">
                                     <label>Place of Supply</label>
                                     <input type="text" class="form-control" name="place_supply" value="" required />
                                 </div>
                             </div>
-                            <div class="form-group col-md-6">       
+                            <div class="form-group col-md-6">
                                 <div class="my-2">
                                     <label>Order Number</label>
                                     <input type="text" class="form-control" name="order_number" value="" required />
@@ -64,7 +74,7 @@
                                     <label>Due Date</label>
                                     <input type="date" class="form-control" name="due_date" value="" required />
                                 </div>
-                                
+
                                 <div class="my-2">
                                     <label>GSTN</label>
                                     <input type="text" class="form-control" name="gstn" value="" required />
@@ -86,12 +96,12 @@
                                     <tbody id="item_data">
                                         <tr>
                                             <td>1</td>
-                                            <td><input type="text" class="form-control" name="name_1" value=""  required /></td>
-                                            <td><input type="text" step="0.01" class="form-control hsn" name="hsn_1"  required /></td>
-                                            <td><input type="number" step="0.01" class="form-control quantity" name="quantity_1" required /></td>
-                                            <td><input type="number" step="0.01" class="form-control price" name="price_1"  required /></td>
-                                            <td><input type="number" step="0.01" class="form-control gst" name="gst_1"  required /></td>
-                                            <td><input type="number" step="0.01" class="form-control amount" name="amount_1"  required /></td>
+                                            <td><input type="text" class="form-control" name="name_1" value="" required /></td>
+                                            <td><input type="text" step="0.01" class="form-control hsn" name="hsn_1" required /></td>
+                                            <td><input type="number" step="0.01" class="form-control quantity" name="quantity_1" required onkeyup="calculateAmount('1')"/></td>
+                                            <td><input type="number" step="0.01" class="form-control price" name="price_1" required onkeyup="calculateAmount('1')"/></td>
+                                            <td><input type="number" step="0.01" class="form-control gst" name="gst_1" required /></td>
+                                            <td><input type="number" step="0.01" class="form-control amount" name="amount_1" required /></td>
                                         </tr>
                                     </tbody>
 
@@ -131,6 +141,17 @@
 </section>
 <script>
     var index = 1;
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+    amt = 0;
+
+    function calculateAmount(Index) {
+        quantity = $('input[name="quantity_' + Index + '"]').val();
+        price = $('input[name="price_' + Index + '"]').val();
+        amtTotal = quantity * price;
+        $('input[name="amount_' + Index + '"]').val(amtTotal);
+    }
 
     function addrow(event) {
         event.preventDefault();
@@ -138,10 +159,10 @@
         html = '<tr>\
             <td>' + index + '</td>\
             <td><input type="text" class="form-control" name="name_' + index + '" value=""  required/></td>\
-            <td><input type="text" step="0.01" class="form-control hsn" name="hsn_'+index+'"  required /></td>\
-            <td><input type="number" step="0.01" class="form-control quantity" name="quantity_' + index + '"  required/></td>\
-            <td><input type="number" step="0.01" class="form-control price" name="price_' + index + '"  required/></td>\
-            <td><input type="number" step="0.01" class="form-control gst" name="gst_'+index+'"  required /></td>\
+            <td><input type="text" step="0.01" class="form-control hsn" name="hsn_' + index + '"  required /></td>\
+            <td><input type="number" step="0.01" class="form-control quantity" name="quantity_' + index + '"  required onkeyup="calculateAmount(' + index + ')"/></td>\
+            <td><input type="number" step="0.01" class="form-control price" name="price_' + index + '"  required onkeyup="calculateAmount(' + index + ')"/></td>\
+            <td><input type="number" step="0.01" class="form-control gst" name="gst_' + index + '"  required /></td>\
             <td><input type="number" step="0.01" class="form-control amount" name="amount_' + index + '"  required/></td>\
             </tr>';
         $("#item_data").append(html);

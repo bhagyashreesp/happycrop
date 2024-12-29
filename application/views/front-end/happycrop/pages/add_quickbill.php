@@ -1,4 +1,8 @@
 <!-- breadcrumb -->
+<link rel="stylesheet" href="<?= base_url('assets/front_end/happycrop/css/select2.min.css') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/front_end/happycrop/css/select2-bootstrap4.min.css') ?>">
+<script src="<?= base_url('assets/front_end/happycrop/js/select2.full.min.js') ?>"></script>
+
 <style>
     .light-blue-bg {
         background: #cfd5eb;
@@ -36,8 +40,12 @@
 
                 </div>
                 <div class="pt-3 pr-lg-2">
-                    <h2>Quick Bill</h2>
-                    <form class="form-horizontal " action="<?= base_url('my-account/save_quickbill'); ?>" method="POST" enctype="multipart/form-data">
+                    <div class="d-flex justify-content-between">
+                        <h2 class="m-0">Quick Bill</h2>
+                        <a href="<?php echo base_url('my-account/addcustomer') ?>" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3'>Add Customer</a>
+
+                    </div>
+                    <form class="form-horizontal py-2" action="<?= base_url('my-account/save_quickbill'); ?>" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <div class="">
@@ -69,8 +77,8 @@
                                             <td>1</td>
                                             <td><input type="text" class="form-control item_code" name="item_code_1" required /></td>
                                             <td><input type="text" class="form-control item_name" name="item_name_1" required /></td>
-                                            <td><input type="number" step="0.01" class="form-control quantity" name="quantity_1" required /></td>
-                                            <td><input type="number" step="0.01" class="form-control price" name="price_1" required /></td>
+                                            <td><input type="number" step="0.01" class="form-control quantity" name="quantity_1" required onkeyup="calculateAmount('1')" /></td>
+                                            <td><input type="number" step="0.01" class="form-control price" name="price_1" required onkeyup="calculateAmount('1')" /></td>
                                             <td><input type="number" step="0.01" class="form-control discount" name="discount_1" required /></td>
                                             <td><input type="number" step="0.01" class="form-control tax_applied" name="tax_applied_1" required /></td>
                                             <td><input type="number" step="0.01" class="form-control total" name="total_1" required /></td>
@@ -115,11 +123,11 @@
                                 </div>
                                 <div class="py-2">
                                     <label>Tax Applied</label>
-                                    <input type="number" step="0.01" class="form-control" name="tax_applied_total" id="tax_applied_total" value="" required readonly/>
+                                    <input type="number" step="0.01" class="form-control" name="tax_applied_total" id="tax_applied_total" value="" required readonly />
                                 </div>
                                 <div class="py-2">
                                     <label>Total Amount</label>
-                                    <input type="number" step="0.01" class="form-control" name="total_amt" id="total_amt" value="" required readonly/>
+                                    <input type="number" step="0.01" class="form-control" name="total_amt" id="total_amt" value="" required readonly />
                                 </div>
                             </div>
 
@@ -139,24 +147,32 @@
 
 <script>
     var index = 1;
-
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
     function addrow() {
         index++;
         html = '<tr>\
             <td>' + index + '</td>\
-            <td><input type="text" class="form-control item_code" name="item_code_'+index+'"  required /></td>\
-            <td><input type="text" class="form-control item_name" name="item_name_'+index+'"  required /></td>\
-            <td><input type="number" step="0.01" class="form-control quantity" name="quantity_'+index+'" required /></td>\
-            <td><input type="number" step="0.01" class="form-control price" name="price_'+index+'"  required /></td>\
-            <td><input type="number" step="0.01" class="form-control discount" name="discount_'+index+'"  required /></td>\
-            <td><input type="number" step="0.01" class="form-control tax_applied" name="tax_applied_'+index+'"  required /></td>\
-            <td><input type="number" step="0.01" class="form-control total" name="total_'+index+'"  required /></td>\
+            <td><input type="text" class="form-control item_code" name="item_code_' + index + '"  required /></td>\
+            <td><input type="text" class="form-control item_name" name="item_name_' + index + '"  required /></td>\
+            <td><input type="number" step="0.01" class="form-control quantity" name="quantity_' + index + '" required onkeyup="calculateAmount('+index+')" /></td>\
+            <td><input type="number" step="0.01" class="form-control price" name="price_' + index + '"  required onkeyup="calculateAmount('+index+')"/></td>\
+            <td><input type="number" step="0.01" class="form-control discount" name="discount_' + index + '"  required /></td>\
+            <td><input type="number" step="0.01" class="form-control tax_applied" name="tax_applied_' + index + '"  required /></td>\
+            <td><input type="number" step="0.01" class="form-control total" name="total_' + index + '"  required /></td>\
             </tr>';
         $("#item_data").append(html);
         $("#item_count").val(index);
 
     }
-
+    function calculateAmount(Index) {
+        quantity = $('input[name="quantity_' + Index + '"]').val();
+        price = $('input[name="price_' + Index + '"]').val();
+        amtTotal = quantity * price;
+        $('input[name="total_' + Index + '"]').val(amtTotal);
+        calculateTotal();
+    }
     function calculateTotal() {
         let total = 0;
         const inputs = document.querySelectorAll('.total');
@@ -171,6 +187,7 @@
     document.querySelectorAll('.total').forEach(input => {
         input.addEventListener('keyup', calculateTotal);
     });
+
     function calculateTotaldiscount() {
         let total = 0;
         const inputs = document.querySelectorAll('.discount');
@@ -185,6 +202,7 @@
     document.querySelectorAll('.discount').forEach(input => {
         input.addEventListener('keyup', calculateTotaldiscount);
     });
+
     function calculateTotaltax() {
         let total = 0;
         const inputs = document.querySelectorAll('.tax_applied');

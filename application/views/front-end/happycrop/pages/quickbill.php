@@ -40,7 +40,6 @@
                         <div class="form-group col-md-12">
                             <div class="row ">
                                 <div class="col-md-6">
-                                    <a href="<?php echo base_url('my-account/addcustomer') ?>" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3'>Add Customer</a>
                                     <a href="<?php echo base_url('my-account/add_quickbill') ?>" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3'>Add Quick Bills</a>
 
                                 </div>

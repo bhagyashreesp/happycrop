@@ -52,12 +52,16 @@
                                     <input type="text" class="form-control" name="gst" value="" required />
                                 </div>
                                 <div class="my-2">
-                                    <label>Fertilizer Licence No</label>
+                                    <label>Fertilizer License No</label>
                                     <input type="text" class="form-control" name="fertilizer_licence_no" value="" required />
                                 </div>
                                 <div class="my-2">
-                                    <label>Pesticide Licence No</label>
+                                    <label>Pesticide License No</label>
                                     <input type="text" class="form-control" name="pesticide_licence_no" value="" required />
+                                </div>
+                                <div class="my-2">
+                                    <label>Seed License No</label>
+                                    <input type="text" class="form-control" name="seed_license_no" value="" required />
                                 </div>
                             </div>
 

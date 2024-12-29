@@ -132,8 +132,8 @@
                                         <tr>
                                             <td>1</td>
                                             <td><input type="text" class="form-control" name="name_1" value="" placeholder="Name" required /></td>
-                                            <td><input type="number" step="0.01" class="form-control quantity" name="quantity_1" placeholder="Quantity" required/></td>
-                                            <td><input type="number" step="0.01" class="form-control price" name="price_1" placeholder="Price/Unit" required /></td>
+                                            <td><input type="number" step="0.01" class="form-control quantity" name="quantity_1" placeholder="Quantity" required onkeyup="calculateAmount(1)"/></td>
+                                            <td><input type="number" step="0.01" class="form-control price" name="price_1" placeholder="Price/Unit" required onkeyup="calculateAmount(1)"/></td>
                                             <td><input type="number" step="0.01" class="form-control amount" name="amount_1" placeholder="Amount" required /></td>
                                         </tr>
                                     </tbody>
@@ -144,7 +144,7 @@
                             <div class="form-group col-md-6 mt-2">
                                 <div class="">
                                     <label>Total</label>
-                                    <input type="number" step="0.01" class="form-control"  name="total" value="" required placeholder="Total" />
+                                    <input type="number" step="0.01" class="form-control"  name="total" id="total" value="" required placeholder="Total" />
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
@@ -189,14 +189,33 @@
     </div>
 </div>
 <script>
+    function calculateAmount(Index){
+        quantity = $('input[name="quantity_'+Index+'"]').val();
+        price = $('input[name="price_'+Index+'"]').val();
+        amtTotal =quantity*price;
+        $('input[name="amount_'+Index+'"]').val(amtTotal);
+        calculateSum();
+    }
+    function calculateSum() {
+        inputs = document.querySelectorAll(`.amount`);
+        let sum = 0;
+        inputs.forEach(input => {
+            const value = parseFloat(input.value);
+            if (!isNaN(value)) {
+                sum += value;
+            }
+        });
+        $("#total").val(sum);
+
+    }
     var index=1;
     function addrow() {
         index++;
         html = '<tr>\
                 <td>' + index + '</td>\
                 <td><input type="text" class="form-control" name="name_'+index+'" value="" placeholder="Name" required/></td>\
-                <td><input type="number" step="0.01" class="form-control quantity" name="quantity_'+index+'" placeholder="Quantity" required/></td>\
-                <td><input type="number" step="0.01" class="form-control price" name="price_'+index+'" placeholder="Price/Unit" required/></td>\
+                <td><input type="number" step="0.01" class="form-control quantity" name="quantity_'+index+'" placeholder="Quantity" required onkeyup="calculateAmount('+index+')"/></td>\
+                <td><input type="number" step="0.01" class="form-control price" name="price_'+index+'" placeholder="Price/Unit" required onkeyup="calculateAmount('+index+')"/></td>\
                 <td><input type="number" step="0.01" class="form-control amount" name="amount_'+index+'" placeholder="Amount" required/></td>\
                 </tr>';
             $("#item_data").append(html);

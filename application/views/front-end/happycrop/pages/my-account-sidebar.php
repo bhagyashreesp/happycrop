@@ -72,7 +72,18 @@
                         </a>
                     </li>
                     <li class="nav-item mt-0">
-                        <a class="nav-link rounded <?=($current_url==base_url('my-account/accounts')) ? 'active' : ''?>" id="accounts" href="<?= base_url('my-account/accounts') ?>">
+                        <a class="nav-link rounded <?=($current_url==base_url('my-account/quickbill')) ? 'active' : ''?>" id="quickbill" href="<?= base_url('my-account/quickbill') ?>">
+                            <div class="text-center py-1 px-3">
+                                <h6 class="mb-0">
+                                    <!--<i class="fas fa-history fa-lg left-aside"></i> <br />-->
+                                    <i class="fas fa-shopping-bag fa-lg text-black "></i> <br />
+                                    <?=!empty($this->lang->line('quickbill')) ? $this->lang->line('quickbill') : 'QUICK BILL'?>
+                                </h6>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-0">
+                        <a class="nav-link rounded <?=($current_url==base_url('my-account/purchasebill')) ? 'active' : ''?>" id="accounts" href="<?= base_url('my-account/purchasebill') ?>">
                             <div class="text-center py-1 px-3">
                                 <h6 class="mb-0">
                                     <!--<i class="fas fa-history fa-lg left-aside"></i> <br />-->

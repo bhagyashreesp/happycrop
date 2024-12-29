@@ -67,6 +67,9 @@
                                     <tr class="dark-blue-bg">
                                         <th data-field="seller_id" data-sortable='false' data-footer-formatter="totalFormatter">#</th>
                                         <th data-field="seller" data-sortable='false'>MFG Name</th>
+                                        <th data-field="state_name" data-sortable='false'>Place</th>
+                                        <th data-field="email" data-sortable='false'>Email</th>
+                                        <th data-field="mobile" data-sortable='false'>Mobile</th>
                                         <th data-field="operate" data-sortable='false' data-visible='true'>Actions</th>
                                     </tr>
                                 </thead>

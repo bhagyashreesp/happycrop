@@ -107,3 +107,9 @@ ALTER TABLE `external_purchase_return` CHANGE `invoice_number` `order_number` VA
 CREATE TABLE `external_parties` (`id` INT(11) NOT NULL AUTO_INCREMENT , `user_id` INT(11) NULL DEFAULT NULL , `party_name` VARCHAR(255) NULL DEFAULT NULL , `address` TEXT NULL DEFAULT NULL , `gst` VARCHAR(255) NULL DEFAULT NULL , `fertilizer_licence_no` VARCHAR(255) NULL DEFAULT NULL , `pesticide_licence_no` VARCHAR(255) NULL DEFAULT NULL , `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 ALTER TABLE `external_parties` ADD `mobile` INT(40) NULL DEFAULT NULL AFTER `party_name`;
 ALTER TABLE `external_parties` ADD `email` VARCHAR(255) NOT NULL AFTER `mobile`;
+
+--25 Dec 2024
+ALTER TABLE `external_parties` ADD `state` VARCHAR(255) NULL DEFAULT NULL AFTER `gst`;
+ALTER TABLE `external_products` ADD `batch_no` VARCHAR(255) NULL DEFAULT NULL AFTER `type`;
+ALTER TABLE `external_products` ADD `expiry_date` DATE NULL DEFAULT NULL AFTER `batch_no`;
+ALTER TABLE `external_parties` ADD `seed_license_no` VARCHAR(255) NULL DEFAULT NULL AFTER `pesticide_licence_no`;

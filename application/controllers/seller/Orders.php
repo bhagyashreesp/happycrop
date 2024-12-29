@@ -2134,11 +2134,11 @@ class Orders extends CI_Controller
     public function Purchasebill()
     {
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
-            $this->data['page_title'] = 'Purchase Bill';
+            $this->data['page_title'] = 'Sale Invoice';
             $settings = get_settings('system_settings', true);
             $this->data['main_page'] = TABLES . 'manage-purchasebill';
-            $this->data['title'] = 'Purchase Bill | ' . $settings['app_name'];
-            $this->data['meta_description'] = 'Purchase Bill  | ' . $settings['app_name'];
+            $this->data['title'] = 'Sale Invoice | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Sale Invoice  | ' . $settings['app_name'];
             $this->data['delivery_challan'] = "";
             $this->load->view('seller/template', $this->data);
         } else {
@@ -2148,11 +2148,11 @@ class Orders extends CI_Controller
     public function purchasein()
     {
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
-            $this->data['page_title'] = 'Purchase In';
+            $this->data['page_title'] = 'Payment In';
             $settings = get_settings('system_settings', true);
             $this->data['main_page'] = TABLES . 'manage-purchasein';
-            $this->data['title'] = 'Purchase In | ' . $settings['app_name'];
-            $this->data['meta_description'] = 'Purchase In  | ' . $settings['app_name'];
+            $this->data['title'] = 'Payment In | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Payment In  | ' . $settings['app_name'];
             $this->load->view('seller/template', $this->data);
         } else {
             redirect('seller/login', 'refresh');
@@ -2161,11 +2161,11 @@ class Orders extends CI_Controller
     public function purchaseorder()
     {
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
-            $this->data['page_title'] = 'Purchase Order';
+            $this->data['page_title'] = 'Sale Order';
             $settings = get_settings('system_settings', true);
             $this->data['main_page'] = TABLES . 'manage-purchaseorder';
-            $this->data['title'] = 'Purchase Order | ' . $settings['app_name'];
-            $this->data['meta_description'] = 'Purchase Order  | ' . $settings['app_name'];
+            $this->data['title'] = 'Sale Order | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Sale Order  | ' . $settings['app_name'];
             $this->load->view('seller/template', $this->data);
         } else {
             redirect('seller/login', 'refresh');
@@ -2188,11 +2188,13 @@ class Orders extends CI_Controller
     public function external_purchase_bill()
     {
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
-            $this->data['page_title'] = 'Purchase Bill';
+            $this->data['partieslist'] =$this->common_model->getRecords("external_parties", '*', array('user_id' => $this->session->userdata('user_id')));
+            
+            $this->data['page_title'] = 'Sale Invoice';
             $settings = get_settings('system_settings', true);
             $this->data['main_page'] = TABLES . 'manage-external-bill';
-            $this->data['title'] = 'Purchase Bill | ' . $settings['app_name'];
-            $this->data['meta_description'] = 'Purchase Bill  | ' . $settings['app_name'];
+            $this->data['title'] = 'Sale Invoice | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Sale Invoice  | ' . $settings['app_name'];
             $this->load->view('seller/template', $this->data);
         } else {
             redirect('seller/login', 'refresh');
@@ -2201,11 +2203,13 @@ class Orders extends CI_Controller
     public function external_purchase_in()
     {
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
-            $this->data['page_title'] = 'Purchase Bill';
+            $this->data['partieslist'] =$this->common_model->getRecords("external_parties", '*', array('user_id' => $this->session->userdata('user_id')));
+            
+            $this->data['page_title'] = 'Payment In';
             $settings = get_settings('system_settings', true);
             $this->data['main_page'] = TABLES . 'manage-external-paymentin';
-            $this->data['title'] = 'Purchase Bill | ' . $settings['app_name'];
-            $this->data['meta_description'] = 'Purchase Bill  | ' . $settings['app_name'];
+            $this->data['title'] = 'Payment In | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Payment In  | ' . $settings['app_name'];
             $this->load->view('seller/template', $this->data);
         } else {
             redirect('seller/login', 'refresh');
@@ -2214,6 +2218,8 @@ class Orders extends CI_Controller
     public function external_sale_order()
     {
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            $this->data['partieslist'] =$this->common_model->getRecords("external_parties", '*', array('user_id' => $this->session->userdata('user_id')));
+            
             $this->data['page_title'] = 'Sale Order';
             $settings = get_settings('system_settings', true);
             $this->data['main_page'] = TABLES . 'manage-external-saleorder';
@@ -2222,6 +2228,20 @@ class Orders extends CI_Controller
             $this->load->view('seller/template', $this->data);
         } else {
             redirect('seller/login', 'refresh');
+        }
+    }
+    public function external_parties()
+    {
+        
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            $this->data['page_title'] = 'Parties';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-external-parties';
+            $this->data['title'] = 'Parties | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Parties  | ' . $settings['app_name'];
+            $this->load->view('seller/template', $this->data);
+        } else {
+            redirect(base_url(), 'refresh');
         }
     }
     

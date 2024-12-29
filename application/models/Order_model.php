@@ -156,12 +156,13 @@ class Order_model extends CI_Model
             ];
         }
 
-        $count_res = $this->db->select('DISTINCT oi.seller_id', false)
-            ->join(' `users` u', 'u.id= o.user_id', 'left')
-            ->join(' `order_items` oi', 'oi.order_id= o.id', 'left')
-            ->join('users us ', ' us.id = oi.seller_id', 'left')
-            ->join('retailer_data rd ', ' rd.user_id = o.user_id', 'left')
-            ->join('seller_data sd ', ' sd.user_id = oi.seller_id', 'left');
+        $count_res = $this->db->select(' DISTINCT us.id as seller_id, us.username, us.email,us.mobile,s.name as state_name,sd.company_name as mfg_name', false)
+        ->join(' `users` u', 'u.id= o.user_id', 'left')
+        ->join(' `order_items` oi', 'oi.order_id= o.id', 'left')
+        ->join('users us ', ' us.id = oi.seller_id', 'left')
+        ->join('retailer_data rd ', ' rd.user_id = o.user_id', 'left')
+        ->join('seller_data sd ', ' sd.user_id = oi.seller_id', 'left')
+        ->join('states s ', ' sd.state_id = s.id', 'left');
 
         if (isset($filters) && !empty($filters)) {
             $this->db->group_Start();
@@ -181,12 +182,13 @@ class Order_model extends CI_Model
 
         $total = count($product_count);
 
-        $search_res = $this->db->select(' DISTINCT us.id as seller_id, us.username, sd.company_name as mfg_name', false)
-            ->join(' `users` u', 'u.id= o.user_id', 'left')
-            ->join(' `order_items` oi', 'oi.order_id= o.id', 'left')
-            ->join('users us ', ' us.id = oi.seller_id', 'left')
-            ->join('retailer_data rd ', ' rd.user_id = o.user_id', 'left')
-            ->join('seller_data sd ', ' sd.user_id = oi.seller_id', 'left');
+        $search_res = $this->db->select(' DISTINCT us.id as seller_id, us.username, us.email,us.mobile,s.name as state_name,sd.company_name as mfg_name', false)
+        ->join(' `users` u', 'u.id= o.user_id', 'left')
+        ->join(' `order_items` oi', 'oi.order_id= o.id', 'left')
+        ->join('users us ', ' us.id = oi.seller_id', 'left')
+        ->join('retailer_data rd ', ' rd.user_id = o.user_id', 'left')
+        ->join('seller_data sd ', ' sd.user_id = oi.seller_id', 'left')
+        ->join('states s ', ' sd.state_id = s.id', 'left');
 
         if (isset($filters) && !empty($filters)) {
             $search_res->group_Start();
@@ -215,6 +217,9 @@ class Order_model extends CI_Model
 
             $tempRow['seller_id'] = $row['seller_id'];
             $tempRow['seller']    = $row['mfg_name'];
+            $tempRow['email']    = $row['email'];
+            $tempRow['mobile']    = $row['mobile'];
+            $tempRow['state_name']    = $row['state_name'];
 
             $operate = '<a href="' . base_url('my_account/statement_detail') . '?seller_id=' . $row['seller_id'] . '" class="" title="View">View</a>';
 
@@ -403,7 +408,10 @@ class Order_model extends CI_Model
             ->join(' `order_items` oi', 'oi.order_id= o.id', 'left')
             ->join('users us ', ' us.id = oi.seller_id', 'left')
             ->join('retailer_data rd ', ' rd.user_id = o.user_id', 'left')
-            ->join('seller_data sd ', ' sd.user_id = oi.seller_id', 'left');
+            ->join('seller_data sd ', ' sd.user_id = oi.seller_id', 'left')
+            ->join('states s ', ' rd.state_id = s.id', 'left');
+
+
 
         if (isset($filters) && !empty($filters)) {
             $this->db->group_Start();
@@ -427,12 +435,15 @@ class Order_model extends CI_Model
 
         $total = count($product_count);
 
-        $search_res = $this->db->select(' DISTINCT o.user_id , u.username, rd.company_name as retailer_name', false)
+        $search_res = $this->db->select(' DISTINCT o.user_id , u.username,u.email,u.mobile, rd.company_name as retailer_name,s.name as state_name', false)
             ->join(' `users` u', 'u.id= o.user_id', 'left')
             ->join(' `order_items` oi', 'oi.order_id= o.id', 'left')
             ->join('users us ', ' us.id = oi.seller_id', 'left')
             ->join('retailer_data rd ', ' rd.user_id = o.user_id', 'left')
-            ->join('seller_data sd ', ' sd.user_id = oi.seller_id', 'left');
+            ->join('seller_data sd ', ' sd.user_id = oi.seller_id', 'left')
+            ->join('states s ', ' rd.state_id = s.id', 'left');
+
+
 
         if (isset($filters) && !empty($filters)) {
             $search_res->group_Start();
@@ -456,7 +467,8 @@ class Order_model extends CI_Model
         $bulkData['total'] = $total;
         $rows = array();
         $tempRow = array();
-
+        
+        
         foreach ($user_details as $row) {
 
             $items1 = '';
@@ -465,6 +477,9 @@ class Order_model extends CI_Model
 
             $tempRow['user_id'] = $row['user_id'];
             $tempRow['name'] = $row['retailer_name'];
+            $tempRow['email'] = $row['email'];
+            $tempRow['mobile'] = $row['mobile'];
+            $tempRow['state_name'] = $row['state_name'];
 
             $operate = '<a href="' . base_url('seller/orders/statement_detail') . '?retailer_id=' . $row['user_id'] . '" class="btn btn-primary btn-xs mr-1 mb-1" title="View">View</a>';
 
