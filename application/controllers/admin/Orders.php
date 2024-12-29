@@ -1616,7 +1616,7 @@ class Orders extends CI_Controller
        
         
         if ($this->ion_auth->logged_in()) {
-            return $this->Externalaccount_model->get_admin_payment_reports();
+            return $this->Order_model->get_admin_account_orders_list();
         } else {
             $this->response['error'] = true;
             $this->response['message'] = 'Unauthorized access is not allowed';

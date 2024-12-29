@@ -11,7 +11,7 @@
     <li class="nav-item  <?php echo ($this->uri->segment(3) == 'mfc_incoice') ? 'active' : ''; ?>">
         <a class="nav-link <?php echo ($this->uri->segment(3) == 'mfc_incoice') ? 'btn btn-primary text-white' : ''; ?>" href="<?php echo base_url('admin/orders/mfc_incoice/') ?>">Manufacturer Invoices</a>
     </li>
-    <!-- <li class="nav-item  <?php echo ($this->uri->segment(3) == 'payment_reports') ? 'active' : ''; ?>">
+    <li class="nav-item  <?php echo ($this->uri->segment(3) == 'payment_reports') ? 'active' : ''; ?>">
         <a class="nav-link <?php echo ($this->uri->segment(3) == 'payment_reports') ? 'btn btn-primary text-white' : ''; ?>" href="<?php echo base_url('admin/orders/payment_reports/') ?>">Payments Report</a>
-    </li> -->
+    </li>
 </ul>

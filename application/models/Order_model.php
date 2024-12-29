@@ -749,6 +749,8 @@ class Order_model extends CI_Model
         $order_msg = array('received' => 'Order Received', 'qty_update' => 'Quantity updated and approval request sent.', 'qty_approved' => 'Quantity approval accepted by retailer.', 'payment_demand' => 'Payment request sent.', 'payment_ack' => 'Transaction details received from retailer.', 'send_payment_confirmation' => 'Payment confirmation sent to retailer.', 'schedule_delivery' => 'Order Scheduled.', 'shipped' => 'Order shipped.', 'send_invoice' => 'E-way bill and invoices sent to retailer.', 'complaint' => 'Retailer raised his concern.', 'delivered' => 'Order delivered successfully.', 'cancelled' => 'Order cancelled.', 'send_mfg_payment_ack' => 'Transaction details shared with manufacturer.', 'send_mfg_payment_confirmation' => 'Payment receipt received.', 'complaint_msg' => 'Issue details shared by Happycrop', 'service_completed' => 'Service Completed');
 
         foreach ($user_details as $row) {
+            
+            
             if (!empty($row['items'])) {
                 $items = $row['items'];
                 $items1 = '';
@@ -819,10 +821,14 @@ class Order_model extends CI_Model
 
                 // $tempRow['payment_receipt'] = (file_exists($row['payment_receipt']) && $row['payment_receipt']!='') ? '<a href="'.base_url($row['payment_receipt']).'" target="_blank">View / Download</a>' : '';
                 // $tempRow['invoice_receipt'] = (file_exists($row['invoice_receipt']) && $row['invoice_receipt']!='') ? '<a href="'.base_url($row['invoice_receipt']).'" target="_blank">View / Download</a>' : '';
-                // $tempRow['hc_receipt'] = (file_exists($row['hc_receipt']) && $row['hc_receipt']!='') ? '<a href="'.base_url($row['hc_receipt']).'" target="_blank">View / Download</a>' : '';
-                $tempRow['payment_receipt'] = (file_exists($row['payment_receipt']) && $row['payment_receipt'] != '') ? '<a href="' . base_url("my-account/payment-receipt/") . $row['id'] . "/view" . '" target="_blank">View / Download</a>' : '';
-                $tempRow['invoice_receipt'] = (file_exists($row['invoice_receipt']) && $row['invoice_receipt'] != '') ? '<a href="' . base_url("my-account/tax-invoice/") . $row['id'] . "/view" . '" target="_blank">View / Download</a>' : '';
-                $tempRow['hc_receipt'] = (file_exists($row['hc_receipt']) && $row['hc_receipt'] != '') ? '<a href="' . base_url("seller/orders/paymentreceipt/") . $row['id'] . "/view" . '" target="_blank">View / Download</a>' : '';
+                // $tempRow['hc_receipt'] = (file_exists($row['hc_receipt']) && $row['hc_receipt']!='') ? '<a href="'.base_url($rowstatus[=>''hc_receipt']).'" target="_blank">View / Download</a>' : '';
+                $hc_receipt = $this->common_model->getRecords("order_item_stages", '*', array('order_id' => $row["id"],'status'=>'send_mfg_payment_ack'));
+                $payment_ack = $this->common_model->getRecords("order_item_stages", '*', array('order_id' => $row["id"],'status'=>'payment_ack'));
+                $send_invoice = $this->common_model->getRecords("order_item_stages", '*', array('order_id' => $row["id"],'status'=>'send_invoice'));
+
+                $tempRow['payment_receipt'] = (!empty($payment_ack)) ? '<a href="' . base_url("my-account/payment-receipt/") . $row['id'] . "/view" . '" target="_blank">View / Download</a>' : '';
+                $tempRow['invoice_receipt'] = (!empty($send_invoice)) ? '<a href="' . base_url("my-account/tax-invoice/") . $row['id'] . "/view" . '" target="_blank">View / Download</a>' : '';
+                $tempRow['hc_receipt'] = (!empty($hc_receipt)) ? '<a href="' . base_url("seller/orders/paymentreceipt/") . $row['id'] . "/view" . '" target="_blank">View / Download</a>' : '';
 
                 /*
                 $tempRow['color_state'] = '';
@@ -4897,7 +4903,10 @@ class Order_model extends CI_Model
             ->join('cities ct ', ' ct.id = ad.city_id', 'left')
             ->join('order_item_payment_confirmation as op', 'o.id = op.order_id', 'left')
             ->join('order_item_invoice as inv', 'o.id = inv.order_id', 'left')
-            ->join('order_item_mfg_payment_ack as mfg_ack', 'o.id = mfg_ack.order_id', 'left');
+            ->join('order_item_mfg_payment_ack as mfg_ack', 'o.id = mfg_ack.order_id', 'left')
+            ->join('order_item_stages as ois', 'oi.order_id = ois.order_id', 'left');
+            $count_res->where("ois.status",'send_mfg_payment_ack');
+
         //->join('users db ', ' db.id = oi.delivery_boy_id', 'left');
         if (!empty($_GET['start_date']) && !empty($_GET['end_date'])) {
 
@@ -4955,7 +4964,7 @@ class Order_model extends CI_Model
 
         $total = count($product_count);
 
-        $search_res = $this->db->select(' o.* , u.username, rd.company_name as retailer_name, sd.company_name as mfg_name, sd.slug as seller_slug, ct.name as city_name, op.attachments as payment_receipt, inv.attachments as invoice_receipt, mfg_ack.attachments as hc_receipt')
+        $search_res = $this->db->select(' o.* , u.username, rd.company_name as retailer_name, sd.company_name as mfg_name, sd.slug as seller_slug, ct.name as city_name, op.attachments as payment_receipt, inv.attachments as invoice_receipt, mfg_ack.attachments as hc_receipt,ois.status as mfg_status')
             ->join(' `users` u', 'u.id= o.user_id', 'left')
             ->join(' `order_items` oi', 'oi.order_id= o.id', 'left')
             ->join('users us ', ' us.id = oi.seller_id', 'left')
@@ -4967,7 +4976,9 @@ class Order_model extends CI_Model
             ->join('cities ct ', ' ct.id = ad.city_id', 'left')
             ->join('order_item_payment_confirmation as op', 'o.id = op.order_id', 'left')
             ->join('order_item_invoice as inv', 'o.id = inv.order_id', 'left')
-            ->join('order_item_mfg_payment_ack as mfg_ack', 'o.id = mfg_ack.order_id', 'left');
+            ->join('order_item_mfg_payment_ack as mfg_ack', 'o.id = mfg_ack.order_id', 'left')
+            ->join('order_item_stages as ois', 'oi.order_id = ois.order_id', 'left');
+            $count_res->where("ois.status",'send_mfg_payment_ack');
         //->join('users db ', ' db.id = oi.delivery_boy_id', 'left');
 
         if (!empty($_GET['start_date']) && !empty($_GET['end_date'])) {
@@ -5116,7 +5127,7 @@ class Order_model extends CI_Model
                 // $tempRow['hc_receipt'] = (file_exists($row['hc_receipt']) && $row['hc_receipt']!='') ? '<a href="'.base_url($row['hc_receipt']).'" target="_blank">View / Download</a>' : '';
                 $tempRow['payment_receipt'] = (file_exists($row['payment_receipt']) && $row['payment_receipt'] != '') ? '<a href="' . base_url("my-account/payment-receipt/") . $row['id'] . "/view" . '" target="_blank">View / Download</a>' : '';
                 $tempRow['invoice_receipt'] = (file_exists($row['invoice_receipt']) && $row['invoice_receipt'] != '') ? '<a href="' . base_url("my-account/tax-invoice/") . $row['id'] . "/view" . '" target="_blank">View / Download</a>' : '';
-                $tempRow['hc_receipt'] = (file_exists($row['hc_receipt']) && $row['hc_receipt'] != '') ? '<a href="' . base_url("seller/orders/paymentreceipt/") . $row['id'] . "/view" . '" target="_blank">View / Download</a>' : '';
+                $tempRow['hc_receipt'] = '<a href="' . base_url("seller/orders/paymentreceipt/") . $row['id'] . "/view" . '" target="_blank">View / Download</a>';
 
                 /*
                 $tempRow['color_state'] = '';
