@@ -65,12 +65,11 @@
 </head>
 
 <body>
+    <?php $logo = get_settings('web_logo'); ?>
+
     <div class="container mt-5">
-        <div class="row justify-content-center border border-black p-2" id="generatePDf">
-            <div class="col-lg-12 py-4">
-                <h2 class="text-center fw-bold">Expense</h2>
-            </div>
-            <div class="border-top-green"></div>
+        <div class="row  border border-black p-2" id="generatePDf">
+
 
             <div class="col-lg-8 pb-2">
                 <div class="bg-gray-light">
@@ -98,9 +97,24 @@
                     </table>
                 </div>
             </div>
-            <div class="col-lg-4"></div>
-            <div class="border-top-green"></div>
+            <div class="col-lg-4 align-content-center">
+                <img src="<?= base_url($logo) ?>" alt="logo" width="200px" />
 
+            </div>
+            <div class="border-top-green"></div>
+            <div class="col-lg-12 py-4">
+                <h2 class="text-center fw-bold text-head">Expense</h2>
+            </div>
+            <div class="border-top-green"></div>
+            <div class="col-lg-8">
+                <h6 class="text-start font-weight-bold">Expense for</h6>
+            </div>
+            <div class="col-lg-4 ">
+                <h6 class="text-end font-weight-bold">Expense Details</h6>
+                <h6 class="text-end">Expense No. : <?php echo $expenseDetails[0]["id"]; ?></h6>
+                <h6 class="text-end">Date : <?php echo date('d-m-Y', strtotime($expenseDetails[0]["created_at"])); ?></h6>
+
+            </div>
             <div class="col-lg-12 py-3">
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -170,10 +184,13 @@
                                         <td class="border-0 w-50 fw-bold">Total : -</td>
                                         <td class="border-0 w-50 pl-2"><?php echo $settings['currency'] . ' ' . number_format(($total_amt), 2); ?></td>
                                     </tr>
-                                    <hr>
                                     <tr class="p-2 pt-2 border-top">
                                         <td class="border-0 w-50 fw-bold">Paid : -</td>
                                         <td class="border-0 w-50 pl-2"><?php echo $settings['currency'] . ' ' . number_format(($expenseDetails[0]["paid_amount"]), 2); ?></td>
+                                    </tr>
+                                    <tr class="p-2 pt-2 border-top">
+                                        <td class="border-0 w-50 fw-bold">Balance : -</td>
+                                        <td class="border-0 w-50 pl-2"><?php echo $settings['currency'] . ' ' . number_format(($total_amt - $expenseDetails[0]["paid_amount"]), 2); ?></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -192,13 +209,12 @@
             </div>
         </div>
 
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-lg-2 align-content-center">
-            <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
-            <button class="btn btn-primary my-3 ml-2" onclick="printDiv();">Print</button>
+        <div class="row justify-content-center">
+            <div class="col-lg-2 align-content-center">
+                <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
+                <button class="btn btn-primary my-3 ml-2" onclick="printDiv();">Print</button>
+            </div>
         </div>
-    </div>
     </div>
     <script>
         baseUrl = '<?php echo base_url(); ?>';

@@ -36,9 +36,10 @@
                             <div class="form-group col-md-6">
                                 <div class="my-2">
                                     <label>Party Name</label>
-                                    <select class="select-control select2 w-100" name="party_name" required>
+                                    <select class="select-control select2 w-100 party_name" name="party_name" required>
+                                        <option value="">Select Party</option>
                                         <?php foreach ($partieslist as $key => $item) { ?>
-                                            <option value="<?php echo $item['party_name']; ?>"><?php echo $item['party_name']; ?></option>
+                                            <option value="<?php echo $item['party_name']; ?>" data-id="<?php echo $item['id']; ?>"><?php echo $item['party_name']; ?></option>
                                         <?php } ?>
 
                                     </select>

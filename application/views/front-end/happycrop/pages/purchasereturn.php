@@ -34,7 +34,7 @@
                 <div class="">
                     <?php $this->load->view('front-end/' . THEME . '/pages/account_subheader') ?>
                 </div>
-                <div class="pt-3 pr-lg-2">
+                <div class=" pr-lg-2">
                     <div class="gaps-1-5x row d-flex adjust-items-center">
                         <div class="form-group col-md-12">
                             <div class="row ">

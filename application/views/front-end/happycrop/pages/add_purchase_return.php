@@ -73,9 +73,9 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <table class="table ">
+                                <table class="table table-bordered">
                                     <thead>
-                                        <tr>
+                                        <tr class="bg-primary text-white">
                                             <th>#</th>
                                             <th>Product Name</th>
                                             <th>HSN</th>
@@ -88,28 +88,28 @@
                                     <tbody id="item_data">
                                         <tr>
                                             <td>1</td>
-                                            <td><input type="text" class="form-control" name="name_1" value=""  required /></td>
-                                            <td><input type="text" step="0.01" class="form-control hsn" name="hsn_1"  required /></td>
+                                            <td><input type="text" class="form-control" name="name_1" value="" required /></td>
+                                            <td><input type="text" step="0.01" class="form-control hsn" name="hsn_1" required /></td>
                                             <td><input type="number" step="0.01" class="form-control quantity" name="quantity_1" required /></td>
-                                            <td><input type="number" step="0.01" class="form-control price" name="price_1"  required /></td>
-                                            <td><input type="number" step="0.01" class="form-control gst" name="gst_1"  required /></td>
-                                            <td><input type="number" step="0.01" class="form-control amount" name="amount_1"  required /></td>
+                                            <td><input type="number" step="0.01" class="form-control price" name="price_1" required /></td>
+                                            <td><input type="number" step="0.01" class="form-control gst" name="gst_1" required /></td>
+                                            <td><input type="number" step="0.01" class="form-control amount" name="amount_1" required /></td>
                                         </tr>
                                     </tbody>
 
                                 </table>
-                                <a href="#" class="py-2 btn" onclick="addrow(event);">Add Row</a>
+                                <a href="#" class="py-3 btn btn-primary" onclick="addrow(event);">Add Row</a>
                             </div>
                             <div class="form-group col-md-6 mt-2">
                                 <div class="">
                                     <label>Payment Type</label>
-                                    <input type="text"  class="form-control" name="payment_type" value="" required />
+                                    <input type="text" class="form-control" name="payment_type" value="" required />
                                 </div>
                             </div>
                             <div class="form-group col-md-6 mt-2">
                                 <div class="">
                                     <label>Paid Amount</label>
-                                    <input type="number" step="0.01"  class="form-control" name="paid_amount" value="" required />
+                                    <input type="number" step="0.01" class="form-control" name="paid_amount" value="" required />
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
@@ -152,10 +152,10 @@
         html = '<tr>\
             <td>' + index + '</td>\
             <td><input type="text" class="form-control" name="name_' + index + '" value=""  required/></td>\
-            <td><input type="text" step="0.01" class="form-control hsn" name="hsn_'+index+'"  required /></td>\
+            <td><input type="text" step="0.01" class="form-control hsn" name="hsn_' + index + '"  required /></td>\
             <td><input type="number" step="0.01" class="form-control quantity" name="quantity_' + index + '"  required/></td>\
             <td><input type="number" step="0.01" class="form-control price" name="price_' + index + '"  required/></td>\
-            <td><input type="number" step="0.01" class="form-control gst" name="gst_'+index+'"  required /></td>\
+            <td><input type="number" step="0.01" class="form-control gst" name="gst_' + index + '"  required /></td>\
             <td><input type="number" step="0.01" class="form-control amount" name="amount_' + index + '"  required/></td>\
             </tr>';
         $("#item_data").append(html);

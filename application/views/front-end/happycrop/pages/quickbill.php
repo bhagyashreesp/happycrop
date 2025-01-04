@@ -66,6 +66,8 @@
                                 <th data-field="payment_mode" data-sortable='false'>Payment Mode </th>
                                 <th data-field="date" data-sortable='true'>Date</th>
                                 <th data-field="total_amt" data-sortable='false'>Amount</th>
+                                <th data-field="paid" data-sortable='false'>Paid</th>
+                                <th data-field="balance" data-sortable='false'>Balance</th>
                                 <th data-field="billview" data-sortable='false'>View</th>
                             </tr>
                         </thead>

@@ -77,7 +77,7 @@
                                 <div id="external" class="tab-pane fade">
                                     <div class="row col-md-12">
                                         <div class="col-md-7">
-                                            <a href="<?php echo base_url() . 'seller/orders/external-purchase-bill'; ?>" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block '>Add Purchase</a>
+                                            <a href="<?php echo base_url() . 'seller/orders/external-purchase-bill'; ?>" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block '>Add New Record</a>
 
                                         </div>
                                         <div class="form-group col-md-4">

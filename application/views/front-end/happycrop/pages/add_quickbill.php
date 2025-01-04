@@ -59,12 +59,12 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <table class="table ">
+                                <table class="table table-bordered">
                                     <thead>
-                                        <tr>
+                                        <tr class="bg-primary text-white">
                                             <th>#</th>
-                                            <th>Item Code</th>
                                             <th>Item Name</th>
+                                            <th>HSN</th>
                                             <th>Quantity</th>
                                             <th>Price/Unit</th>
                                             <th>Discount</th>
@@ -86,7 +86,7 @@
                                     </tbody>
 
                                 </table>
-                                <a href="#" class="py-2 btn" onclick="addrow();">Add Row</a>
+                                <a href="#" class="py-3 btn btn-primary" onclick="addrow();">Add Row</a>
                             </div>
                             <div class="form-group col-md-6 mt-2">
                                 <p class="font-bold">Cash/UPI</p>
@@ -150,14 +150,15 @@
     $(document).ready(function() {
         $('.select2').select2();
     });
+
     function addrow() {
         index++;
         html = '<tr>\
             <td>' + index + '</td>\
             <td><input type="text" class="form-control item_code" name="item_code_' + index + '"  required /></td>\
             <td><input type="text" class="form-control item_name" name="item_name_' + index + '"  required /></td>\
-            <td><input type="number" step="0.01" class="form-control quantity" name="quantity_' + index + '" required onkeyup="calculateAmount('+index+')" /></td>\
-            <td><input type="number" step="0.01" class="form-control price" name="price_' + index + '"  required onkeyup="calculateAmount('+index+')"/></td>\
+            <td><input type="number" step="0.01" class="form-control quantity" name="quantity_' + index + '" required onkeyup="calculateAmount(' + index + ')" /></td>\
+            <td><input type="number" step="0.01" class="form-control price" name="price_' + index + '"  required onkeyup="calculateAmount(' + index + ')"/></td>\
             <td><input type="number" step="0.01" class="form-control discount" name="discount_' + index + '"  required /></td>\
             <td><input type="number" step="0.01" class="form-control tax_applied" name="tax_applied_' + index + '"  required /></td>\
             <td><input type="number" step="0.01" class="form-control total" name="total_' + index + '"  required /></td>\
@@ -166,6 +167,7 @@
         $("#item_count").val(index);
 
     }
+
     function calculateAmount(Index) {
         quantity = $('input[name="quantity_' + Index + '"]').val();
         price = $('input[name="price_' + Index + '"]').val();
@@ -173,6 +175,7 @@
         $('input[name="total_' + Index + '"]').val(amtTotal);
         calculateTotal();
     }
+
     function calculateTotal() {
         let total = 0;
         const inputs = document.querySelectorAll('.total');

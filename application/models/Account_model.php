@@ -155,6 +155,8 @@ class Account_model extends CI_Model
                 'payment_mode' => $row['payment_mode'],
                 'date' => date('d-m-Y', strtotime($row['created_at'])),
                 'total_amt' => $row['total_amt'],
+                'paid' => $row['amount_received'],
+                'balance' => $row['balance'],
                 'billview' => $billview,
 
             );

@@ -410,7 +410,8 @@ class Externalaccount_model extends CI_Model
         // Prepare response
         $response = array();
         foreach ($result as $key => $row) {
-
+            $action ='<a href="'.base_url().'my-account/external-parties/'.$row['id'].'" class="" title="View">View</a>';
+            $actionseller ='<a href="'.base_url().'seller/orders/external-parties/'.$row['id'].'" class="" title="View">View</a>';
             $response[] = array(
                 'id' => $key + 1,
                 'party' => $row["id"],
@@ -421,6 +422,8 @@ class Externalaccount_model extends CI_Model
                 'gst' => $row["gst"],
                 'fertilizer_licence_no' => $row["fertilizer_licence_no"],
                 'pesticide_licence_no' => $row["pesticide_licence_no"],
+                'action' => $action,
+                'actionseller' => $actionseller,
 
             );
         }

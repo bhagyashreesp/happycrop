@@ -6524,6 +6524,11 @@ class My_account extends CI_Controller
             } else {
                 $result[0]['items'] = array();
             }
+            $retailerData = $this->common_model->getRecords("retailer_data", '*', array('user_id' => $result[0]["user_id"]));
+
+            if (!empty($retailerData)) {
+                $result[0]['retailer'] = $retailerData[0];
+            }
         }
 
         $pdfdata['result'] = $result;
@@ -7056,9 +7061,18 @@ class My_account extends CI_Controller
 
         return $this->load->view('front-end/happycrop/pages/ext_debit_note.php', $pdfdata);
     }
-    public function external_parties()
+    public function external_parties($id="")
     {
         if ($this->ion_auth->logged_in()) {
+            $this->data['disabled'] = "";
+            if($id != ""){
+                $this->data['external_parties'] = $this->common_model->getRecords("external_parties","*",array('id'=>$id));
+                if(!empty($this->data['external_parties'])){
+                    $this->data['disabled'] = "disabled";
+                }
+            }else{
+                $this->data['external_parties'] = array();
+            }
             $this->data['main_page'] = 'add_external_parties';
             $this->data['title'] = 'add_external_parties | ' . $this->data['web_settings']['site_title'];
             $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
@@ -7067,6 +7081,17 @@ class My_account extends CI_Controller
         } else {
             redirect(base_url(), 'refresh');
         }
+    }
+    public function get_external_parties()
+    {
+        $external_parties = $this->common_model->getRecords("external_parties","*",array('id'=>$this->input->post('party_id')));
+        if(!empty($external_parties)){
+            $response["status"] = true;
+            $response["data"] = $external_parties[0];
+        }else{
+            $response["status"] = false;
+        }
+        echo json_encode($response);
     }
     public function save_external_parties(){
 

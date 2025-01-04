@@ -65,12 +65,10 @@
 </head>
 
 <body>
+    <?php $logo = get_settings('web_logo'); ?>
+
     <div class="container mt-5">
         <div class="row justify-content-center border border-black p-2" id="generatePDf">
-            <div class="col-lg-12 py-4">
-                <h2 class="text-center fw-bold">Quick Bill</h2>
-            </div>
-            <div class="border-top-green"></div>
 
             <div class="col-lg-8 pb-2">
                 <div class="bg-gray-light">
@@ -78,7 +76,7 @@
                         <tbody>
                             <tr>
                                 <td class="border-0 py-0 text-left w-100"><b>Customer Name : </b> <?php echo $result[0]["customer_name"]; ?></td>
-                                    
+
                             </tr>
                             <tr class="p-2">
                                 <td class="border-0 py-0 text-left w-100"><b>Phone Number : </b> <?php echo $result[0]["phone_number"]; ?></td>
@@ -93,7 +91,14 @@
                     </table>
                 </div>
             </div>
-            <div class="col-lg-4"></div>
+            <div class="col-lg-4 align-content-center">
+                <img src="<?= base_url($logo) ?>" alt="logo" width="200px" />
+
+            </div>
+            <div class="border-top-green"></div>
+            <div class="col-lg-12 py-4">
+                <h2 class="text-center fw-bold text-head">Tax Invoice</h2>
+            </div>
             <div class="border-top-green"></div>
 
             <div class="col-lg-12 py-3">
@@ -102,12 +107,12 @@
                         <thead>
                             <tr class="bg-primary text-white">
                                 <th>#</th>
-                                <th>Item Code</th>
                                 <th>Item Name</th>
+                                <th>HSN</th>
                                 <th>Qty</th>
                                 <th>Price/Unit</th>
                                 <th>Discount</th>
-                                <th>Tax Applied</th>
+                                <th>GST</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
@@ -148,7 +153,7 @@
                     </table>
                 </div>
                 <div class="row justify-content-between">
-                    <div class="col-lg-6 py-2">
+                    <div class="col-lg-6 py-2 h-100">
                         <p><b>Cash/UPI:</b></p>
                         <table class="table h-100 border-none">
                             <tbody>
@@ -163,35 +168,50 @@
                                 </tr>
                                 <tr class="p-2">
                                     <td>
-                                        <?php if($result[0]["remark"] !=""){ ?>
-                                        <div class="form-group ">
-                                            <label for="receipt"> <strong>Remark</strong> </label>
-                                            <div class="border border-dark p-2 w-100"><?php echo $result[0]["remark"];?></div>
-                                        </div>
+                                        <?php if ($result[0]["remark"] != "") { ?>
+                                            <div class="form-group ">
+                                                <label for="receipt"> <strong>Remark</strong> </label>
+                                                <div class="border border-dark p-2 w-100"><?php echo $result[0]["remark"]; ?></div>
+                                            </div>
                                         <?php } ?>
                                     </td>
                                 </tr>
 
                             </tbody>
                         </table>
+                        <div>
+                            <div class=" p-2 mb-3">
+                                <h6 class="mb-1">Pay To</h6>
+                                <span>Retailer Name: <?php echo $result[0]['retailer']["company_name"]; ?></span> <br />
+                                <span>GSTIN : <?php echo $result[0]['retailer']["gst_no"]; ?></span> <br />
+                                
+                            </div>
+                        </div>
 
 
                     </div>
-                    <div class="col-lg-3 pt-2 mt-4">
+                    <div class="col-lg-3 pt-2 mt-4 h-100">
                         <p><b>Bill Details :</b></p>
                         <table class="table h-100 border-none">
                             <tbody>
                                 <tr class="p-2 pt-2 ">
                                     <td class="border-0 py-0 text-left w-100"><b> Sub Total : </b><?php echo $settings['currency'] . '' . $result[0]["subtotal"]; ?></td>
                                 </tr>
-                                <tr class="p-2  border-top">
-                                    <td class="border-0 py-0 text-left w-100"><b> Discount : </b><?php echo $settings['currency'] . '' . $result[0]["discount"]; ?></td>
+
+                                <tr class="p-2 ">
+                                    <td class="border-0 py-0 text-left w-100"><b>CGST@2.5% : </b><?php echo $settings['currency'] . '' . number_format(($result[0]["tax_applied"] / 2), 2); ?></td>
                                 </tr>
                                 <tr class="p-2 ">
-                                    <td class="border-0 py-0 text-left w-100"><b> Tax Applied : </b><?php echo $settings['currency'] . '' . $result[0]["tax_applied"]; ?></td>
+                                    <td class="border-0 py-0 text-left w-100"><b>SGST@2.5% : </b><?php echo $settings['currency'] . '' . number_format(($result[0]["tax_applied"] / 2), 2); ?></td>
                                 </tr>
+                                <!-- <tr class="p-2 ">
+                                    <td class="border-0 py-0 text-left w-100"><b> Tax Applied : </b><?php echo $settings['currency'] . '' . $result[0]["tax_applied"]; ?></td>
+                                </tr> -->
                                 <tr class="p-2 p-2 pt-2 bg-primary text-white">
                                     <td class="border-0 py-0 text-left w-100"><b> Total Amount : </b><?php echo $settings['currency'] . '' . $result[0]["total_amt"]; ?></td>
+                                </tr>
+                                <tr class="p-2  border-top">
+                                    <td class="border-0 py-0 text-left w-100"><b> Balance : </b><?php echo $settings['currency'] . '' . $result[0]["balance"]; ?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -204,13 +224,12 @@
             </div>
         </div>
 
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-lg-2 align-content-center">
-            <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
-            <button class="btn btn-primary my-3 ml-2" onclick="printDiv();">Print</button>
+        <div class="row justify-content-center">
+            <div class="col-lg-2 align-content-center">
+                <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
+                <button class="btn btn-primary my-3 ml-2" onclick="printDiv();">Print</button>
+            </div>
         </div>
-    </div>
     </div>
     <script>
         baseUrl = '<?php echo base_url(); ?>';

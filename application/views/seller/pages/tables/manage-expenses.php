@@ -83,8 +83,8 @@
 <div class="modal fade" id="add_expenses" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Add Expenses</h5>
+            <div class="modal-header btn-primary">
+                <h5 class="modal-title text-white" id="exampleModalLongTitle">Add Expenses</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -118,7 +118,7 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <table class="table ">
+                                <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th>#</th>
@@ -139,7 +139,7 @@
                                     </tbody>
 
                                 </table>
-                                <a href="#" class="py-2 btn" onclick="addrow();">Add Row</a>
+                                <a href="#" class="py-2 btn btn-primary" onclick="addrow();">Add Row</a>
                             </div>
                             <div class="form-group col-md-6 mt-2">
                                 <div class="">

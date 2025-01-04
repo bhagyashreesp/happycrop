@@ -35,7 +35,7 @@
                     <?php $this->load->view('front-end/' . THEME . '/pages/account_subheader') ?>
 
                 </div>
-                <div class="pt-4 pr-lg-2">
+                <div class=" pr-lg-2">
                     <ul class="nav nav-tabs extsys mt-2">
                         <li class="active mx-2 "><a class="p-3 active  btn" data-toggle="tab" href="#system">System</a></li>
                         <li class="mx-2 "><a class="p-3  btn" data-toggle="tab" href="#external">External</a></li>
@@ -105,6 +105,7 @@
                                         <th data-field="party_name" data-sortable='false'>MFG Name</th>
                                         <th data-field="email" data-sortable='false' data-visible='true'>Email</th>
                                         <th data-field="mobile" data-sortable='false' data-visible='true'>Mobile</th>
+                                        <th data-field="action" data-sortable='false' data-visible='true'>Action</th>
                                     </tr>
                                 </thead>
                             </table>

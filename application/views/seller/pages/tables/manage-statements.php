@@ -81,6 +81,7 @@
                                                 <th data-field="party_name" data-sortable='false'>MFG Name</th>
                                                 <th data-field="email" data-sortable='false' data-visible='true'>Email</th>
                                                 <th data-field="mobile" data-sortable='false' data-visible='true'>Mobile</th>
+                                                <th data-field="actionseller" data-sortable='false' data-visible='true'>Action</th>
                                             </tr>
                                         </thead>
                                     </table>

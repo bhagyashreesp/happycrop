@@ -47,9 +47,10 @@
                                     <div class="form-group col-md-6">
                                         <div class="my-2">
                                             <label>Party Name</label>
-                                            <select class="select-control select2 w-100" name="party_name" required>
+                                            <select class="select-control select2 w-100 party_name" name="party_name" required>
+                                                <option value="">Select Party</option>
                                                 <?php foreach ($partieslist as $key => $item) { ?>
-                                                    <option value="<?php echo $item['party_name']; ?>"><?php echo $item['party_name']; ?></option>
+                                                    <option value="<?php echo $item['party_name']; ?>" data-id="<?php echo $item['id']; ?>"><?php echo $item['party_name']; ?></option>
                                                 <?php } ?>
 
                                             </select>
@@ -91,7 +92,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <table class="table ">
+                                        <table class="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
@@ -120,7 +121,7 @@
                                             </tbody>
 
                                         </table>
-                                        <a href="#" class="py-2 btn" onclick="addrow(event);">Add Row</a>
+                                        <a href="#" class="py-2 btn btn-primary" onclick="addrow(event);">Add Row</a>
                                     </div>
                                     <div class="form-group col-md-10 mt-2">
                                         <div class="">

@@ -2230,10 +2230,19 @@ class Orders extends CI_Controller
             redirect('seller/login', 'refresh');
         }
     }
-    public function external_parties()
+    public function external_parties($id="")
     {
         
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            $this->data['disabled'] = "";
+            if($id != ""){
+                $this->data['external_parties'] = $this->common_model->getRecords("external_parties","*",array('id'=>$id));
+                if(!empty($this->data['external_parties'])){
+                    $this->data['disabled'] = "disabled";
+                }
+            }else{
+                $this->data['external_parties'] = array();
+            }
             $this->data['page_title'] = 'Parties';
             $settings = get_settings('system_settings', true);
             $this->data['main_page'] = TABLES . 'manage-external-parties';
