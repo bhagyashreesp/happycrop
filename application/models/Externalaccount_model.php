@@ -289,12 +289,21 @@ class Externalaccount_model extends CI_Model
         if (isset($_GET['limit'])) {
             $limit = $_GET['limit'];
         }
-
+        if (isset($_GET['retailer_type'])) {
+            $retailer_type = $_GET['retailer_type'];
+        }
 
         $this->db->select('e.*');
         $this->db->from('external_purchase_return e');
         if (!empty($user_id)) {
             $this->db->where('e.user_id', $user_id);
+        }
+        if ($retailer_type) {
+            $this->db->where('e.retailer_type', $retailer_type);
+
+        }else{
+            $this->db->where('e.retailer_type', '1');
+
         }
 
 

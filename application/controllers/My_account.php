@@ -6889,6 +6889,8 @@ class My_account extends CI_Controller
     public function external_purchase_return()
     {
         if ($this->ion_auth->logged_in()) {
+            $this->data['partieslist'] =$this->common_model->getRecords("external_parties", '*', array('user_id' => $this->session->userdata('user_id')));
+
             $this->data['main_page'] = 'add_purchase_return';
             $this->data['title'] = 'add_purchase_return | ' . $this->data['web_settings']['site_title'];
             $this->data['keywords'] = $this->data['web_settings']['meta_keywords'];
@@ -6913,6 +6915,7 @@ class My_account extends CI_Controller
         $expenseData["payment_type"] = $this->input->post('payment_type');
         $expenseData["paid_amount"] = $this->input->post('paid_amount');
         $expenseData["order_number"] = $this->input->post('order_number');
+        $expenseData["retailer_type"] = $this->input->post('type');
 
         if (isset($postData["description"])) {
             $expenseData["description"] = $this->input->post('description');
@@ -7018,7 +7021,13 @@ class My_account extends CI_Controller
                 }
             }
         }
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            redirect('seller/orders/purchase-return');
+        
+        }else{
+            redirect('my-account/purchasereturn');
 
+        }
         if (isset($_SERVER['HTTP_REFERER'])) {
             redirect($_SERVER['HTTP_REFERER']);
         } else {

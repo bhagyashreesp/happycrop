@@ -115,3 +115,7 @@ ALTER TABLE `external_products` ADD `expiry_date` DATE NULL DEFAULT NULL AFTER `
 ALTER TABLE `external_parties` ADD `seed_license_no` VARCHAR(255) NULL DEFAULT NULL AFTER `pesticide_licence_no`;
 ALTER TABLE `external_purchase_bill` ADD `retailer_type` ENUM('1','2') NOT NULL DEFAULT '1' COMMENT '1=>\'Retailer\',2=>\'seller\'' AFTER `type`;
 ALTER TABLE `external_payment_out` ADD `retailer_type` ENUM('1','2') NOT NULL DEFAULT '1' COMMENT '1=>\'Retailer\',2=>\'seller\'' ;
+
+---11 jan 2025
+ALTER TABLE `external_purchase_return` ADD `retailer_type` ENUM('1','2') NOT NULL DEFAULT '1' COMMENT '1=>\'Retailer\',2=>\'seller\'' ;
+

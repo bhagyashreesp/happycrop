@@ -31,7 +31,14 @@
                             <div class="form-group col-md-6">
                                 <div class="my-2">
                                     <label>Seller Name</label>
-                                    <input type="text" class="form-control" name="party_name" value="" required />
+                                    <select class="select-control select2 w-100 party_name" name="party_name" required>
+                                        <option value="">Select Party</option>
+                                        <?php foreach ($partieslist as $key => $item) { ?>
+                                            <option value="<?php echo $item['party_name']; ?>" data-id="<?php echo $item['id']; ?>"><?php echo $item['party_name']; ?></option>
+                                        <?php } ?>
+
+                                    </select>
+                                    <!-- <input type="text" class="form-control" name="party_name" value="" required /> -->
                                 </div>
                                 <div class="my-2">
                                     <label>Address</label>

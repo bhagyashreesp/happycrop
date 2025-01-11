@@ -2253,5 +2253,33 @@ class Orders extends CI_Controller
             redirect(base_url(), 'refresh');
         }
     }
+    public function purchase_return()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            $this->data['page_title'] = 'Account';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-purchasereturn';
+            $this->data['title'] = 'Account | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Account  | ' . $settings['app_name'];
+            $this->load->view('seller/template', $this->data);
+        } else {
+            redirect('seller/login', 'refresh');
+        }
+    }
+    public function external_purchase_return()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_seller() && ($this->ion_auth->seller_status() == 1 || $this->ion_auth->seller_status() == 0)) {
+            $this->data['partieslist'] =$this->common_model->getRecords("external_parties", '*', array('user_id' => $this->session->userdata('user_id')));
+            
+            $this->data['page_title'] = 'Accounts';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-external-return';
+            $this->data['title'] = 'Accounts | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Accounts  | ' . $settings['app_name'];
+            $this->load->view('seller/template', $this->data);
+        } else {
+            redirect('seller/login', 'refresh');
+        }
+    }
     
 }

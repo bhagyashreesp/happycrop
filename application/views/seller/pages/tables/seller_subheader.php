@@ -17,8 +17,8 @@
     <li class="nav-item <?php echo ($this->uri->segment(3) == 'statements') ? 'active' : ''; ?>">
         <a class="nav-link nav-link2 btn <?php echo ($this->uri->segment(3) == 'statements' || $this->uri->segment(3) == 'external-parties') ? 'btn btn-primary' : ''; ?>" href="<?php echo base_url('seller/orders/statements/') ?>">Parties</a>
     </li>
-    <li class="nav-item <?php echo ($this->uri->segment(3) == 'accounts' || $this->uri->segment(3) == 'purchasebill' || $this->uri->segment(3) == 'purchasein' || $this->uri->segment(3) == 'purchaseorder' || $this->uri->segment(3) == 'deliverychallan' || $this->uri->segment(3) == 'external-purchase-bill' || $this->uri->segment(3) == 'external-purchase-in' || $this->uri->segment(3) == 'external-sale-order' ) ? 'active' : ''; ?>">
-        <a class="nav-link nav-link2 btn <?php echo ($this->uri->segment(3) == 'accounts' || $this->uri->segment(3) == 'purchasebill' || $this->uri->segment(3) == 'purchasein' || $this->uri->segment(3) == 'purchaseorder' || $this->uri->segment(3) == 'deliverychallan' || $this->uri->segment(3) == 'external-purchase-bill' || $this->uri->segment(3) == 'external-purchase-in' || $this->uri->segment(3) == 'external-sale-order') ? 'btn btn-primary' : ''; ?>" href="<?php echo base_url('seller/orders/purchasebill') ?>">Sale</a>
+    <li class="nav-item <?php echo ($this->uri->segment(3) == 'accounts' || $this->uri->segment(3) == 'purchasebill' || $this->uri->segment(3) == 'purchasein' || $this->uri->segment(3) == 'purchaseorder' || $this->uri->segment(3) == 'deliverychallan' || $this->uri->segment(3) == 'purchase-return'|| $this->uri->segment(3) == 'external-purchase-bill' || $this->uri->segment(3) == 'external-purchase-in' || $this->uri->segment(3) == 'external-sale-order' || $this->uri->segment(3) == 'external-purchase-return') ? 'active' : ''; ?>">
+        <a class="nav-link nav-link2 btn <?php echo ($this->uri->segment(3) == 'accounts' || $this->uri->segment(3) == 'purchasebill' || $this->uri->segment(3) == 'purchasein' || $this->uri->segment(3) == 'purchaseorder' || $this->uri->segment(3) == 'deliverychallan' || $this->uri->segment(3) == 'purchase-return'|| $this->uri->segment(3) == 'external-purchase-bill' || $this->uri->segment(3) == 'external-purchase-in' || $this->uri->segment(3) == 'external-sale-order' || $this->uri->segment(3) == 'external-purchase-return') ? 'btn btn-primary' : ''; ?>" href="<?php echo base_url('seller/orders/purchasebill') ?>">Sale</a>
     </li>
     <li class="nav-item <?php echo ($this->uri->segment(3) == 'items') ? 'active' : ''; ?>">
         <a class="nav-link nav-link2 btn <?php echo ($this->uri->segment(3) == 'items') ? 'btn btn-primary' : ''; ?>" href="<?php echo base_url('seller/orders/items/') ?>">Items</a>
@@ -30,7 +30,7 @@
 
 
 <ul class="nav prof-nav pt-2 pb-2">
-    <?php if($this->uri->segment(3) == 'accounts' || $this->uri->segment(3) == 'purchasebill' || $this->uri->segment(3) == 'purchasein' || $this->uri->segment(3) == 'purchaseorder' || $this->uri->segment(3) == 'deliverychallan' || $this->uri->segment(3) == 'external-purchase-bill' || $this->uri->segment(3) == 'external-purchase-in' || $this->uri->segment(3) == 'external-sale-order') { ?>
+    <?php if($this->uri->segment(3) == 'accounts' || $this->uri->segment(3) == 'purchasebill' || $this->uri->segment(3) == 'purchasein' || $this->uri->segment(3) == 'purchaseorder' || $this->uri->segment(3) == 'deliverychallan'||$this->uri->segment(3) == 'purchase-return' || $this->uri->segment(3) == 'external-purchase-return' || $this->uri->segment(3) == 'external-purchase-bill' || $this->uri->segment(3) == 'external-purchase-in' || $this->uri->segment(3) == 'external-sale-order') { ?>
     <li class="nav-item ">
         <a href="<?php echo base_url('seller/orders/purchasebill/') ?>" class="nav-link2 nav-link  btn  <?php echo ($this->uri->segment(3) == 'purchasebill' || $this->uri->segment(3) == 'external-purchase-bill') ? 'btn btn-primary text-white' : ''; ?>  mr-2">Sale Invoice</a>
     </li>
@@ -42,6 +42,9 @@
     </li>
     <li class="nav-item ">
         <a href="<?php echo base_url('seller/orders/deliverychallan') ?>" class="nav-link2 nav-link btn  <?php echo ($this->uri->segment(3) == 'deliverychallan') ? 'btn btn-primary text-white' : ''; ?>  mr-2">Delivery Challan</a>
+    </li>
+    <li class="nav-item ">
+        <a href="<?php echo base_url('seller/orders/purchase-return') ?>" class="nav-link2 nav-link btn  <?php echo ($this->uri->segment(3) == 'purchase-return' || $this->uri->segment(3) == 'external-purchase-return') ? 'btn btn-primary text-white' : ''; ?>  mr-2">Sales Return</a>
     </li>
     <?php }elseif($this->uri->segment(3) == 'saleinvoice') { ?>
     <li class="nav-item ">
