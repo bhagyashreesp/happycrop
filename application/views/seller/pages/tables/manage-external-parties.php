@@ -60,15 +60,15 @@
                                         </div>
                                         <div class="my-2">
                                             <label>Fertilizer License No</label>
-                                            <input type="text" class="form-control" name="fertilizer_licence_no" required value="<?php echo (!empty($external_parties) ? $external_parties[0]['fertilizer_licence_no'] : '') ?>" <?php echo $disabled; ?> />
+                                            <input type="text" class="form-control" name="fertilizer_licence_no"  value="<?php echo (!empty($external_parties) ? $external_parties[0]['fertilizer_licence_no'] : '') ?>" <?php echo $disabled; ?> />
                                         </div>
                                         <div class="my-2">
                                             <label>Pesticide License No</label>
-                                            <input type="text" class="form-control" name="pesticide_licence_no" required value="<?php echo (!empty($external_parties) ? $external_parties[0]['pesticide_licence_no'] : '') ?>" <?php echo $disabled; ?> />
+                                            <input type="text" class="form-control" name="pesticide_licence_no"  value="<?php echo (!empty($external_parties) ? $external_parties[0]['pesticide_licence_no'] : '') ?>" <?php echo $disabled; ?> />
                                         </div>
                                         <div class="my-2">
                                             <label>Seed License No</label>
-                                            <input type="text" class="form-control" name="seed_license_no" required value="<?php echo (!empty($external_parties) ? $external_parties[0]['seed_license_no'] : '') ?>" <?php echo $disabled; ?> />
+                                            <input type="text" class="form-control" name="seed_license_no"  value="<?php echo (!empty($external_parties) ? $external_parties[0]['seed_license_no'] : '') ?>" <?php echo $disabled; ?> />
                                         </div>
                                     </div>
 

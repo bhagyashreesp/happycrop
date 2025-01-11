@@ -1,3 +1,17 @@
+<style>
+
+.float-right.pagination,.page-list{
+    display: block !important;
+}
+
+.extsys li a.active{
+  background-color: #007bff;
+  color: #fff!important;
+}
+.content-area{
+    padding-top: 0px!important;
+}
+</style>
 <ul class="nav nav-tabs pb-0" id="myTab">
     <li class="nav-item <?php echo ($this->uri->segment(3) == 'accounts') ? 'active' : ''; ?>">
         <a class="nav-link  <?php echo ($this->uri->segment(3) == 'accounts') ? 'btn btn-primary text-white' : ''; ?>" href="<?php echo base_url('admin/orders/accounts/') ?>">Accounts</a>

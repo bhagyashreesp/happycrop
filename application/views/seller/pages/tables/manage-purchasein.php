@@ -37,12 +37,12 @@
                     </div>
                     <div class="card content-area pt-4">
                         <div class="col-md-12">
-                            <ul class="nav nav-tabs extsys mt-2">
+                            <ul class="nav nav-tabs extsys mt-2 pb-2">
                                 <li class="active mx-2 "><a class="active  btn" data-toggle="tab" href="#system">System</a></li>
                                 <li class="mx-2 "><a class="  btn" data-toggle="tab" href="#external">External</a></li>
                             </ul>
 
-                            <div class="tab-content">
+                            <div class="tab-content mt-2">
                                 <div id="system" class="tab-pane fade show in active">
                                     <div class="row col-md-12">
                                         <div class="col-md-7">&nbsp;</div>
@@ -65,7 +65,7 @@
                                                 <th data-field="date_added" data-sortable='false'>Order Date</th>
                                                 <th data-field="final_total" data-sortable='false'>Total Amount</th>
                                                 <th data-field="order_status" data-sortable='false' data-visible='true'>Status</th>
-                                                <th data-field="hc_receipt" data-sortable='false' data-visible='true'>MFG Invoice</th>
+                                                <th data-field="hc_receipt" data-sortable='false' data-visible='true'>Payment Receipt</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -91,7 +91,7 @@
                                                 <th data-field="party_name" data-sortable='false'>MFG Name</th>
                                                 <th data-field="date" data-sortable='false'>Order Date</th>
                                                 <th data-field="amount" data-sortable='false'>Amount INR</th>
-                                                <th data-field="payment_receipt" data-sortable='false' data-visible='true'>Invoice</th>
+                                                <th data-field="payment_receipt" data-sortable='false' data-visible='true'>Payment Receipt</th>
                                             </tr>
                                         </thead>
                                     </table>

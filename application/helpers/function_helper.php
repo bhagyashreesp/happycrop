@@ -3021,7 +3021,11 @@ function get_price_range_of_product($product_id = '')
 function find_discount_in_percentage($special_price, $price)
 {
     $diff_amount = $price - $special_price;
-    return intval(($diff_amount * 100) / $price);
+    if($price != "" && $price != 0){
+        return intval(($diff_amount * 100) / $price);
+    }else{
+        return 0;
+    }
 }
 function get_attribute_ids_by_value($values, $names)
 {

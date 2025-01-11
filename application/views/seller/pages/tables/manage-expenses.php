@@ -36,7 +36,7 @@
 
                     </div>
                     <div class="card content-area pt-4">
-                        <div class="col-md-12">
+                        <div class="col-md-12 mt-2">
                             <div class="row col-md-12">
                                 <div class="col-md-7">
                                 <a href="#" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block ' data-toggle="modal" data-target="#add_expenses">Add Expenses</a>

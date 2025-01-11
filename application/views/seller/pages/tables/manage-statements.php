@@ -26,13 +26,13 @@
                     </div>
                     <div class="card content-area pt-4">
                         <div class="col-md-12">
-                            <ul class="nav nav-tabs extsys mt-2">
+                            <ul class="nav nav-tabs extsys mt-2 pb-2">
                                 <li class="active mx-2 "><a class="btn active" data-toggle="tab" href="#system">System</a></li>
                                 <li class="mx-2 "><a class="btn" data-toggle="tab" href="#external">External</a></li>
                             </ul>
 
 
-                            <div class="tab-content">
+                            <div class="tab-content mt-2">
                                 <div id="system" class="tab-pane fade show in active">
                                     <div class="row col-md-12">
                                         <div class="col-md-7">&nbsp;</div>
@@ -53,7 +53,7 @@
                                                 <th data-field="name" data-sortable='false'>Retailer Name</th>
                                                 <th data-field="state_name" data-sortable='false'>State</th>
                                                 <th data-field="email" data-sortable='false'>Email</th>
-                                                <th data-field="Mobile" data-sortable='false'>Mobile</th>
+                                                <th data-field="mobile" data-sortable='false'>Mobile</th>
                                                 <th data-field="operate">Action</th>
                                             </tr>
                                         </thead>

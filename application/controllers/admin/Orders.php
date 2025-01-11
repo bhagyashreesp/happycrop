@@ -9,7 +9,7 @@ class Orders extends CI_Controller
         parent::__construct();
         $this->load->database();
         $this->load->helper(['url', 'language', 'timezone_helper']);
-        $this->load->model(['Order_model','Externalaccount_model']);
+        $this->load->model(['Order_model', 'Externalaccount_model', 'Admin_account_model']);
 
         if (!has_permissions('read', 'orders')) {
             $this->session->set_flashdata('authorize_flag', PERMISSION_ERROR_MSG);
@@ -19,7 +19,6 @@ class Orders extends CI_Controller
         }
         $this->data['is_logged_in'] = ($this->ion_auth->logged_in()) ? 1 : 0;
         $this->response['csrfName'] = $this->security->get_csrf_token_name();
-
     }
 
     public function index()
@@ -1585,8 +1584,8 @@ class Orders extends CI_Controller
     }
     public function get_external_purchasebill_ist()
     {
-       
-        
+
+
         if ($this->ion_auth->logged_in()) {
             return $this->Externalaccount_model->get_admin_external_purchasebill_ist();
         } else {
@@ -1613,10 +1612,114 @@ class Orders extends CI_Controller
     }
     public function get_admin_payment_reports()
     {
-       
-        
+
+
         if ($this->ion_auth->logged_in()) {
             return $this->Order_model->get_admin_account_orders_list();
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
+        }
+    }
+    public function parties()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
+            $this->data['page_title'] = 'Accounts';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-parties';
+
+            $this->data['title'] = 'Accounts | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Accounts  | ' . $settings['app_name'];
+
+            $this->load->view('admin/template', $this->data);
+        } else {
+            redirect('admin/login', 'refresh');
+        }
+    }
+    public function show_owner_get_order_statement_list()
+    {
+        if ($this->ion_auth->logged_in()) {
+
+            return $this->Admin_account_model->get_order_statement_list();
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
+        }
+    }
+    public function business_get_order_statement_list()
+    {
+        if ($this->ion_auth->logged_in()) {
+
+            return $this->Admin_account_model->get_seller_statement_orders_list();
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
+        }
+    }
+    public function get_external_parties_list()
+    {
+        $retailer_status = $_GET["retailer_status"];
+        if ($retailer_status == "1") {
+            $this->db->select('user_id');
+            $this->db->from('retailer_data');
+            $query = $this->db->get();
+            $user_ids = array_column($query->result_array(), 'user_id');
+        } else {
+            $this->db->select('user_id');
+            $this->db->from('seller_data');
+            $query = $this->db->get();
+            $user_ids = array_column($query->result_array(), 'user_id');
+        }
+
+        if ($this->ion_auth->logged_in()) {
+
+            return $this->Admin_account_model->get_external_parties_list($user_ids);
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
+        }
+    }
+    public function adminitems()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
+            $this->data['page_title'] = 'Accounts';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-items';
+
+            $this->data['title'] = 'Accounts | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Accounts  | ' . $settings['app_name'];
+
+            $this->load->view('admin/template', $this->data);
+        } else {
+            redirect('admin/login', 'refresh');
+        }
+    }
+    public function get_business_items_list()
+    {
+
+        if ($this->ion_auth->logged_in()) {
+            $retailer_status = $_GET["retailer_status"];
+            if ($retailer_status == "1") {
+                $this->db->select('user_id');
+                $this->db->from('retailer_data');
+                $query = $this->db->get();
+                $user_ids = array_column($query->result_array(), 'user_id');
+                return $this->Admin_account_model->get_items_account_list($user_ids);
+            } else {
+                $this->db->select('user_id');
+                $this->db->from('seller_data');
+                $query = $this->db->get();
+                $user_ids = array_column($query->result_array(), 'user_id');
+                return $this->Admin_account_model->view_seller_account_items($user_ids);
+            }
         } else {
             $this->response['error'] = true;
             $this->response['message'] = 'Unauthorized access is not allowed';

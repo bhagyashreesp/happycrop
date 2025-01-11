@@ -24,6 +24,9 @@
                     <div class="card- card-info mb-0">
                     <?php $this->load->view("admin/pages/tables/admin_subheader"); ?>
                     </div>
+                    <div class="card- card-info mb-0 py-2">
+                    <?php $this->load->view("admin/pages/tables/admin_account_subheader"); ?>
+                    </div>
                     <div class="card content-area pt-4">
                         <div class="col-md-12">
                             <div class="row col-md-12">

@@ -470,7 +470,6 @@ class Order_model extends CI_Model
         
         
         foreach ($user_details as $row) {
-
             $items1 = '';
             $temp = '';
             $company_name = implode(",", array_values(array_unique(array_column($items, "company_name"))));

@@ -12,7 +12,7 @@
     padding-top: 0px!important;
 }
 </style>
-<ul class="nav nav-tabs pb-0" id="myTab">
+<ul class="nav nav-tabs pb-2" id="myTab">
 
     <li class="nav-item <?php echo ($this->uri->segment(3) == 'statements') ? 'active' : ''; ?>">
         <a class="nav-link nav-link2 btn <?php echo ($this->uri->segment(3) == 'statements' || $this->uri->segment(3) == 'external-parties') ? 'btn btn-primary' : ''; ?>" href="<?php echo base_url('seller/orders/statements/') ?>">Parties</a>
@@ -29,7 +29,7 @@
 </ul>
 
 
-<ul class="nav prof-nav pt-2">
+<ul class="nav prof-nav pt-2 pb-2">
     <?php if($this->uri->segment(3) == 'accounts' || $this->uri->segment(3) == 'purchasebill' || $this->uri->segment(3) == 'purchasein' || $this->uri->segment(3) == 'purchaseorder' || $this->uri->segment(3) == 'deliverychallan' || $this->uri->segment(3) == 'external-purchase-bill' || $this->uri->segment(3) == 'external-purchase-in' || $this->uri->segment(3) == 'external-sale-order') { ?>
     <li class="nav-item ">
         <a href="<?php echo base_url('seller/orders/purchasebill/') ?>" class="nav-link2 nav-link  btn  <?php echo ($this->uri->segment(3) == 'purchasebill' || $this->uri->segment(3) == 'external-purchase-bill') ? 'btn btn-primary text-white' : ''; ?>  mr-2">Sale Invoice</a>
