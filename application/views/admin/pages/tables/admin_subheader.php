@@ -13,8 +13,8 @@
 }
 </style>
 <ul class="nav nav-tabs pb-0" id="myTab">
-    <li class="nav-item <?php echo ($this->uri->segment(3) == 'accounts') ? 'active' : ''; ?>">
-        <a class="nav-link  <?php echo ($this->uri->segment(3) == 'accounts') ? 'btn btn-primary text-white' : ''; ?>" href="<?php echo base_url('admin/orders/accounts/') ?>">Accounts</a>
+    <li class="nav-item <?php echo ($this->uri->segment(3) == 'accounts' || $this->uri->segment(3) == 'salesinvoice' || $this->uri->segment(3) == 'adminitems' || $this->uri->segment(3) == 'parties' || $this->uri->segment(3) == 'paymentin' || $this->uri->segment(3) == 'saleorder' || $this->uri->segment(3) == 'deliverychallan' || $this->uri->segment(3) == 'salereturn' || $this->uri->segment(3) == 'purchasebill' || $this->uri->segment(3) == 'purchaseout' || $this->uri->segment(3) == 'purchaseorder' || $this->uri->segment(3) == 'purchasereturn') ? 'active' : ''; ?>">
+        <a class="nav-link  <?php echo ($this->uri->segment(3) == 'accounts' || $this->uri->segment(3) == 'salesinvoice' || $this->uri->segment(3) == 'adminitems' || $this->uri->segment(3) == 'parties' || $this->uri->segment(3) == 'paymentin' || $this->uri->segment(3) == 'saleorder' || $this->uri->segment(3) == 'deliverychallan' || $this->uri->segment(3) == 'salereturn' || $this->uri->segment(3) == 'purchasebill' || $this->uri->segment(3) == 'purchaseout' || $this->uri->segment(3) == 'purchaseorder' || $this->uri->segment(3) == 'purchasereturn') ? 'btn btn-primary text-white' : ''; ?>" href="<?php echo base_url('admin/orders/accounts/') ?>">Accounts</a>
     </li>
     <li class="nav-item  <?php echo ($this->uri->segment(3) == 'statements') ? 'active' : ''; ?>">
         <a class="nav-link <?php echo ($this->uri->segment(3) == 'statements') ? 'btn btn-primary text-white' : ''; ?>" href="<?php echo base_url('admin/orders/statements/') ?>">Statements</a>

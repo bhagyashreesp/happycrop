@@ -1727,4 +1727,192 @@ class Orders extends CI_Controller
             return false;
         }
     }
+    public function salesinvoice()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
+            $this->data['page_title'] = 'Accounts';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-saleinvoice';
+
+            $this->data['title'] = 'Accounts | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Accounts  | ' . $settings['app_name'];
+
+            $this->load->view('admin/template', $this->data);
+        } else {
+            redirect('admin/login', 'refresh');
+        }
+    }
+    public function get_external_purchasesale_ist()
+    {
+        if ($this->ion_auth->logged_in()) {
+            return $this->Admin_account_model->get_external_salepurchasebill_ist(array(), $status);
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
+        }
+    }
+    public function view_seller_account_orders_filter()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
+
+            return $this->Admin_account_model->get_seller_account_orders_list_filter();
+        } else {
+            redirect('admin/login', 'refresh');
+        }
+    }
+    public function paymentin()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
+            $this->data['page_title'] = 'Accounts';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-paymentin';
+
+            $this->data['title'] = 'Accounts | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Accounts  | ' . $settings['app_name'];
+
+            $this->load->view('admin/template', $this->data);
+        } else {
+            redirect('admin/login', 'refresh');
+        }
+    }
+    public function get_external_purchaseout_list()
+    {
+        if ($this->ion_auth->logged_in()) {
+            return $this->Admin_account_model->get_external_purchaseout_list();
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
+        }
+    }
+    public function saleorder()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
+            $this->data['page_title'] = 'Accounts';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-saleorder';
+
+            $this->data['title'] = 'Accounts | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Accounts  | ' . $settings['app_name'];
+
+            $this->load->view('admin/template', $this->data);
+        } else {
+            redirect('admin/login', 'refresh');
+        }
+    }
+    public function deliverychallan()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
+            $this->data['page_title'] = 'Accounts';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-saleinvoice';
+            $this->data['title'] = 'Accounts | ' . $settings['app_name'];
+            $this->data['delivery_challan'] = 1;
+            $this->data['meta_description'] = 'Accounts  | ' . $settings['app_name'];
+            $this->load->view('admin/template', $this->data);
+          
+        } else {
+            redirect('seller/login', 'refresh');
+        }
+    }
+    public function salereturn()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
+            $this->data['page_title'] = 'Accounts';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-salesreturn';
+            $this->data['title'] = 'Accounts | ' . $settings['app_name'];
+            $this->data['delivery_challan'] = 1;
+            $this->data['meta_description'] = 'Accounts  | ' . $settings['app_name'];
+            $this->load->view('admin/template', $this->data);
+          
+        } else {
+            redirect('seller/login', 'refresh');
+        }
+    }
+    public function get_external_purchasereturn_list()
+    {
+        if ($this->ion_auth->logged_in()) {
+            return $this->Admin_account_model->get_external_purchasereturn_list();
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
+        }
+    }
+    public function purchasebill()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
+            $this->data['page_title'] = 'Accounts';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-purchasebill';
+
+            $this->data['title'] = 'Accounts | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Accounts  | ' . $settings['app_name'];
+
+            $this->load->view('admin/template', $this->data);
+        } else {
+            redirect('admin/login', 'refresh');
+        }
+    }
+    public function get_external_purchasenbill_list()
+    {
+        if ($this->ion_auth->logged_in()) {
+            return $this->Admin_account_model->get_order_account_list_filter();
+        } else {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Unauthorized access is not allowed';
+            print_r(json_encode($this->response));
+            return false;
+        }
+    }
+    public function purchaseout()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
+            $this->data['page_title'] = 'Accounts';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-purchaseout';
+
+            $this->data['title'] = 'Accounts | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Accounts  | ' . $settings['app_name'];
+
+            $this->load->view('admin/template', $this->data);
+        } else {
+            redirect('admin/login', 'refresh');
+        }
+    }
+    public function purchaseorder()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
+            $this->data['page_title'] = 'Accounts';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-purchaseorder';
+
+            $this->data['title'] = 'Accounts | ' . $settings['app_name'];
+            $this->data['meta_description'] = 'Accounts  | ' . $settings['app_name'];
+
+            $this->load->view('admin/template', $this->data);
+        } else {
+            redirect('admin/login', 'refresh');
+        }
+    }
+    public function purchasereturn()
+    {
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
+            $this->data['page_title'] = 'Accounts';
+            $settings = get_settings('system_settings', true);
+            $this->data['main_page'] = TABLES . 'manage-purchasereturn';
+            $this->data['title'] = 'Accounts | ' . $settings['app_name'];
+            $this->data['delivery_challan'] = 1;
+            $this->data['meta_description'] = 'Accounts  | ' . $settings['app_name'];
+            $this->load->view('admin/template', $this->data);
+          
+        } else {
+            redirect('seller/login', 'refresh');
+        }
+    }
 }
