@@ -62,7 +62,9 @@
 
 <body>
     <div class="container mt-5">
-        <div class="row justify-content-center border border-black p-2" id="generatePDf">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+            <div class="row justify-content-center border border-black p-2" id="generatePDf">
             <div class="col-lg-12 py-4">
                 <h2 class="text-center fw-bold text-head">Payment Receipt</h2>
             </div>
@@ -74,7 +76,7 @@
                         <tbody>
                             <tr>
                                 <td colspan="2" class="border-0">
-                                    <p class="fw-bold py-2 m-0">Retail Shop Name : <?php echo $userdetails[0]["username"] ?></p>
+                                    <h5 class="fw-bold py-2 m-0">Retail Shop Name : <?php echo $userdetails[0]["username"] ?></h5>
 
                                 </td>
                             </tr>
@@ -130,16 +132,16 @@
                     <table class="table  border-none">
                         <tbody>
                             <tr class="p-2 ">
-                                <td class="border-0 py-0 w-25 fw-bold">Receipt Number : -</td>
-                                <td class="border-0 py-0 w-75 pl-2"><?php echo $paymentData[0]["receipt_number"]; ?></td>
+                                <td class="border-0 py-0  fw-bold">Receipt Number : - </td>
+                                <td class="border-0 py-0  pl-2"><?php echo $paymentData[0]["receipt_number"]; ?></td>
                             </tr>
                             <tr class="p-2 ">
-                                <td class="border-0 py-0 w-25 fw-bold">Order Id : -</td>
-                                <td class="border-0 py-0 w-75 pl-2"><?php echo $paymentData[0]["order_number"]; ?></td>
+                                <td class="border-0 py-0  fw-bold">Order Id : -</td>
+                                <td class="border-0 py-0  pl-2"><?php echo $paymentData[0]["order_number"]; ?></td>
                             </tr>
                             <tr class="p-2 ">
-                                <td class="border-0 py-0 w-25 fw-bold">Date : -</td>
-                                <td class="border-0 py-0 w-75 pl-2"><?= date('d M Y H:i', strtotime($paymentData[0]['date'])); ?></td>
+                                <td class="border-0 py-0  fw-bold">Date : -</td>
+                                <td class="border-0 py-0  pl-2"><?= date('d M Y H:i', strtotime($paymentData[0]['date'])); ?></td>
                             </tr>
                         </tbody>
                     </table>
@@ -178,13 +180,16 @@
         <?php if ($view == "view") { ?>
 
             <div class="row justify-content-center">
-                <div class="col-lg-2">
+                <div class="col-lg-3">
 
                     <button class="btn btn-primary my-3" onclick="generatePDF();">Download</button>
                     <button class="btn btn-primary my-3 ml-2" onclick="printDiv();">Print</button>
                 </div>
             </div>
         <?php } ?>
+            </div>
+        </div>
+      
     </div>
     <script>
         baseUrl = '<?php echo base_url(); ?>';

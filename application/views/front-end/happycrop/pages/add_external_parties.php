@@ -22,11 +22,25 @@
                 <div class="">
                     <?php $this->load->view('front-end/' . THEME . '/pages/account_subheader') ?>
                 </div>
+                <div class="row">
+                    <div class="col-lg-10 my-2">
+                        <ul class="nav nav-tabs extsys ">
+                            <li class="active mx-2 "><a class="p-3  btn" data-toggle="tab" href="<?php echo base_url('my-account/statements/') ?>">System</a></li>
+                            <li class="mx-2 "><a class="p-3 active btn" data-toggle="tab" href="#">External</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 my-2 float-right">
+                        <ul class="nav nav-tabs extsys float-right">
+                            <li class="active mx-2 "><a class="p-3 active btn" href="<?php echo base_url('my-account/statements/') ?>">Back</a></li>
+
+                        </ul>
+                    </div>
+                </div>
                 <div class="pt-2">
                     <?php if (empty($external_parties)) { ?>
-                        <h2>Add Parties</h2>
+                        <h2 class="bg-primary border-radius-10 px-3 py-2 text-white">Add Parties</h2>
                     <?php } else { ?>
-                        <h2>View Parties</h2>
+                        <h2 class="bg-primary border-radius-10 px-3 py-2 text-white">View Parties</h2>
                     <?php } ?>
 
                     <form class="form-horizontal " action="<?= base_url('my-account/save_external_parties'); ?>" method="POST" enctype="multipart/form-data">
@@ -56,16 +70,16 @@
                                     <input type="text" class="form-control" name="gst" required value="<?php echo (!empty($external_parties) ? $external_parties[0]['gst'] : '') ?>" <?php echo $disabled; ?> />
                                 </div>
                                 <div class="my-2">
-                                    <label>Fertilizer License No</label>
-                                    <input type="text" class="form-control" name="fertilizer_licence_no" required value="<?php echo (!empty($external_parties) ? $external_parties[0]['fertilizer_licence_no'] : '') ?>" <?php echo $disabled; ?> />
+                                    <label>Fertilizer License No (Optional)</label>
+                                    <input type="text" class="form-control" name="fertilizer_licence_no"  value="<?php echo (!empty($external_parties) ? $external_parties[0]['fertilizer_licence_no'] : '') ?>" <?php echo $disabled; ?> />
                                 </div>
                                 <div class="my-2">
-                                    <label>Pesticide License No</label>
-                                    <input type="text" class="form-control" name="pesticide_licence_no" required value="<?php echo (!empty($external_parties) ? $external_parties[0]['pesticide_licence_no'] : '') ?>" <?php echo $disabled; ?> />
+                                    <label>Pesticide License No (Optional)</label>
+                                    <input type="text" class="form-control" name="pesticide_licence_no"  value="<?php echo (!empty($external_parties) ? $external_parties[0]['pesticide_licence_no'] : '') ?>" <?php echo $disabled; ?> />
                                 </div>
                                 <div class="my-2">
-                                    <label>Seed License No</label>
-                                    <input type="text" class="form-control" name="seed_license_no" required value="<?php echo (!empty($external_parties) ? $external_parties[0]['seed_license_no'] : '') ?>" <?php echo $disabled; ?> />
+                                    <label>Seed License No (Optional)</label>
+                                    <input type="text" class="form-control" name="seed_license_no"  value="<?php echo (!empty($external_parties) ? $external_parties[0]['seed_license_no'] : '') ?>" <?php echo $disabled; ?> />
                                 </div>
                             </div>
 

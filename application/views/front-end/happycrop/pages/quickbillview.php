@@ -40,7 +40,7 @@
 
         .border-top-green {
             border-top: 4px solid #78ab37;
-            padding-bottom: 1rem;
+            /* padding-bottom: 1rem; */
         }
 
         .image-border {
@@ -96,7 +96,7 @@
 
             </div>
             <div class="border-top-green"></div>
-            <div class="col-lg-12 py-4">
+            <div class="col-lg-12 py-2">
                 <h2 class="text-center fw-bold text-head">Tax Invoice</h2>
             </div>
             <div class="border-top-green"></div>

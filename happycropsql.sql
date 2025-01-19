@@ -119,3 +119,5 @@ ALTER TABLE `external_payment_out` ADD `retailer_type` ENUM('1','2') NOT NULL DE
 ---11 jan 2025
 ALTER TABLE `external_purchase_return` ADD `retailer_type` ENUM('1','2') NOT NULL DEFAULT '1' COMMENT '1=>\'Retailer\',2=>\'seller\'' ;
 
+--19 Jan 2025
+ALTER TABLE `expenses_items` ADD `ref_no` VARCHAR(255) NULL DEFAULT NULL AFTER `expense_id`;

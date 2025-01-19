@@ -19,7 +19,7 @@
 </style>
 <ul class="nav prof-nav border-bottom">
     <li class="nav-item ">
-        <a href="<?php echo base_url('my-account/statements/') ?>" class="nav-link2 btn  <?php echo ($this->uri->segment(2) == 'statements') || ($this->uri->segment(2) == 'external-parties')  ? 'btn btn-primary text-white' : ''; ?>  mr-2">Parties</a>
+        <a href="<?php echo base_url('my-account/statements/') ?>" class="nav-link2 btn  <?php echo ($this->uri->segment(2) == 'statements') || ($this->uri->segment(2) == 'external-parties' ) || ($this->uri->segment(2) == 'statement_detail' )  ? 'btn btn-primary text-white' : ''; ?>  mr-2">Parties</a>
     </li>
     <li class="nav-item ">
         <a href="<?php echo base_url('my-account/items/') ?>" class="nav-link2 btn mr-2 <?php echo ($this->uri->segment(2) == 'items') ? 'btn btn-primary text-white' : ''; ?>">Items</a>

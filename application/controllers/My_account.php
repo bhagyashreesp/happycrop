@@ -6307,12 +6307,14 @@ class My_account extends CI_Controller
                 $quantity = "quantity_" . $i;
                 $price = "price_" . $i;
                 $amount = "amount_" . $i;
+                $ref_no = "ref_no_" . $i;
                 if ($this->input->post($namestring) != "") {
                     $expenseitems["expense_id"] = $expensed_id;
                     $expenseitems["name"] = $this->input->post($namestring);
                     $expenseitems["quantity"] = $this->input->post($quantity);
                     $expenseitems["price_unit"] = $this->input->post($price);
                     $expenseitems["amount"] = $this->input->post($amount);
+                    $expenseitems["ref_no"] = $this->input->post($ref_no);
                     $expenseitems["created_by"] = $this->session->userdata('user_id');
                     $this->db->insert('expenses_items', $expenseitems);
                 }

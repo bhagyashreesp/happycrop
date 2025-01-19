@@ -40,7 +40,7 @@
 
         .border-top-green {
             border-top: 4px solid #78ab37;
-            padding-bottom: 1rem;
+            /* padding-bottom: 1rem; */
         }
 
         .image-border {
@@ -77,7 +77,7 @@
                         <tbody>
                             <tr>
                                 <td colspan="2" class="border-0">
-                                    <p class="fw-bold p-2 m-0 border-0"> <?php echo $expenseDetails[0]['retailer']["company_name"]; ?></p>
+                                    <h4 class="fw-bold p-2 m-0 border-0"> <?php echo $expenseDetails[0]['retailer']["company_name"]; ?></h4>
 
                                 </td>
                             </tr>
@@ -102,12 +102,13 @@
 
             </div>
             <div class="border-top-green"></div>
-            <div class="col-lg-12 py-4">
+            <div class="col-lg-12 py-2">
                 <h2 class="text-center fw-bold text-head">Expense</h2>
             </div>
             <div class="border-top-green"></div>
             <div class="col-lg-8">
                 <h6 class="text-start font-weight-bold">Expense for</h6>
+                <h6 class="text-start font-weight-bold"><?php echo $expenseDetails[0]["expense_category"]; ?></h6>
             </div>
             <div class="col-lg-4 ">
                 <h6 class="text-end font-weight-bold">Expense Details</h6>
@@ -122,6 +123,7 @@
                             <tr class="bg-primary text-white">
                                 <th>#</th>
                                 <th>Item Name</th>
+                                <th>Reference Number</th>
                                 <th>Qty</th>
                                 <th>Price/Unit</th>
                                 <th>Amount</th>
@@ -142,6 +144,7 @@
                                 <tr>
                                     <td><?= $i; ?></td>
                                     <td><?php echo $item['name']; ?></td>
+                                    <td><?php echo $item['ref_no']; ?></td>
                                     <td><?php echo $item['quantity']; ?></td>
                                     <td><?php echo $item["price_unit"] ?></td>
                                     <td><?php echo $item["amount"] ?></td>
@@ -152,7 +155,7 @@
                             }
                             ?>
                             <tr>
-                                <th class="text-left" colspan="2">Total Amount</th>
+                                <th class="text-left" colspan="3">Total Amount</th>
                                 <th class="text-left"><?= $total_qty; ?></th>
                                 <th class="text-left"><?= number_format($total_price, 2); ?></th>
                                 <th class="text-left"><?php echo  number_format(($total_amt), 2); ?></th>

@@ -25,7 +25,7 @@
 
                 </div>
                 <div class="pt-2">
-                    <h2>Add Purchase Return</h2>
+                    <h2 class="bg-primary border-radius-10 px-3 py-2 text-white">Add Purchase Return</h2>
                     <form class="form-horizontal " action="<?= base_url('my-account/addexternalpurchasereturn'); ?>" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="form-group col-md-6">
