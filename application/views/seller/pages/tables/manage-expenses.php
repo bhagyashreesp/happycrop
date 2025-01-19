@@ -39,7 +39,7 @@
                         <div class="col-md-12 mt-2">
                             <div class="row col-md-12">
                                 <div class="col-md-7">
-                                <a href="#" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block ' data-toggle="modal" data-target="#add_expenses">Add Expenses</a>
+                                    <a href="#" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block ' data-toggle="modal" data-target="#add_expenses">Add Expenses</a>
 
                                 </div>
                                 <div class="form-group col-md-4">
@@ -91,7 +91,7 @@
             </div>
             <div class="modal-body">
                 <div class="row p-3">
-                    <form class="form-horizontal "  action="<?= base_url('my-account/addexpense'); ?>" method="POST" enctype="multipart/form-data">
+                    <form class="form-horizontal " action="<?= base_url('my-account/addexpense'); ?>" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <div class="">
@@ -105,24 +105,20 @@
                                     <input type="text" class="form-control" name="expense_number" value="" required placeholder="Expense Number" />
                                 </div>
                             </div>
+                            <div class="col-lg-6"></div>
                             <div class="form-group col-md-6">
                                 <div class="">
                                     <label>Date</label>
                                     <input type="date" class="form-control" name="date" value="" required placeholder="Date" />
                                 </div>
                             </div>
-                            <div class="form-group col-md-6">
-                                <div class="">
-                                    <label>Payment Type</label>
-                                    <input type="text" class="form-control"  name="payment_type" value="" required placeholder="Payment Type" />
-                                </div>
-                            </div>
                             <div class="col-md-12">
                                 <table class="table table-bordered">
                                     <thead>
-                                        <tr>
+                                        <tr class="bg-primary text-white">
                                             <th>#</th>
                                             <th>Name</th>
+                                            <th>Reference Number</th>
                                             <th>Quantity</th>
                                             <th>Price/Unit</th>
                                             <th>Amount</th>
@@ -132,40 +128,49 @@
                                         <tr>
                                             <td>1</td>
                                             <td><input type="text" class="form-control" name="name_1" value="" placeholder="Name" required /></td>
-                                            <td><input type="number" step="0.01" class="form-control quantity" name="quantity_1" placeholder="Quantity" required onkeyup="calculateAmount(1)"/></td>
-                                            <td><input type="number" step="0.01" class="form-control price" name="price_1" placeholder="Price/Unit" required onkeyup="calculateAmount(1)"/></td>
+                                            <td><input type="text" class="form-control ref_no" name="ref_no_1" placeholder="Reference Number" required /></td>
+                                            <td><input type="number" step="0.01" class="form-control quantity" name="quantity_1" placeholder="Quantity" required onkeyup="calculateAmount(1)" /></td>
+                                            <td><input type="number" step="0.01" class="form-control price" name="price_1" placeholder="Price/Unit" required onkeyup="calculateAmount(1)" /></td>
                                             <td><input type="number" step="0.01" class="form-control amount" name="amount_1" placeholder="Amount" required /></td>
                                         </tr>
                                     </tbody>
 
                                 </table>
-                                <a href="#" class="py-2 btn btn-primary" onclick="addrow();">Add Row</a>
+                                <a href="#" class="py-3 btn btn-primary" onclick="addrow();">Add Row</a>
+                            </div>
+
+                            <div class="form-group col-md-6 mt-2">
+                                <div class="">
+                                    <label>Payment Type</label>
+                                    <input type="text" class="form-control" name="payment_type" value="" required placeholder="Payment Type" />
+                                </div>
                             </div>
                             <div class="form-group col-md-6 mt-2">
                                 <div class="">
                                     <label>Total</label>
-                                    <input type="number" step="0.01" class="form-control"  name="total" id="total" value="" required placeholder="Total" />
+                                    <input type="number" step="0.01" class="form-control" name="total" id="total" value="" required placeholder="Total" />
                                 </div>
                             </div>
+                            <div class="col-lg-6"></div>
                             <div class="form-group col-md-6">
                                 <div class="">
                                     <label>Paid Amount</label>
-                                    <input type="number" step="0.01" class="form-control"  name="paid_amount" value=""required placeholder="Paid Amount" />
+                                    <input type="number" step="0.01" class="form-control" name="paid_amount" value="" required placeholder="Paid Amount" />
                                 </div>
                             </div>
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-6">
                                 <div class="">
                                     <label>Description</label>
                                     <textarea name="descritpion" class="form-control"></textarea>
                                 </div>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <div class="">
                                     <label>Add Image</label>
                                     <input type="file" class="form-control" name="add_image" />
                                 </div>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <div class="">
                                     <label>Add Document</label>
                                     <input type="file" class="form-control" name="add_document" />
@@ -189,13 +194,14 @@
     </div>
 </div>
 <script>
-    function calculateAmount(Index){
-        quantity = $('input[name="quantity_'+Index+'"]').val();
-        price = $('input[name="price_'+Index+'"]').val();
-        amtTotal =quantity*price;
-        $('input[name="amount_'+Index+'"]').val(amtTotal);
+    function calculateAmount(Index) {
+        quantity = $('input[name="quantity_' + Index + '"]').val();
+        price = $('input[name="price_' + Index + '"]').val();
+        amtTotal = quantity * price;
+        $('input[name="amount_' + Index + '"]').val(amtTotal);
         calculateSum();
     }
+
     function calculateSum() {
         inputs = document.querySelectorAll(`.amount`);
         let sum = 0;
@@ -208,18 +214,19 @@
         $("#total").val(sum);
 
     }
-    var index=1;
+    var index = 1;
+
     function addrow() {
         index++;
         html = '<tr>\
                 <td>' + index + '</td>\
-                <td><input type="text" class="form-control" name="name_'+index+'" value="" placeholder="Name" required/></td>\
-                <td><input type="number" step="0.01" class="form-control quantity" name="quantity_'+index+'" placeholder="Quantity" required onkeyup="calculateAmount('+index+')"/></td>\
-                <td><input type="number" step="0.01" class="form-control price" name="price_'+index+'" placeholder="Price/Unit" required onkeyup="calculateAmount('+index+')"/></td>\
-                <td><input type="number" step="0.01" class="form-control amount" name="amount_'+index+'" placeholder="Amount" required/></td>\
+                <td><input type="text" class="form-control" name="name_' + index + '" value="" placeholder="Name" required/></td>\
+                <td><input type="number" step="0.01" class="form-control quantity" name="quantity_' + index + '" placeholder="Quantity" required onkeyup="calculateAmount(' + index + ')"/></td>\
+                <td><input type="number" step="0.01" class="form-control price" name="price_' + index + '" placeholder="Price/Unit" required onkeyup="calculateAmount(' + index + ')"/></td>\
+                <td><input type="number" step="0.01" class="form-control amount" name="amount_' + index + '" placeholder="Amount" required/></td>\
                 </tr>';
-            $("#item_data").append(html);
-            $("#item_count").val(index);
+        $("#item_data").append(html);
+        $("#item_count").val(index);
 
     }
 </script>
