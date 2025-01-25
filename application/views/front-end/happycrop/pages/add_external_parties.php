@@ -38,9 +38,9 @@
                 </div>
                 <div class="pt-2">
                     <?php if (empty($external_parties)) { ?>
-                        <h2 class="bg-primary border-radius-10 px-3 py-2 text-white">Add Parties</h2>
+                        <h2 class=" px-3 py-2 ">Add Parties</h2>
                     <?php } else { ?>
-                        <h2 class="bg-primary border-radius-10 px-3 py-2 text-white">View Parties</h2>
+                        <h2 class=" px-3 py-2 ">View Parties</h2>
                     <?php } ?>
 
                     <form class="form-horizontal " action="<?= base_url('my-account/save_external_parties'); ?>" method="POST" enctype="multipart/form-data">
