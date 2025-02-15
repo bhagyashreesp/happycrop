@@ -52,7 +52,8 @@
             border-radius: 12px;
             padding: 0.5rem;
             height: 250px!important;
-            width: 400px!important;
+            /* width: 400px!important; */
+            width: -webkit-fill-available;
             object-fit: contain;
         }
 
@@ -231,7 +232,7 @@
 
                         </div>
                     </div>
-                    <div class="col-lg-3 pt-4 mt-3">
+                    <div class="col-lg-4 pt-4 mt-3">
                         <div class="bg-gray-light h-100">
                             <table class="table  border-none">
                                 <tbody>

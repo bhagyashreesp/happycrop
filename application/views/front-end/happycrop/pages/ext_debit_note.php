@@ -203,7 +203,7 @@
                         
                        
                     </div>
-                    <div class="col-lg-3 pt-2 mt-4">
+                    <div class="col-lg-4 pt-2 mt-4">
                         <div class="bg-gray-light">
                             <table class="table h-100 border-none">
                                 <tbody>

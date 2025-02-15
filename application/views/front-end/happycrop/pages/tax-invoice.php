@@ -50,7 +50,8 @@
             border-radius: 12px;
             padding: 0.5rem;
             height: 250px!important;
-            width: 400px!important;
+            /* width: 400px!important; */
+            width: -webkit-fill-available;
             object-fit: contain;
         }
 
@@ -114,7 +115,7 @@
             </div>
             <div class="col-lg-4 pb-2">
                 <?php if (isset($order[0]["logo"])) { ?>
-                    <img src="<?php echo base_url() . $order[0]["logo"]; ?>" class="h-100 w-100 image-border">
+                    <img src="<?php echo base_url() . $order[0]["logo"]; ?>" class=" image-border">
                 <?php } ?>
             </div>
             <div class="border-top-green"></div>
@@ -299,7 +300,7 @@
                             </div>
                         <?php } ?>
                     </div>
-                    <div class="col-lg-3 pt-2 mt-4">
+                    <div class="col-lg-4 pt-2 mt-4">
                         <div class="bg-gray-light">
                             <table class="table h-100 border-none">
                                 <tbody>

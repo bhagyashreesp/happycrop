@@ -41,7 +41,7 @@
                 </div>
                 <div class="pt-3 pr-lg-2">
                     <div class="d-flex justify-content-between">
-                        <h2 class="m-0">Quick Bill</h2>
+                        <h2 class="m-0 bg-primary border-radius-10 px-3 py-2 text-white w-100">Quick Bill</h2>
                         <a href="<?php echo base_url('my-account/addcustomer') ?>" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3'>Add Customer</a>
 
                     </div>
@@ -50,7 +50,7 @@
                             <div class="form-group col-md-6">
                                 <div class="">
                                     <label>Customer</label>
-                                    <select class="form-control" name="customer_id">
+                                    <select class="form-control select2" name="customer_id">
                                         <?php foreach ($getcustomerlist as $key => $value) { ?>
                                             <option value="<?php echo $value['id']; ?>"><?php echo $value['customer_name']; ?></option>
                                         <?php } ?>
@@ -79,9 +79,9 @@
                                             <td><input type="text" class="form-control item_name" name="item_name_1" required /></td>
                                             <td><input type="number" step="0.01" class="form-control quantity" name="quantity_1" required onkeyup="calculateAmount('1')" /></td>
                                             <td><input type="number" step="0.01" class="form-control price" name="price_1" required onkeyup="calculateAmount('1')" /></td>
-                                            <td><input type="number" step="0.01" class="form-control discount" name="discount_1" required /></td>
-                                            <td><input type="number" step="0.01" class="form-control tax_applied" name="tax_applied_1" required /></td>
-                                            <td><input type="number" step="0.01" class="form-control total" name="total_1" required /></td>
+                                            <td><input type="number" step="0.01" class="form-control discount" name="discount_1" required onkeyup="calculateTotaldiscount();"/></td>
+                                            <td><input type="number" step="0.01" class="form-control tax_applied" name="tax_applied_1" required onkeyup="calculateTotaltax();"/></td>
+                                            <td><input type="number" step="0.01" class="form-control total" name="total_1" required onkeyup="calculateTotal();"/></td>
                                         </tr>
                                     </tbody>
 
@@ -100,7 +100,7 @@
                                 </div>
                                 <div class="">
                                     <label>Amount Received</label>
-                                    <input type="number" step="0.01" class="form-control" name="amount_received" value="" required />
+                                    <input type="number" step="0.01" class="form-control" name="amount_received" id="amount_received" value="" required onkeyup="balanceAmt();"/>
                                 </div>
                                 <div class="">
                                     <label>Balance</label>
@@ -115,7 +115,7 @@
                                 <p class="font-bold">Bill Details</p>
                                 <div class="">
                                     <label>Sub Total</label>
-                                    <input type="number" step="0.01" class="form-control" name="subtotal" value="" required />
+                                    <input type="number" step="0.01" class="form-control" name="subtotal" id="subtotal" value="" required />
                                 </div>
                                 <div class="py-2">
                                     <label>Discount</label>
@@ -159,15 +159,21 @@
             <td><input type="text" class="form-control item_name" name="item_name_' + index + '"  required /></td>\
             <td><input type="number" step="0.01" class="form-control quantity" name="quantity_' + index + '" required onkeyup="calculateAmount(' + index + ')" /></td>\
             <td><input type="number" step="0.01" class="form-control price" name="price_' + index + '"  required onkeyup="calculateAmount(' + index + ')"/></td>\
-            <td><input type="number" step="0.01" class="form-control discount" name="discount_' + index + '"  required /></td>\
-            <td><input type="number" step="0.01" class="form-control tax_applied" name="tax_applied_' + index + '"  required /></td>\
-            <td><input type="number" step="0.01" class="form-control total" name="total_' + index + '"  required /></td>\
+            <td><input type="number" step="0.01" class="form-control discount" name="discount_' + index + '"  required onkeyup="calculateTotaldiscount()"/></td>\
+            <td><input type="number" step="0.01" class="form-control tax_applied" name="tax_applied_' + index + '"  required onkeyup="calculateTotaltax();"/></td>\
+            <td><input type="number" step="0.01" class="form-control total" name="total_' + index + '"  required onkeyup="calculateTotal();" /></td>\
             </tr>';
         $("#item_data").append(html);
         $("#item_count").val(index);
 
     }
 
+    function balanceAmt() {
+        totalamt = $('#total_amt').val();
+        receivedamt = $('#amount_received').val();
+        amtTotal = totalamt - receivedamt;
+        $('input[name="balance"]').val(amtTotal);
+    }
     function calculateAmount(Index) {
         quantity = $('input[name="quantity_' + Index + '"]').val();
         price = $('input[name="price_' + Index + '"]').val();
@@ -186,11 +192,10 @@
             }
         });
         document.getElementById('total_amt').value = total;
-    }
-    document.querySelectorAll('.total').forEach(input => {
-        input.addEventListener('keyup', calculateTotal);
-    });
 
+        subtotal = parseFloat(total) - parseFloat($("#discount_total").val());
+        document.getElementById('subtotal').value = subtotal;
+    }
     function calculateTotaldiscount() {
         let total = 0;
         const inputs = document.querySelectorAll('.discount');
@@ -200,11 +205,16 @@
                 total += value;
             }
         });
+        console.log(total);
+        
         document.getElementById('discount_total').value = total;
+        
+        subtotal = parseFloat($("#total_amt").val()) - parseFloat($("#discount_total").val());
+        document.getElementById('subtotal').value = subtotal;
     }
-    document.querySelectorAll('.discount').forEach(input => {
-        input.addEventListener('keyup', calculateTotaldiscount);
-    });
+    // document.querySelectorAll('.discount').forEach(input => {
+    //     input.addEventListener('keyup', calculateTotaldiscount);
+    // });
 
     function calculateTotaltax() {
         let total = 0;
@@ -217,7 +227,7 @@
         });
         document.getElementById('tax_applied_total').value = total;
     }
-    document.querySelectorAll('.tax_applied').forEach(input => {
-        input.addEventListener('keyup', calculateTotaltax);
-    });
+    // document.querySelectorAll('.tax_applied').forEach(input => {
+    //     input.addEventListener('keyup', calculateTotaltax);
+    // });
 </script>
