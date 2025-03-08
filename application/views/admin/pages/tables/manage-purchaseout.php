@@ -5,7 +5,7 @@
     }
 
     .fixed-table-toolbar {
-        display: none;
+        top: 77px;
     }
 </style>
 <div class="content-wrapper">
@@ -46,7 +46,15 @@
                             <div class="tab-content mt-2">
                                 <div id="system" class="tab-pane fade show in active">
                                     <div class="row col-md-12">
-                                        <div class="col-md-7">&nbsp;</div>
+                                        <div class="col-md-2">&nbsp;</div>
+                                        <div class="col-md-2">
+                                            <label>From Date</label>
+                                            <input type="date" id="start_date" class="form-control" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>To Date</label>
+                                            <input type="date" id="end_date" class="form-control" />
+                                        </div>
                                         <div class="form-group col-md-4">
                                             <label>Search by MFG Name / Order ID</label>
                                             <input type="text" id="search_field" name="search_field" class="form-control" />
@@ -57,10 +65,10 @@
                                         </div>
                                     </div>
 
-                                    <table class='table-striped' data-toggle="table" data-url="<?= base_url('admin/orders/view_seller_account_orders_filter?order_status=payment_ack') ?>" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["txt","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["state"] }' data-query-params="orders_query_params">
+                                    <table class='table-striped' data-toggle="table" data-url="<?= base_url('admin/orders/view_seller_account_orders_filter?order_status=payment_ack') ?>" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["pdf","excel","csv"]' data-export-options='{"fileName": "reporst","ignoreColumn": ["hc_receipt"] }' data-query-params="orders_query_params">
                                         <thead>
                                             <tr>
-                                            <th data-field="id" data-sortable='false' data-footer-formatter="totalFormatter">Order ID</th>
+                                                <th data-field="id" data-sortable='false' data-footer-formatter="totalFormatter">Order ID</th>
                                                 <th data-field="name" data-sortable='false'>MFG Name</th>
                                                 <th data-field="city_name" data-sortable='false' data-visible='true'>Location</th>
                                                 <th data-field="date_added" data-sortable='false'>Order Date</th>
@@ -73,18 +81,26 @@
                                 </div>
                                 <div id="external" class="tab-pane fade">
                                     <div class="row col-md-12">
-                                        <div class="col-md-7">
+                                        <div class="col-md-2">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>From Date</label>
+                                            <input type="date" id="ext_start_date" class="form-control" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>To Date</label>
+                                            <input type="date" id="ext_end_date" class="form-control" />
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Search by MFG Name / Order ID</label>
-                                            <input type="text" id="search_field" name="search_field" class="form-control" />
+                                            <input type="text" id="ext_search_field" name="search_field" class="form-control" />
                                         </div>
                                         <div class="form-group col-md-1 d-flex align-items-center pt-4">
                                             <input type="hidden" id="condition" name="condition" value="<?php echo $condition; ?>" />
                                             <button type="button" class="btn btn-primary btn-md" onclick="status_date_wise_search()">Search</button>
                                         </div>
                                     </div>
-                                    <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('admin/orders/get_external_purchaseout_list?retailer_type=1') ?>" data-order_status="send_invoice" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["txt","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["state"] }' data-query-params="orders_query_params">
+                                    <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('admin/orders/get_external_purchaseout_list?retailer_type=1') ?>" data-order_status="send_invoice" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["pdf","excel","csv"]' data-export-options='{"fileName": "reports","ignoreColumn": ["payment_receipt"] }' data-query-params="external_orders_query_params">
                                         <thead>
                                             <tr class="dark-blue-bg">
                                                 <th data-field="invoice_number" data-sortable='false' data-footer-formatter="totalFormatter">Invoice #</th>

@@ -5,7 +5,7 @@
     }
 
     .fixed-table-toolbar {
-        display: none;
+       top: 20px;
     }
 </style>
 <div class="content-wrapper">
@@ -38,10 +38,19 @@
                     <div class="card content-area pt-4">
                         <div class="col-md-12 pt-2">
                             <div class="row col-md-12">
-                                <div class="col-md-7">
+                                <div class="col-md-2">
                                     <a href="<?php echo base_url() . 'seller/orders/external-purchase-return'; ?>" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block '>Add New Record</a>
 
                                 </div>
+                                <div class="col-md-2">
+                                    <label>From Date</label>
+                                    <input type="date" id="start_date" class="form-control" />
+                                </div>
+                                <div class="col-md-2">
+                                    <label>To Date</label>
+                                    <input type="date" id="end_date" class="form-control" />
+                                </div>
+
                                 <div class="form-group col-md-4">
                                     <label>Search by Retailer Name / Order ID</label>
                                     <input type="text" id="search_field" name="search_field" class="form-control" />
@@ -52,7 +61,7 @@
                                 </div>
                             </div>
 
-                            <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('my-account/get_external_purchasereturn_list/?retailer_type=2') ?>" data-order_status="send_invoice" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["txt","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["state"] }' data-query-params="orders_query_params">
+                            <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('my-account/get_external_purchasereturn_list/?retailer_type=2') ?>" data-order_status="send_invoice" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["pdf","excel","csv"]' data-export-options='{"fileName": "report","ignoreColumn": ["debit_note"] }' data-query-params="orders_query_params">
                                 <thead>
                                     <tr class="dark-blue-bg">
                                         <th data-field="return_number" data-sortable='false' data-footer-formatter="totalFormatter">Invoice #</th>

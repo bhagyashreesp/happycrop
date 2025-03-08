@@ -510,7 +510,11 @@ class Admin_account_model extends CI_Model
         // Sorting and limiting
         $this->db->order_by('e.date', 'DESC'); // Example: order by total quantity sold
         // $total = $this->db->get()->result_array();
+        if (!empty($_GET['start_date']) && !empty($_GET['end_date'])) {
 
+            $this->db->where(" DATE(e.date) >= DATE('" . $_GET['start_date'] . "') ");
+            $this->db->where(" DATE(e.date) <= DATE('" . $_GET['end_date'] . "') ");
+        }
         $this->db->limit($limit, $offset);
 
         $result = $this->db->get()->result_array();
@@ -547,7 +551,7 @@ class Admin_account_model extends CI_Model
                 'order_number' => $row['order_number'],
                 'party_name' => $row['party_name'],
                 'date' => date('d-m-Y', strtotime($row['date'])),
-                'amount' => get_settings('currency') . " " . $total_amount,
+                'amount' =>  "Rs. " . $total_amount,
                 'invoice_receipt' => $invoice_receipt,
                 'purchase_order' => $purchase_order,
                 'delivery_challan' => $delivery_challan,
@@ -1012,7 +1016,11 @@ class Admin_account_model extends CI_Model
         // Sorting and limiting
         $this->db->order_by('e.date', 'DESC'); // Example: order by total quantity sold
         // $total = $this->db->get()->result_array();
+        if (!empty($_GET['start_date']) && !empty($_GET['end_date'])) {
 
+            $this->db->where(" DATE(e.date) >= DATE('" . $_GET['start_date'] . "') ");
+            $this->db->where(" DATE(e.date) <= DATE('" . $_GET['end_date'] . "') ");
+        }
         $this->db->limit($limit, $offset);
 
         $result = $this->db->get()->result_array();
@@ -1034,7 +1042,7 @@ class Admin_account_model extends CI_Model
                 'invoice_number' => $row['order_number'],
                 'party_name' => $row['party_name'],
                 'date' => date('d-m-Y', strtotime($row['date'])),
-                'amount' => get_settings('currency') . " " . $row['received'],
+                'amount' =>  "Rs. " . $row['received'],
                 'payment_receipt' => $invoice_receipt,
 
             );
@@ -1090,7 +1098,11 @@ class Admin_account_model extends CI_Model
         // Sorting and limiting
         $this->db->order_by('e.date', 'DESC'); // Example: order by total quantity sold
         // $total = $this->db->get()->result_array();
+        if (!empty($_GET['start_date']) && !empty($_GET['end_date'])) {
 
+            $this->db->where(" DATE(e.date) >= DATE('" . $_GET['start_date'] . "') ");
+            $this->db->where(" DATE(e.date) <= DATE('" . $_GET['end_date'] . "') ");
+        }
         $this->db->limit($limit, $offset);
 
         $result = $this->db->get()->result_array();
@@ -1124,7 +1136,7 @@ class Admin_account_model extends CI_Model
                 'seller_name' => $row['seller_name'],
                 'payment_type' => $row['payment_type'],
                 'date' => date('d-m-Y', strtotime($row['date'])),
-                'total' => get_settings('currency') . " " . $total_amount,
+                'total' =>  "Rs. " . $total_amount,
                 'debit_note' => $debit_note,
 
             );

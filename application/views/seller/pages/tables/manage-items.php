@@ -5,7 +5,7 @@
     }
 
     .fixed-table-toolbar {
-        display: none;
+       top: 17px;
     }
 </style>
 <div class="content-wrapper">
@@ -38,7 +38,7 @@
                     <div class="card content-area pt-4">
                         <div class="col-md-12">
                             <div class="row col-md-12">
-                                <div class="col-md-7">&nbsp;</div>
+                                <div class="col-md-6">&nbsp;</div>
                                 <div class="form-group col-md-4">
                                     <label>Search by Name/ ID / Category</label>
                                     <input type="text" id="search_field" name="search_field" class="form-control" />
@@ -49,7 +49,7 @@
                                 </div>
                             </div>
 
-                            <table class='table-striped' data-toggle="table" data-url="<?= base_url('seller/orders/view_seller_account_items') ?>" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["txt","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["state"] }' data-query-params="orders_query_params">
+                            <table class='table-striped' data-toggle="table" data-url="<?= base_url('seller/orders/view_seller_account_items') ?>" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["pdf","excel","csv"]' data-export-options='{"fileName": "reports","ignoreColumn": ["product_view_url"] }' data-query-params="orders_query_params">
                                 <thead>
                                     <tr>
                                         <th data-field="product_id" data-sortable='false' data-footer-formatter="totalFormatter">Product ID</th>

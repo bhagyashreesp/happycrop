@@ -46,7 +46,7 @@
                             <div class="gaps-1-5x row d-flex adjust-items-center">
                                 <div class="form-group col-md-12">
                                     <div class="row ">
-                                        <div class="col-md-6">&nbsp;</div>
+                                        <!-- <div class="col-md-4">&nbsp;</div> -->
                                         <div class="col-md-4">
                                             <label>Search by Mfg Name</label>
                                             <input type="text" id="search_field" name="search_field" class="form-control" />
@@ -57,12 +57,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <style>
-                                .fixed-table-toolbar {
-                                    display: none;
-                                }
-                            </style>
-                            <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('my-account/get_order_statement_list/') ?>" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.id" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["txt","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["state"] }' data-query-params="orders_query_params">
+
+                            <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('my-account/get_order_statement_list/') ?>" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.id" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["pdf","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["operate"] }' data-query-params="orders_query_params">
                                 <thead>
                                     <tr class="dark-blue-bg">
                                         <th data-field="seller_id" data-sortable='false' data-footer-formatter="totalFormatter">#</th>
@@ -79,13 +75,13 @@
                             <div class="gaps-1-5x row d-flex adjust-items-center">
                                 <div class="form-group col-md-12">
                                     <div class="row ">
-                                        <div class="col-md-6">
-                                        <a href="<?php echo base_url() . 'my_account/external-parties'; ?>" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3'>Add Parties</a>
+                                        <div class="col-md-4">
+                                            <a href="<?php echo base_url() . 'my_account/external-parties'; ?>" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3'>Add Parties</a>
 
                                         </div>
                                         <div class="col-md-4">
                                             <label>Search by Mfg Name</label>
-                                            <input type="text" id="search_field" name="search_field" class="form-control" />
+                                            <input type="text" id="ext_search_field" name="search_field" class="form-control" />
                                         </div>
                                         <div class="col-md-2 mt-2">
                                             <button type="button" class="btn btn-default mt-2" onclick="status_date_wise_search()">Search</button>
@@ -94,11 +90,11 @@
                                 </div>
                             </div>
                             <style>
-                                .fixed-table-toolbar {
+                                /* .fixed-table-toolbar {
                                     display: none;
-                                }
+                                } */
                             </style>
-                            <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('my-account/get_external_parties_list/') ?>" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.id" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["txt","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["state"] }' data-query-params="orders_query_params">
+                            <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('my-account/get_external_parties_list/') ?>" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.id" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["txt","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["action"] }' data-query-params="external_orders_query_params">
                                 <thead>
                                     <tr class="dark-blue-bg">
                                         <th data-field="id" data-sortable='false' data-footer-formatter="totalFormatter">#</th>

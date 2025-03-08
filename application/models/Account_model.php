@@ -49,7 +49,11 @@ class Account_model extends CI_Model
         // Sorting and limiting
         $this->db->order_by('e.date', 'DESC'); // Example: order by total quantity sold
         // $total = $this->db->get()->result_array();
+        if (!empty($_GET['start_date']) && !empty($_GET['end_date'])) {
 
+            $this->db->where(" DATE(e.date) >= DATE('" . $_GET['start_date'] . "') ");
+            $this->db->where(" DATE(e.date) <= DATE('" . $_GET['end_date'] . "') ");
+        }
         $this->db->limit($limit, $offset);
 
         $result = $this->db->get()->result_array();
@@ -131,7 +135,11 @@ class Account_model extends CI_Model
         // Sorting and limiting
         $this->db->order_by('e.created_at', 'DESC'); // Example: order by total quantity sold
         // $total = $this->db->get()->result_array();
+        if (!empty($_GET['start_date']) && !empty($_GET['end_date'])) {
 
+            $this->db->where(" DATE(e.created_at) >= DATE('" . $_GET['start_date'] . "') ");
+            $this->db->where(" DATE(e.created_at) <= DATE('" . $_GET['end_date'] . "') ");
+        }
         $this->db->limit($limit, $offset);
 
         $result = $this->db->get()->result_array();

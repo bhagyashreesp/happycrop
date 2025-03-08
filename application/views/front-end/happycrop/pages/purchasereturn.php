@@ -8,6 +8,10 @@
         background: #4473c5;
         color: #FFF;
     }
+
+    .fixed-table-toolbar {
+        top: 94px !important;
+    }
 </style>
 <section class="breadcrumb-title-bar colored-breadcrumb">
     <div class="main-content responsive-breadcrumb">
@@ -34,14 +38,22 @@
                 <div class="">
                     <?php $this->load->view('front-end/' . THEME . '/pages/account_subheader') ?>
                 </div>
-                <div class=" pr-lg-2">
+                <div class="py-4 pr-lg-2">
                     <div class="gaps-1-5x row d-flex adjust-items-center">
                         <div class="form-group col-md-12">
                             <div class="row ">
-                                <div class="col-md-6">
-                                <a href="<?php echo base_url() . 'my-account/external-purchase-return'; ?>" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3'>Add Debit Note</a>
+                                <div class="col-md-2 align-content-center">
+                                    <a href="<?php echo base_url() . 'my-account/external-purchase-return'; ?>" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3'>Add Debit Note</a>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-2">
+                                    <label>From Date</label>
+                                    <input type="date" id="start_date" class="form-control" />
+                                </div>
+                                <div class="col-md-2">
+                                    <label>To Date</label>
+                                    <input type="date" id="end_date" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
                                     <label>Search by Mfg Name / Order ID</label>
                                     <input type="text" id="search_field" name="search_field" class="form-control" />
                                 </div>
@@ -52,12 +64,8 @@
                         </div>
                     </div>
 
-                    <style>
-                        .fixed-table-toolbar {
-                            display: none;
-                        }
-                    </style>
-                    <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('my-account/get_external_purchasereturn_list/?retailer_type=1') ?>" data-order_status="send_invoice" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["txt","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["state"] }' data-query-params="orders_query_params">
+
+                    <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('my-account/get_external_purchasereturn_list/?retailer_type=1') ?>" data-order_status="send_invoice" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["pdf","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["debit_note"] }' data-query-params="orders_query_params">
                         <thead>
                             <tr class="dark-blue-bg">
                                 <th data-field="return_number" data-sortable='false' data-footer-formatter="totalFormatter">Invoice #</th>

@@ -37,6 +37,21 @@ function orders_query_params(p) {
         search: p.search
     };
 }
+function external_orders_query_params(p) {
+    
+    return {
+        "start_date": $('#ext_start_date').val(),
+        "end_date": $('#ext_end_date').val(),
+        "order_status": $('#order_status').val(),
+        "search_field": $("#ext_search_field").val(),
+        "user_id": $('#order_user_id').val(),
+        limit: p.limit,
+        sort: p.sort,
+        order: p.order,
+        offset: p.offset,
+        search: p.search
+    };
+}
 
 function status_date_wise_search() {
     $('.table-striped').bootstrapTable('refresh');

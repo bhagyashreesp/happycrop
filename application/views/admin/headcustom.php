@@ -42,23 +42,25 @@
     <link rel="stylesheet" href="<?= base_url('assets/admin/css/style.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/admin/css/star-rating.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/admin/css/theme.css') ?>">
-    
+
     <link rel="stylesheet" href="<?= base_url('assets/admin/css/fonts.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/admin/css/bootstrap-table.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/admin/css/jquery.fancybox.min.css') ?>" />
     <!-- Custom CSS -->
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>  
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
     <!-- Star rating js -->
     <script type="text/javascript" src="<?= base_url('assets/admin/js/star-rating.js') ?>"></script>
     <script type="text/javascript" src="<?= base_url('assets/admin/js/theme.min.js') ?>"></script>
     <link rel="stylesheet" href="<?= base_url('assets/admin/css/tagify.min.css') ?>">
+
     <script type="text/javascript">
         base_url = "<?= base_url() ?>";
         csrfName = "<?= $this->security->get_csrf_token_name() ?>";
         csrfHash = "<?= $this->security->get_csrf_hash() ?>";
         form_name = '<?= '#' . $main_page . '_form' ?>';
+        
     </script>
 
 </head>

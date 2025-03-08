@@ -213,11 +213,11 @@
                                     </tr>
                                     <tr class="p-2 ">
                                         <td class="border-0 fw-bold">CGST@2.5% : </td>
-                                        <td class="border-0 pl-2"><?php echo $settings['currency'] . '' . number_format(($total_gst), 2); ?></td>
+                                        <td class="border-0 pl-2"><?php echo $settings['currency'] . '' . number_format(($total_gst/2), 2); ?></td>
                                     </tr>
                                     <tr class="p-2 ">
                                         <td class="border-0 fw-bold">SGST@2.5% : </td>
-                                        <td class="border-0 pl-2"><?php echo $settings['currency'] . '' . number_format(($total_gst), 2); ?></td>
+                                        <td class="border-0 pl-2"><?php echo $settings['currency'] . '' . number_format(($total_gst/2), 2); ?></td>
                                     </tr>
                                     <tr class="p-2 border-top bg-primary text-white">
                                         <td class="border-0 fw-bold">Total : </td>

@@ -46,7 +46,15 @@
                             <div class="gaps-1-5x row d-flex adjust-items-center">
                                 <div class="form-group col-md-12">
                                     <div class="row ">
-                                        <div class="col-md-6">&nbsp;</div>
+                                        <!-- <div class="col-md-5">&nbsp;</div> -->
+                                        <div class="col-md-2">
+                                            <label>From Date</label>
+                                            <input type="date" id="start_date" class="form-control" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>To Date</label>
+                                            <input type="date" id="end_date" class="form-control" />
+                                        </div>
                                         <div class="col-md-4">
                                             <label>Search by Mfg Name / Order ID</label>
                                             <input type="text" id="search_field" name="search_field" class="form-control" />
@@ -57,12 +65,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <style>
-                                .fixed-table-toolbar {
-                                    display: none;
-                                }
-                            </style>
-                            <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('my-account/get_order_account_list_filter/?order_status=payment_ack') ?>" data-order_status="send_invoice" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["txt","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["state"] }' data-query-params="orders_query_params">
+
+                            <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('my-account/get_order_account_list_filter/?order_status=payment_ack') ?>" data-order_status="send_invoice" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["pdf","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["payment_receipt"] }' data-query-params="orders_query_params">
                                 <thead>
                                     <tr class="dark-blue-bg">
                                         <th data-field="id" data-sortable='false' data-footer-formatter="totalFormatter">Invoice #</th>
@@ -79,26 +83,30 @@
                             <div class="gaps-1-5x row d-flex adjust-items-center">
                                 <div class="form-group col-md-12">
                                     <div class="row ">
-                                        <div class="col-md-6">
+                                        <div class="col-md-2 align-content-center">
                                             <a href="<?php echo base_url() . 'my-account/external-purchase-out'; ?>" class='button-- button-danger-outline-- btn btn-primary btn-sm d-inline-block p-3'>Add Payment Out</a>
                                         </div>
-                                        <div class="col-md-4">
-                                            <label>Search by Mfg Name / Order ID</label>
-                                            <input type="text" id="search_field" name="search_field" class="form-control" />
+                                        <div class="col-md-2">
+                                            <label>From Date</label>
+                                            <input type="date" id="ext_start_date" class="form-control" />
                                         </div>
-                                        <div class="col-md-2 mt-2">
+                                        <div class="col-md-2">
+                                            <label>To Date</label>
+                                            <input type="date" id="ext_end_date" class="form-control" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Search by Mfg Name / Order ID</label>
+                                            <input type="text" id="ext_search_field" name="search_field" class="form-control" />
+                                        </div>
+                                        <div class="col-md-1 mt-2">
                                             <button type="button" class="btn btn-default mt-2" onclick="status_date_wise_search()">Search</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <style>
-                                .fixed-table-toolbar {
-                                    display: none;
-                                }
-                            </style>
-                            <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('my-account/get_external_purchaseout_list/') ?>" data-order_status="send_invoice" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["txt","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["state"] }' data-query-params="orders_query_params">
+
+                            <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('my-account/get_external_purchaseout_list/') ?>" data-order_status="send_invoice" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["pdf","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["payment_receipt"] }' data-query-params="external_orders_query_params">
                                 <thead>
                                     <tr class="dark-blue-bg">
                                         <th data-field="invoice_number" data-sortable='false' data-footer-formatter="totalFormatter">Invoice #</th>

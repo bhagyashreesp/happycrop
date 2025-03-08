@@ -1,4 +1,4 @@
-<style>.table td, .table th{font-size: 13px;}.fixed-table-toolbar {display: none;}</style>
+<style>.table td, .table th{font-size: 13px;}.fixed-table-toolbar {top: 39px;}</style>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <!-- Main content -->
@@ -26,8 +26,16 @@
                     </div>
                     <div class="card content-area pt-4">
                         <div class="col-md-12">
-                            <div class="row col-md-12">
-                                <div class="col-md-7">&nbsp;</div>
+                            <div class="row col-md-12 pt-4">
+                            <div class="col-md-2">&nbsp;</div>
+                                <div class="col-md-2">
+                                    <label>From Date</label>
+                                    <input type="date" id="start_date" class="form-control" />
+                                </div>
+                                <div class="col-md-2">
+                                    <label>To Date</label>
+                                    <input type="date" id="end_date" class="form-control" />
+                                </div>
                                 <div class="form-group col-md-4">
                                     <label>Search by Mfg Name / Order ID</label>
                                     <input type="text" id="search_field" name="search_field" class="form-control" />
@@ -38,7 +46,7 @@
                                 </div>
                             </div>
                             
-                            <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('admin/orders/get_external_purchasebill_ist/?order_status=1&retailer_type=2') ?>" data-order_status="send_invoice" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["txt","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["state"] }' data-query-params="orders_query_params">
+                            <table class='table-striped table-resp' data-toggle="table" data-url="<?= base_url('admin/orders/get_external_purchasebill_ist/?order_status=1&retailer_type=2') ?>" data-order_status="send_invoice" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="false" data-show-columns="false" data-show-refresh="false" data-trim-on-search="false" data-sort-name="o.last_updated" data-sort-order="desc" data-mobile-responsive="true" data-toolbar="" data-show-export="true" data-maintain-selected="true" data-export-types='["pdf","excel","csv"]' data-export-options='{"fileName": "orders-list","ignoreColumn": ["invoice_receipt"] }' data-query-params="orders_query_params">
                                 <thead>
                                     <tr class="dark-blue-bg">
                                         <th data-field="invoice_number" data-sortable='false' data-footer-formatter="totalFormatter">Invoice Number</th>
