@@ -354,6 +354,7 @@ class Admin_account_model extends CI_Model
                 $image = "-";
             }
 
+            $GSTValues = $this->common_model->getRecords('taxes',"percentage",array('id'=>$row['tax']));
 
             $response[] = array(
                 'product_id' => ($row['is_service_category']) ? 'HCS' . str_pad($row['serv_no'], 6, "0", STR_PAD_LEFT) : 'HCP' . str_pad($row['pro_no'], 6, "0", STR_PAD_LEFT),
@@ -362,7 +363,8 @@ class Admin_account_model extends CI_Model
                 'category_name' => $row['category_name'],
                 'price' => $row['price'],
                 'mrp' => $row['mrp'],
-                'gst' => ($row["price"] * $row['tax'] / 100) . "(%)",
+                // 'gst' => ($row["price"] * $row['tax'] / 100) . "(%)",
+                'gst' => (!empty($GSTValues) ? $GSTValues[0]["percentage"]." (%)" : ''),
                 'product_view_url' => $product_view_url,
                 'image' => $image,
 
@@ -385,7 +387,7 @@ class Admin_account_model extends CI_Model
             $limit = $_GET['limit'];
         }
 
-        $this->db->select('p.id as product_id,p.slug,p.hsn_no, p.name as product_name, SUM(oi.quantity) as total_quantity, 
+        $this->db->select('p.id as product_id,p.slug,p.hsn_no, p.name as product_name,p.tax, SUM(oi.quantity) as total_quantity, 
                        SUM(oi.sub_total) as total_earned, sd.company_name as seller_name,c.name as category_name,v.price,v.mrp,oi.tax_percent');
         $this->db->from('order_items oi');
         $this->db->join('product_variants v', 'oi.product_variant_id = v.id', 'left');
@@ -440,6 +442,7 @@ class Admin_account_model extends CI_Model
         $response = array();
         foreach ($result as $key => $row) {
             $product_view_url = '<a target="_blank" href="' . base_url() . 'products/details/' . $row['slug'] . '">View</a>';
+            $GSTValues = $this->common_model->getRecords('taxes',"percentage",array('id'=>$row['tax']));
 
             $response[] = array(
                 'id' => $key + 1,
@@ -449,7 +452,8 @@ class Admin_account_model extends CI_Model
                 'category_name' => $row['category_name'],
                 'price' => $row['price'],
                 'mrp' => $row['mrp'],
-                'gst' => ($row["price"] * $row['tax_percent'] / 100) . "(%)",
+                // 'gst' => ($row["price"] * $row['tax_percent'] / 100) . "(%)",
+                'gst' => (!empty($GSTValues) ? $GSTValues[0]["percentage"]." (%)" : ''),
                 'product_view_url' => $product_view_url,
 
             );

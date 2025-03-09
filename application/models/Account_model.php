@@ -233,6 +233,7 @@ class Account_model extends CI_Model
             } else {
                 $image = "-";
             }
+            $GSTValues = $this->common_model->getRecords('taxes',"percentage",array('id'=>$row['tax']));
 
 
             $response[] = array(
@@ -242,7 +243,8 @@ class Account_model extends CI_Model
                 'category_name' => $row['category_name'],
                 'price' => $row['price'],
                 'mrp' => $row['mrp'],
-                'gst' => ($row["price"] * $row['tax'] / 100) . "(%)",
+                // 'gst' => ($row["price"] * $row['tax'] / 100) . "(%)",
+                'gst' => (!empty($GSTValues) ? $GSTValues[0]["percentage"]." (%)" : ''),
                 'product_view_url' => $product_view_url,
                 'image' => $image,
 
